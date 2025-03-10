@@ -1,7 +1,15 @@
 ﻿@page "/"
+@using GoTorz.Services
+@inject OfferService OfferService
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<h1>Prøver lige at tjekke API</h1>
+<p>Hej, her er respons: @response</p>
+@code {
+    private string response=string.Empty;
+    protected override async void OnInitialized()
+    {
+        response = await OfferService.PostOfferAsync();
+    }
+}
