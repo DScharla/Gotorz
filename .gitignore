@@ -1,2 +1,6 @@
 GoTorz/.vs
 GoTorz/BlazorApp1/appsettings.json
+**/*.razor.g.cs
+**/*.razor.g.i.cs
+GoTorz/GoTorz/obj
+GoTorz/GoTorz/bin
