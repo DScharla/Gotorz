@@ -32,16 +32,17 @@ namespace GoTorz.Services
 
             var httpResponseMessage = await _httpClient.PostAsync(url, stringContent);
 
-            return $"{httpResponseMessage.StatusCode.ToString()}";
-            /*if (httpResponseMessage.IsSuccessStatusCode)
+
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
                 string responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<OfferResponse>(responseContent);
+                return responseContent;
+                //return JsonSerializer.Deserialize<OfferResponse>(responseContent);
             }
             else
             {
                 throw new Exception($"API request failed: {httpResponseMessage.StatusCode}");
-            }*/
+            }
             
             
             /*await _httpClient.PostAsJsonAsync<OfferRequest>(url, offerRequest)*/
