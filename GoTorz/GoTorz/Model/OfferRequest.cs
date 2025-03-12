@@ -12,20 +12,20 @@ namespace GoTorz.Model
 
 	public class DataRequest
 	{
-		[JsonPropertyName("flight")]
+		[JsonPropertyName("slices")]
 		public List<FlightRequest> Flight { get; set; }
 
-		[JsonPropertyName("privateFares")]
-		public Dictionary<string, List<PrivateFare>> PrivateFares { get; set; }
+		[JsonPropertyName("private_fares")]
+		public Dictionary<string, List<PrivateFare>>? PrivateFares { get; set; }
 
 		[JsonPropertyName("passengers")]
 		public List<PassengerRequest> Passengers { get; set; }
 
-		[JsonPropertyName("maxConnections")]
-		public int MaxConnections { get; set; }
+		[JsonPropertyName("max_connections")]
+		public int? MaxConnections { get; set; }
 
-		[JsonPropertyName("cabinClass")]
-		public string CabinClass { get; set; }
+		[JsonPropertyName("cabin_class")]
+		public string? CabinClass { get; set; }
 	}
 
 	public class FlightRequest
@@ -36,13 +36,13 @@ namespace GoTorz.Model
 		[JsonPropertyName("destination")]
 		public string Destination { get; set; }
 
-		[JsonPropertyName("departureTime")]
+		[JsonPropertyName("departure_time")]
 		public TimeRange DepartureTime { get; set; }
 
-		[JsonPropertyName("departureDate")]
+		[JsonPropertyName("departure_date")]
 		public string DepartureDate { get; set; }
 
-		[JsonPropertyName("arrivalTime")]
+		[JsonPropertyName("arrival_time")]
 		public TimeRange ArrivalTime { get; set; }
 	}
 
@@ -57,43 +57,43 @@ namespace GoTorz.Model
 
 	public class PrivateFare
 	{
-		[JsonPropertyName("corporateCode")]
-		public string CorporateCode { get; set; }
+		[JsonPropertyName("corporate_code")]
+		public string? CorporateCode { get; set; }
 
-		[JsonPropertyName("trackingReference")]
-		public string TrackingReference { get; set; }
+		[JsonPropertyName("tracking_reference")]
+		public string? TrackingReference { get; set; }
 
-		[JsonPropertyName("tourCode")]
-		public string TourCode { get; set; }
+		[JsonPropertyName("tour_code")]
+		public string? TourCode { get; set; }
 	}
 
 	public class PassengerRequest
 	{
-		[JsonPropertyName("familyName")]
-		public string FamilyName { get; set; }
+		[JsonPropertyName("family_name")]
+		public string? FamilyName { get; set; }
 
-		[JsonPropertyName("givenName")]
-		public string GivenName { get; set; }
+		[JsonPropertyName("given_name")]
+		public string? GivenName { get; set; }
 
-		[JsonPropertyName("loyaltyProgrammeAccounts")]
-		public List<LoyaltyProgrammeAccount> LoyaltyProgrammeAccounts { get; set; }
+		[JsonPropertyName("loyalty_programme_accounts")]
+		public List<LoyaltyProgrammeAccount>? LoyaltyProgrammeAccounts { get; set; }
 
 		[JsonPropertyName("type")]
-		public string Type { get; set; }
+		public string? Type { get; set; }
 
 		[JsonPropertyName("age")]
 		public int? Age { get; set; }
 
-		[JsonPropertyName("fareType")]
-		public string FareType { get; set; }
+		[JsonPropertyName("fare_type")]
+		public string? FareType { get; set; }
 	}
 
 	public class LoyaltyProgrammeAccount
 	{
-		[JsonPropertyName("accountNumber")]
+		[JsonPropertyName("account_number")]
 		public string AccountNumber { get; set; }
 
-		[JsonPropertyName("airlineIataCode")]
+		[JsonPropertyName("airline_iata_code")]
 		public string AirlineIataCode { get; set; }
 	}
 }
