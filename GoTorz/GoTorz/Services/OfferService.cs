@@ -16,7 +16,7 @@ namespace GoTorz.Services
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://api.duffel.com");
-            _httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            //_httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             _httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
