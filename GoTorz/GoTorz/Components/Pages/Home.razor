@@ -1,6 +1,9 @@
 ﻿@using GoTorz.Services
 @page "/"
+@rendermode InteractiveServer
 @inject OfferService OfferService
+@inject ILogger<Home> logger
+@inject IConfiguration configuration
 
 <PageTitle>Home</PageTitle>
 
@@ -11,7 +14,8 @@ Welcome to your new app.
 <button class="btn btn-primary" @onclick="SendAPI">Test API</button>
 
 @code{
-	private void SendAPI(){
+	private void SendAPI(MouseEventArgs e){
 		OfferService.PostOfferAsync();
+		logger.LogInformation("Metoden bliver kaldt");
 	}
 }

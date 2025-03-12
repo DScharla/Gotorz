@@ -13,7 +13,7 @@ namespace GoTorz
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-
+            builder.Services.AddHttpClient<OfferService>();
             var app = builder.Build();
 
             var scope = app.Services.CreateScope();
