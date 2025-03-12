@@ -3,6 +3,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Drawing;
 using System.Text.Json;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace GoTorz.Services
 {
@@ -26,7 +27,12 @@ namespace GoTorz.Services
         {
             string url = "/air/offer_requests?return_offers=false&supplier_timeout=10000";
             OfferRequest offerRequest = Test();
-            var responseBody = JsonSerializer.Serialize(offerRequest);
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true
+            };
+            var responseBody = JsonSerializer.Serialize(offerRequest, options);
             StringContent stringContent = new StringContent( responseBody, Encoding.UTF8,"application/json" );
 
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);
