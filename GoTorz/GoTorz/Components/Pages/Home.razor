@@ -1,15 +1,37 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 @using GoTorz.Services
 @inject OfferService OfferService
+@inject ILogger<Home> logger
+@inject ILogger<Home> logger2
+@inject NavigationManager Navigation
+@inject IConfiguration Configuration
+
 
 <PageTitle>Home</PageTitle>
 
 <h1>Prøver lige at tjekke API</h1>
 <p>Hej, her er respons: @response</p>
+<p><button @onclick="Login">Login with Google</button></p>
 @code {
     private string response=string.Empty;
     protected override async void OnInitialized()
     {
         response = await OfferService.PostOfferAsync();
+        logger.LogInformation("Home page visited");
+        logger2.LogInformation("Trooooooooools");
+    }
+
+}
+@code {
+    private async Task Login()
+    {
+        Navigation.NavigateTo("/authentication/login", forceLoad: true);
+    }
+
+
+    private async Task Logout()
+    {
+        Navigation.NavigateTo("Local", forceLoad: true);
     }
 }

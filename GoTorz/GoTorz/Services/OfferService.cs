@@ -10,7 +10,6 @@ namespace GoTorz.Services
     public class OfferService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey;
         public string responseStatus = string.Empty;
 
         public OfferService(HttpClient httpClient)

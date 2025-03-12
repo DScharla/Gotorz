@@ -2,6 +2,17 @@ using GoTorz.Components;
 using GoTorz.Services;
 using System.Net.Http;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication;
 
 namespace GoTorz
 {
@@ -26,19 +37,38 @@ namespace GoTorz
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {builder.Configuration["AuthSettings:DuffelApiKey"]}");
                 return new OfferService(client);
             });
+            builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+            builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddOpenIdConnect("Local", options =>
+                {
+                    builder.Configuration.Bind("Local", options);
+                    options.SaveTokens = true;
+
+                    options.ResponseType = "id_token";  // Use id_token for Implicit Flow
+
+                    // Add necessary scopes
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnRedirectToIdentityProvider = context =>
+                        {
+                            // You can log or inspect the request here
+                            return Task.CompletedTask;
+                        },
+                        OnAuthenticationFailed = context =>
+                        {
+                            // Log or handle authentication failure
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+            builder.Services.AddAuthorization();
             var app = builder.Build();
 
-            //var offerService = scope.ServiceProvider.GetRequiredService<OfferService>();
-
-            //try
-            //{
-            //    var response = offerservice.postofferasync();
-            //    console.writeline(jsonserializer.serialize(response, new jsonserializeroptions { writeindented = true }));
-            //}
-            //catch (exception ex)
-            //{
-            //    console.writeline($"fejl: {ex.message}");
-            //}
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -49,8 +79,15 @@ namespace GoTorz
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseAntiforgery();
+
+            app.MapGet("/authentication/login", async (HttpContext context) =>
+            {
+                // Trigger the login challenge
+                await context.ChallengeAsync("Local", new AuthenticationProperties { RedirectUri = "/" });
+            });
 
             app.MapStaticAssets();
             app.MapRazorComponents<App>()
