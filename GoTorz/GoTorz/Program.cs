@@ -31,7 +31,6 @@ namespace GoTorz
                 {
                     BaseAddress = new Uri(builder.Configuration["ApiSettings:DuffelBaseUrl"] ?? throw new InvalidOperationException("DuffelBaseUrl is not configured."))
                 };
-                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.DefaultRequestHeaders.Add("Duffel-Version", "v2");
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {builder.Configuration["AuthSettings:DuffelApiKey"]}");
@@ -41,26 +40,20 @@ namespace GoTorz
             builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddOpenIdConnect("Local", options =>
                 {
+                    // Bind the "Local" section from appsettings.json to the options.
                     builder.Configuration.Bind("Local", options);
                     options.SaveTokens = true;
-
-                    options.ResponseType = "id_token";  // Use id_token for Implicit Flow
-
-                    // Add necessary scopes
-                    options.Scope.Add("openid");
-                    options.Scope.Add("profile");
-                    options.Scope.Add("email");
-
+                    // (Optional) Additional event handlers...
                     options.Events = new OpenIdConnectEvents
                     {
                         OnRedirectToIdentityProvider = context =>
                         {
-                            // You can log or inspect the request here
+                            // You can log or inspect the request here.
                             return Task.CompletedTask;
                         },
                         OnAuthenticationFailed = context =>
                         {
-                            // Log or handle authentication failure
+                            // Log or handle authentication failure.
                             return Task.CompletedTask;
                         }
                     };
