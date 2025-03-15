@@ -22,10 +22,11 @@
     {
         if (firstRender)
         {
-            searchModule = await JSRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "/Search.js");
+            Console.WriteLine("OnAfterRenderAsync called.");
+            searchModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Search.js");
+
         }
-        
+
     }
 
     private async Task FilterList()

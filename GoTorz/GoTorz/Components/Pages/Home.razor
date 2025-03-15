@@ -39,6 +39,15 @@
         logger2.LogInformation("Trooooooooools");
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Console.WriteLine("Home component rendered. Now importing Search.js...");
+            searchModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/Search.js");
+        }
+    }
+
     private async Task Login()
     {
         Navigation.NavigateTo("/authentication/login", forceLoad: true);
