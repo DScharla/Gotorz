@@ -31,7 +31,7 @@ namespace GoTorz
             builder.Services.AddServerSideBlazor(options =>
             {
                 options.RootComponents.RegisterForJavaScript<Search>(identifier: "search",
-                javaScriptInitializer: "initializeComponent");
+                javaScriptInitializer: "myFucntion");
             });
 
             builder.Services.AddScoped<OfferService>(sp =>

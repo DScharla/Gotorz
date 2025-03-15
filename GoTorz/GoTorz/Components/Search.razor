@@ -1,4 +1,7 @@
-﻿<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+﻿@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+<input type="text" id="myInput" @onkeyup="FilterList" placeholder="Search for names..">
 
 <ul id="myUL">
     <li><a href="#">Adele</a></li>
@@ -13,5 +16,23 @@
 </ul>
 
 @code {
+    private IJSObjectReference? searchModule;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            searchModule = await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "/Search.js");
+        }
+        
+    }
+
+    private async Task FilterList()
+    {
+        if (searchModule is not null)
+        {
+            await searchModule.InvokeVoidAsync("myFunction");
+        }
+    }
 }

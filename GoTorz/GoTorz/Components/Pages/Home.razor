@@ -6,6 +6,7 @@
 @inject ILogger<Home> logger2
 @inject NavigationManager Navigation
 @inject IConfiguration Configuration
+@inject IJSRuntime JSRuntime
 
 
 <PageTitle>Home</PageTitle>
@@ -29,7 +30,9 @@
 <Search/>
 
 @code {
-    OfferResponse? offerResponse = null;
+    private OfferResponse? offerResponse = null;
+    private IJSObjectReference? searchModule;
+
     protected override async void OnInitialized()
     {
         logger.LogInformation("Home page visited");
