@@ -1,7 +1,9 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @using GoTorz.Services
+@using GoTorz.Model
 @inject OfferService OfferService
+@inject OfferResponse OfferResponse
 @inject ILogger<Home> logger
 @inject ILogger<Home> logger2
 @inject NavigationManager Navigation
@@ -11,13 +13,13 @@
 <PageTitle>Home</PageTitle>
 
 <h1>Prøver lige at tjekke API</h1>
-<p>Hej, her er respons: @response</p>
+<p>Hej, her er respons: @offerResponse.Data.</p>
 <p><button @onclick="Login">Login with Google</button></p>
 @code {
-    private string response=string.Empty;
+    OfferResponse? offerResponse = null;
     protected override async void OnInitialized()
     {
-        response = await OfferService.PostOfferAsync();
+        offerResponse = await OfferService.PostOfferAsync();
         logger.LogInformation("Home page visited");
         logger2.LogInformation("Trooooooooools");
     }

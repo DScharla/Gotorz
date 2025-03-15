@@ -18,7 +18,7 @@ namespace GoTorz.Services
         }
 
         //EN ELLER ANDEN METODE
-        public async Task<string> PostOfferAsync(/*OfferRequest offerRequest*/)
+        public async Task<OfferResponse> PostOfferAsync(/*OfferRequest offerRequest*/)
         {
             string url = "/air/offer_requests?return_offers=false&supplier_timeout=10000";
             OfferRequest offerRequest = Test();
@@ -36,8 +36,7 @@ namespace GoTorz.Services
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 string responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                return responseContent;
-                //return JsonSerializer.Deserialize<OfferResponse>(responseContent);
+                return JsonSerializer.Deserialize<OfferResponse>(responseContent);
             }
             else
             {
@@ -45,13 +44,7 @@ namespace GoTorz.Services
             }
             
             
-            /*await _httpClient.PostAsJsonAsync<OfferRequest>(url, offerRequest)*/
         }
-        /*public static Task<HttpResponseMessage> PostAsJsonAsync<T>(
-            this HttpClient client,
-            string requestUri,
-            T value
-        )*/
 
         public OfferRequest Test()
         {
