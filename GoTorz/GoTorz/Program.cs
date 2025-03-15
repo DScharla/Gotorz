@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication;
+using GoTorz.Model;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace GoTorz
 {
@@ -25,6 +27,13 @@ namespace GoTorz
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+            builder.Services.AddServerSideBlazor(options =>
+            {
+                options.RootComponents.RegisterForJavaScript<Search>(identifier: "search",
+                javaScriptInitializer: "initializeComponent");
+            });
+
             builder.Services.AddScoped<OfferService>(sp =>
             {
                 var client = new HttpClient
@@ -36,6 +45,7 @@ namespace GoTorz
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {builder.Configuration["AuthSettings:DuffelApiKey"]}");
                 return new OfferService(client);
             });
+            builder.Services.AddScoped<OfferResponse>();
             builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
             builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddOpenIdConnect("Local", options =>

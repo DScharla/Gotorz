@@ -18,6 +18,7 @@ namespace GoTorz.Model
 
         [JsonPropertyName("offers")]
         public List<Offer> Offers { get; set; }
+
         [JsonPropertyName("id")]
         public string OfferReponseId { get; set; }
     }
