@@ -25,6 +25,21 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
         </div>
+
+        <div class="nav-item px-3">
+            <p>@appState.Condition</p>
+        </div>
     </nav>
 </div>
+
+@code {
+    [CascadingParameter]
+    private AppState appState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        appState.Condition += " Success";
+        StateHasChanged();
+    }
+}
 

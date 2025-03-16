@@ -27,7 +27,7 @@ namespace GoTorz
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-
+            builder.Services.AddSingleton<AppState>();
             builder.Services.AddServerSideBlazor(options =>
             {
                 options.RootComponents.RegisterForJavaScript<Search>(identifier: "search",

@@ -1,5 +1,4 @@
-﻿export function myFunction() {
-    console.log("testFunction called");
+﻿export function FilterSearch() {
     // Declare variables
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('myInput');
@@ -14,3 +13,12 @@
         li[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? "" : "none";
     }
 }
+export function AddNameToList(name) {
+    var ul = document.getElementById("myUL");
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.textContent = name;
+    li.appendChild(a);
+    ul.appendChild(li);
+
+ }

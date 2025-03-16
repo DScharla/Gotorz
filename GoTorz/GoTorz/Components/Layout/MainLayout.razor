@@ -1,9 +1,12 @@
 ﻿@inherits LayoutComponentBase
+@inject AppState AppState
 
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <CascadingValue Value="@appState">
+            <NavMenu />
+        </CascadingValue>
     </div>
 
     <main>
@@ -24,3 +27,15 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+
+@code {
+    [CascadingParameter(Name = "appState")]
+    public AppState appState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        appState = new AppState();
+        appState.Condition = "Ny";
+    }
+}

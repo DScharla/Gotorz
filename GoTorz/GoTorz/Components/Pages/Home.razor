@@ -7,6 +7,7 @@
 @inject NavigationManager Navigation
 @inject IConfiguration Configuration
 @inject IJSRuntime JSRuntime
+@inject AppState AppState
 
 
 <PageTitle>Home</PageTitle>
@@ -31,21 +32,12 @@
 
 @code {
     private OfferResponse? offerResponse = null;
-    private IJSObjectReference? searchModule;
+
 
     protected override async void OnInitialized()
     {
         logger.LogInformation("Home page visited");
         logger2.LogInformation("Trooooooooools");
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            Console.WriteLine("Home component rendered. Now importing Search.js...");
-            searchModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/Search.js");
-        }
     }
 
     private async Task Login()
