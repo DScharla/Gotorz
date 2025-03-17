@@ -1,0 +1,8 @@
+﻿#flight-list {
+width: auto;
+height: 200px;
+border: 1px solid #ccc;
+padding: 10px;
+overflow-y: auto;
+background-color: aqua;
+}

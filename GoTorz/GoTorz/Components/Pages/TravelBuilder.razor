@@ -1,0 +1,78 @@
+﻿@using FlatpickrBlazor 
+@page "/TravelBuilder"
+@rendermode InteractiveServer
+
+<h3>TravelBuilder</h3>
+<div>
+	<input placeholder="Departure Airport" />
+	<input placeholder="Arrival Airport" />
+	<DatePicker TValue="DateTime?" @bind-Date="@FromDate" />
+	<DatePicker TValue="DateTime?" @bind-Date="@ToDate" />
+    @*Mangler at fuldt implementere datepickers samt at kunne vælge et list item i de repsektive ordered lists*@
+	<button name="Search">Search</button>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<label>Depature flights</label>
+		<ol id="flight-list">
+			@*@foreach (flight in Flights) {
+				<li>@flight.Airline @flight.DepartureTime @flight.ArrivalTime </li>
+			}*@
+			<li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            <li>Item 4</li>
+            <li>Item 5</li>
+            <li>Item 6</li>
+            <li>Item 7</li>
+            <li>Item 8</li>
+            <li>Item 9</li>
+            <li>Item 10</li>
+            <li>Item 11</li>
+            <li>Item 12</li>
+            <li>Item 13</li>
+            <li>Item 14</li>
+            <li>Item 15</li>
+            <li>Item 16</li>
+            <li>Item 17</li>
+            <li>Item 18</li>
+            <li>Item 19</li>
+            <li>Item 20</li>
+		</ol>
+	</div>
+
+	<div class="col-md-6">
+		<label>Homebound flights</label>
+		<ol id="flight-list">
+			<li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            <li>Item 4</li>
+            <li>Item 5</li>
+            <li>Item 6</li>
+            <li>Item 7</li>
+            <li>Item 8</li>
+            <li>Item 9</li>
+            <li>Item 10</li>
+            <li>Item 11</li>
+            <li>Item 12</li>
+            <li>Item 13</li>
+            <li>Item 14</li>
+            <li>Item 15</li>
+            <li>Item 16</li>
+            <li>Item 17</li>
+            <li>Item 18</li>
+            <li>Item 19</li>
+            <li>Item 20</li>
+		</ol>
+	</div>
+
+	<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+		<button class="col-md-1" name="Combine" >Combine</button>
+	</div>
+</div>
+@code {
+    DateTime? FromDate;
+    DateTime? ToDate;
+}
