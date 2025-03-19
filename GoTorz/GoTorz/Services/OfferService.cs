@@ -10,7 +10,7 @@ namespace GoTorz.Services
     public class OfferService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey = "duffel_test_GdCTgrePl6gLXumyn0NhEvqsSVxVfjpfl8z8dzV4Dkf";
+        
 
         public OfferService(HttpClient httpClient)
         {
