@@ -1,5 +1,6 @@
 using GoTorz.Components;
 using GoTorz.Services;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace GoTorz
@@ -13,6 +14,17 @@ namespace GoTorz
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddScoped<OfferService>(
+                sp =>
+                {
+                    HttpClient httpClient = new HttpClient();
+                    httpClient.BaseAddress = new Uri(builder.Configuration["ConnectionStrings:DuffelAddress"]);
+                    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                    httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
+                    httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {builder.Configuration["ApiKeys:DuffelTest"]}");
+                    return new OfferService(httpClient);
+                }
+                );
             builder.Services.AddHttpClient<OfferService>();
             var app = builder.Build();
 
