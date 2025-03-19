@@ -1,6 +1,9 @@
 using GoTorz.Components;
 using GoTorz.Services;
 using System.Text.Json;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 namespace GoTorz
 {
@@ -11,10 +14,14 @@ namespace GoTorz
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorComponents()
+            builder.Services
+                .AddRazorComponents()
                 .AddInteractiveServerComponents();
             builder.Services.AddHttpClient<OfferService>();
-            var app = builder.Build();
+            builder.Services.AddBlazorise(options => { options.Immediate = true; })
+	                        .AddBootstrapProviders()
+	                        .AddFontAwesomeIcons();
+			var app = builder.Build();
 
             var scope = app.Services.CreateScope();
             //var offerService = scope.ServiceProvider.GetRequiredService<OfferService>();
