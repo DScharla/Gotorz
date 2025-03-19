@@ -23,10 +23,10 @@ namespace GoTorz.Services
         }
 
         //EN ELLER ANDEN METODE
-        public async Task<OfferResponse> PostOfferAsync(/*OfferRequest offerRequest*/)
+        public async Task<OfferResponse> PostOfferAsync(string origin, string destination, string departuredate)
         {
-            string url = "/air/offer_requests?return_offers=false&supplier_timeout=10000";
-            OfferRequest offerRequest = Test();
+            string url = "/air/offer_requests?supplier_timeout=10000";
+            OfferRequest offerRequest = CreateOfferRequest(origin, destination, departuredate);
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -54,7 +54,7 @@ namespace GoTorz.Services
             T value
         )*/
 
-        public OfferRequest Test()
+        private OfferRequest CreateOfferRequest(string origin, string destination, string departuredate)
         {
             var offerRequest = new OfferRequest
             {
@@ -64,9 +64,9 @@ namespace GoTorz.Services
         {
             new FlightRequest
             {
-                Origin = "LHR",
-                Destination = "JFK",
-                DepartureDate = "2025-04-24",
+                Origin = origin,
+                Destination = destination,
+                DepartureDate = departuredate,
             }
         },                    
                     Passengers = new List<PassengerRequest>
