@@ -15,18 +15,14 @@ namespace GoTorz.Services
         public OfferService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://api.duffel.com");
-            //_httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            _httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
+            
         }
 
         //EN ELLER ANDEN METODE
-        public async Task<OfferResponse> PostOfferAsync(/*OfferRequest offerRequest*/)
+        public async Task<OfferResponse> PostOfferAsync(string origin, string destination, string departuredate)
         {
-            string url = "/air/offer_requests?return_offers=false&supplier_timeout=10000";
-            OfferRequest offerRequest = Test();
+            string url = "/air/offer_requests?supplier_timeout=10000";
+            OfferRequest offerRequest = CreateOfferRequest(origin, destination, departuredate);
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -54,7 +50,7 @@ namespace GoTorz.Services
             T value
         )*/
 
-        public OfferRequest Test()
+        private OfferRequest CreateOfferRequest(string origin, string destination, string departuredate)
         {
             var offerRequest = new OfferRequest
             {
@@ -64,36 +60,21 @@ namespace GoTorz.Services
         {
             new FlightRequest
             {
-                Origin = "LHR",
-                Destination = "JFK",
-                DepartureDate = "2025-04-24",
-                DepartureTime = new TimeRange { From = "09:45", To = "17:00" },
-                ArrivalTime = new TimeRange { From = "09:45", To = "17:00" }
+                Origin = origin,
+                Destination = destination,
+                DepartureDate = departuredate,
             }
-        },
-                    PrivateFares = new Dictionary<string, List<PrivateFare>>
-        {
-            { "QF", new List<PrivateFare> { new PrivateFare { CorporateCode = "FLX53", TrackingReference = "ABN:2345678" } } },
-            { "UA", new List<PrivateFare> { new PrivateFare { CorporateCode = "1234", TourCode = "578DFL" } } }
-        },
+        },                    
                     Passengers = new List<PassengerRequest>
         {
             new PassengerRequest
             {
-                GivenName = "Amelia",
-                FamilyName = "Earhart",
-                Type = "adult",
-                LoyaltyProgrammeAccounts = new List<LoyaltyProgrammeAccount>
-                {
-                    new LoyaltyProgrammeAccount { AccountNumber = "12901014", AirlineIataCode = "BA" }
-                }
+                Type = "adult",                
+                
             },
-            new PassengerRequest { Age = 14 },
-            new PassengerRequest { FareType = "student" },
-            new PassengerRequest { Age = 5, FareType = "contract_bulk_child" }
         },
                     MaxConnections = 0,
-                    CabinClass = "economy"
+                    
                 }
             };
             return offerRequest;
