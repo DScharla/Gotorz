@@ -40,19 +40,19 @@ namespace GoTorz.Model
 		public TimeRange DepartureTime { get; set; }
 
 		[JsonPropertyName("departure_date")]
-		public string DepartureDate { get; set; }
+		public string? DepartureDate { get; set; }
 
 		[JsonPropertyName("arrival_time")]
-		public TimeRange ArrivalTime { get; set; }
+		public TimeRange? ArrivalTime { get; set; }
 	}
 
 	public class TimeRange
 	{
 		[JsonPropertyName("from")]
-		public string From { get; set; }
+		public string? From { get; set; }
 
 		[JsonPropertyName("to")]
-		public string To { get; set; }
+		public string? To { get; set; }
 	}
 
 	public class PrivateFare
@@ -91,9 +91,9 @@ namespace GoTorz.Model
 	public class LoyaltyProgrammeAccount
 	{
 		[JsonPropertyName("account_number")]
-		public string AccountNumber { get; set; }
+		public string? AccountNumber { get; set; }
 
 		[JsonPropertyName("airline_iata_code")]
-		public string AirlineIataCode { get; set; }
+		public string? AirlineIataCode { get; set; }
 	}
 }

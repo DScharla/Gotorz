@@ -14,199 +14,199 @@ namespace GoTorz.Model
     public class DataResponse
     {
         [JsonPropertyName("slices")]
-        public List<FlightResponse> Flights { get; set; }
+        public List<FlightResponse>? Flights { get; set; }
 
         [JsonPropertyName("offers")]
-        public List<Offer> Offers { get; set; }
+        public List<Offer>? Offers { get; set; }
 
         [JsonPropertyName("id")]
-        public string OfferReponseId { get; set; }
+        public string? OfferReponseId { get; set; }
     }
 
     public class FlightResponse
 	{
         [JsonPropertyName("origin_type")]
-        public string OriginType { get; set; }
+        public string? OriginType { get; set; }
 
         [JsonPropertyName("origin")]
-        public Airport Origin { get; set; }
+        public Airport? Origin { get; set; }
 
         [JsonPropertyName("destination_type")]
-        public string DestinationType { get; set; }
+        public string? DestinationType { get; set; }
 
         [JsonPropertyName("destination")]
-        public Airport Destination { get; set; }
+        public Airport? Destination { get; set; }
 
         [JsonPropertyName("departure_date")]
-        public string DepartureDate { get; set; }
+        public string? DepartureDate { get; set; }
     }
 
     public class Airport
     {
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonPropertyName("time_zone")]
-        public string TimeZone { get; set; }
+        public string? TimeZone { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("longitude")]
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
 
         [JsonPropertyName("latitude")]
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("icao_code")]
-        public string IcaoCode { get; set; }
+        public string? IcaoCode { get; set; }
 
         [JsonPropertyName("iata_country_code")]
-        public string IataCountryCode { get; set; }
+        public string? IataCountryCode { get; set; }
 
         [JsonPropertyName("iata_code")]
-        public string IataCode { get; set; }
+        public string? IataCode { get; set; }
 
         [JsonPropertyName("iata_city_code")]
-        public string IataCityCode { get; set; }
+        public string? IataCityCode { get; set; }
 
         [JsonPropertyName("city_name")]
-        public string CityName { get; set; }
+        public string? CityName { get; set; }
 
         [JsonPropertyName("city")]
-        public City City { get; set; }
+        public City? City { get; set; }
 
         [JsonPropertyName("airports")]
-        public List<Airport> Airports { get; set; }
+        public List<Airport>? Airports { get; set; }
     }
 
     public class City
     {
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("iata_country_code")]
-        public string IataCountryCode { get; set; }
+        public string? IataCountryCode { get; set; }
 
         [JsonPropertyName("iata_code")]
-        public string IataCode { get; set; }
+        public string? IataCode { get; set; }
 
         [JsonPropertyName("airports")]
-        public List<Airport> Airports { get; set; }
+        public List<Airport>? Airports { get; set; }
     }
 
     public class Offer
     {
         [JsonPropertyName("total_emissions_kg")]
-        public string TotalEmissionsKg { get; set; }
+        public string? TotalEmissionsKg { get; set; }
 
         [JsonPropertyName("total_currency")]
-        public string TotalCurrency { get; set; }
+        public string? TotalCurrency { get; set; }
 
         [JsonPropertyName("total_amount")]
-        public string TotalAmount { get; set; }
+        public string? TotalAmount { get; set; }
 
         [JsonPropertyName("tax_currency")]
-        public string TaxCurrency { get; set; }
+        public string? TaxCurrency { get; set; }
 
         [JsonPropertyName("tax_amount")]
-        public string TaxAmount { get; set; }
+        public string? TaxAmount { get; set; }
 
         [JsonPropertyName("supported_passenger_identity_document_types")]
-        public List<string> SupportedPassengerIdentityDocumentTypes { get; set; }
+        public List<string>? SupportedPassengerIdentityDocumentTypes { get; set; }
 
         [JsonPropertyName("slices")]
-        public List<FlightDetail> FlightsDetail { get; set; }
+        public List<FlightDetail>? FlightsDetail { get; set; }
     }
 
     public class FlightDetail
 	{
         [JsonPropertyName("segments")]
-        public List<Segment> Segments { get; set; }
+        public List<Segment>? Segments { get; set; }
 
         [JsonPropertyName("origin_type")]
-        public string OriginType { get; set; }
+        public string? OriginType { get; set; }
 
         [JsonPropertyName("origin")]
-        public Airport Origin { get; set; }
+        public Airport? Origin { get; set; }
 
         [JsonPropertyName("destination_type")]
-        public string DestinationType { get; set; }
+        public string? DestinationType { get; set; }
 
         [JsonPropertyName("destination")]
-        public Airport Destination { get; set; }
+        public Airport? Destination { get; set; }
 
         [JsonPropertyName("duration")]
-        public string Duration { get; set; }
+        public string? Duration { get; set; }
     }
 
     public class Segment
     {
         [JsonPropertyName("stops")]
-        public List<Stop> Stops { get; set; }
+        public List<Stop>? Stops { get; set; }
 
         [JsonPropertyName("passengers")]
-        public List<PassengerResponse> Passengers { get; set; }
+        public List<PassengerResponse>? Passengers { get; set; }
 
         [JsonPropertyName("origin_terminal")]
-        public string OriginTerminal { get; set; }
+        public string? OriginTerminal { get; set; }
 
         [JsonPropertyName("origin")]
-        public Airport Origin { get; set; }
+        public Airport? Origin { get; set; }
 
         [JsonPropertyName("destination")]
-        public Airport Destination { get; set; }
+        public Airport? Destination { get; set; }
 
         [JsonPropertyName("departing_at")]
-        public string DepartingAt { get; set; }
+        public string? DepartingAt { get; set; }
 
         [JsonPropertyName("arriving_at")]
-        public string ArrivingAt { get; set; }
+        public string? ArrivingAt { get; set; }
 
         [JsonPropertyName("operating_carrier_flight_number")]
-        public string OperatingCarrierFlightNumber { get; set; }
+        public string? OperatingCarrierFlightNumber { get; set; }
 
         [JsonPropertyName("marketing_carrier_flight_number")]
-        public string MarketingCarrierFlightNumber { get; set; }
+        public string? MarketingCarrierFlightNumber { get; set; }
     }
 
     public class Stop
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("duration")]
-        public string Duration { get; set; }
+        public string? Duration { get; set; }
 
         [JsonPropertyName("departing_at")]
-        public string DepartingAt { get; set; }
+        public string? DepartingAt { get; set; }
 
         [JsonPropertyName("arriving_at")]
-        public string ArrivingAt { get; set; }
+        public string? ArrivingAt { get; set; }
 
         [JsonPropertyName("airport")]
-        public Airport Airport { get; set; }
+        public Airport? Airport { get; set; }
     }
 
     public class PassengerResponse
     {
         [JsonPropertyName("passenger_id")]
-        public string PassengerId { get; set; }
+        public string? PassengerId { get; set; }
 
         [JsonPropertyName("fare_basis_code")]
-        public string FareBasisCode { get; set; }
+        public string? FareBasisCode { get; set; }
 
         [JsonPropertyName("cabin_class_marketing_name")]
-        public string CabinClassMarketingName { get; set; }
+        public string? CabinClassMarketingName { get; set; }
 
         [JsonPropertyName("cabin_class")]
-        public string CabinClass { get; set; }
+        public string? CabinClass { get; set; }
     }
 
 }

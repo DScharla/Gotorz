@@ -19,7 +19,7 @@ namespace GoTorz.Services
         //EN ELLER ANDEN METODE
         public async Task<OfferResponse> PostOfferAsync(string origin, string destination, string departureDate)
         {
-            string url = "/air/offer_requests?return_offers=false&supplier_timeout=10000";
+            string url = "/air/offer_requests?supplier_timeout=10000";
             OfferRequest offerRequest = CreateOfferRequest(origin, destination, departureDate);
             var options = new JsonSerializerOptions
             {
@@ -27,7 +27,7 @@ namespace GoTorz.Services
                 WriteIndented = true
             };
             var responseBody = JsonSerializer.Serialize(offerRequest, options);
-            StringContent stringContent = new StringContent( responseBody, Encoding.UTF8,"application/json" );
+            StringContent stringContent = new StringContent(responseBody, Encoding.UTF8,"application/json");
 
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);
 
