@@ -5,6 +5,7 @@ using System.Text.Json;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using GoTorz.Components.Controllers;
 
 namespace GoTorz
 {
@@ -18,7 +19,7 @@ namespace GoTorz
             builder.Services
                 .AddRazorComponents()
                 .AddInteractiveServerComponents();
-            builder.Services.AddScoped<OfferService>
+            builder.Services.AddScoped<TravelBulderController>
                 (
                 sp =>
                     {
@@ -29,7 +30,7 @@ namespace GoTorz
                         httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
                         httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
                         httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
-                        return new OfferService(httpClient);
+                        return new TravelBulderController(httpClient);
                     }
                 );
             builder.Services.AddBlazorise(options => { options.Immediate = true; })

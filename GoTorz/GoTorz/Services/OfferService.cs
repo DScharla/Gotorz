@@ -17,10 +17,9 @@ namespace GoTorz.Services
         }
 
         //EN ELLER ANDEN METODE
-        public async Task<OfferResponse> PostOfferAsync(string origin, string destination, string departureDate)
+        public async Task<OfferResponse> PostOfferAsync(OfferRequest offerRequest)
         {
             string url = "/air/offer_requests?supplier_timeout=10000";
-            OfferRequest offerRequest = CreateOfferRequest(origin, destination, departureDate);
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,

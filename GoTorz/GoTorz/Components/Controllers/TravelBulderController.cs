@@ -1,18 +1,41 @@
 ﻿using GoTorz.Model;
+using GoTorz.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoTorz.Components.Controllers
 {
     public class TravelBulderController : Controller
     {
+        //MANGLER AT BLIVE IMPLEMENTERET: Sortering ift departure time ascending;
+        HttpClient _flightHttpClient;
+        OfferService? offerService;
+        public TravelBulderController(HttpClient httpClient)
+        {
+            _flightHttpClient = httpClient;
+            offerService = new OfferService(_flightHttpClient);
+        }
         public IActionResult TravelBuilder()
         {
             return View();
         }
+
         [HttpPost, Route("/create")]
-        public IActionResult CreateTravel(string origin, string destination, string departureDate)
+        public IActionResult Create(string origin, string destination, string departureDate, string homeDate)
         {
-            Create
+            List<OfferResponse> offerResponses = new List<OfferResponse>();
+            OfferRequest deparetureTravel = CreateOfferRequest(origin, destination, departureDate);
+            OfferRequest homeTravel = CreateOfferRequest(destination, origin, homeDate);
+
+            if (offerService is not null)
+            {
+                OfferResponse deparetureTravelResponse = offerService.PostOfferAsync(deparetureTravel).Result;
+                OfferResponse homeTravelResponse = offerService.PostOfferAsync(homeTravel).Result;
+                offerResponses.Add(deparetureTravelResponse);
+                offerResponses.Add(homeTravelResponse);
+            }
+
+            return View(offerResponses);
+
         }
         private OfferRequest CreateOfferRequest(string origin, string destination, string departureDate)
         {

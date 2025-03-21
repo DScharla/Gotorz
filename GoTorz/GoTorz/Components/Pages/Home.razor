@@ -2,7 +2,7 @@
 @using GoTorz.Model
 @page "/"
 @rendermode InteractiveServer
-@inject OfferService OfferService
+@inject TravelBuilder travelBuilder
 @inject ILogger<Home> logger
 @inject IConfiguration configuration
 
@@ -31,7 +31,7 @@ else{
 
 	private OfferResponse? offerResponse;
 	private void SendAPI(MouseEventArgs e){
-		offerResponse = OfferService.PostOfferAsync("LHR", "JFK", "2025-04-24").Result;
+		//offerResponse = OfferService.PostOfferAsync("LHR", "JFK", "2025-04-24").Result;
 		logger.LogInformation("Metoden bliver kaldt");
 	}
 }
