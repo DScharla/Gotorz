@@ -43,32 +43,6 @@ namespace GoTorz.Services
         }
 
 
-        private OfferRequest CreateOfferRequest(string origin, string destination, string departureDate)
-        {
-            var offerRequest = new OfferRequest
-            {
-                Data = new DataRequest
-                {
-                    Flight = new List<FlightRequest>
-                    {
-                        new FlightRequest
-                        {
-                            Origin = origin,
-                            Destination = destination,
-                            DepartureDate = departureDate,
-                        }
-                    },
-                    Passengers = new List<PassengerRequest>
-                    {
-                        new PassengerRequest
-                        {
-                            Type = "adult",
-                        }
-                    },
-                    MaxConnections = 0,
-                }
-            };
-            return offerRequest;
-        }
+        
     }
 }

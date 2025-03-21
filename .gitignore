@@ -400,7 +400,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 GoTorz/.vs
-GoTorz/BlazorApp1/appsettings.json
+GoTorz/GoTorz/appsettings.json
+GoTorz/GoTorz/appsettings.Development.json
 **/*.razor.g.cs
 **/*.razor.g.i.cs
 GoTorz/GoTorz/obj
