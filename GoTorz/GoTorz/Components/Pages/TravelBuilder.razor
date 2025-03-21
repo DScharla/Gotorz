@@ -5,23 +5,10 @@
 <div>
 	<input placeholder="Departure Airport" />
 	<input placeholder="Arrival Airport" />
-	@*<DatePicker @bind-Date="@FromDate" DateFormat="yyyy-MM-dd" Min="DateTime.Today" Enable="true" />
-	<DatePicker @bind-Date="@ToDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />*@
+	<InputDate @bind-Value="@FromDate" DateFormat="yyyy-MM-dd" Min="DateTime.Today" Enable="true" />
+	<InputDate @bind-Value="@ToDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
 	<button name="Search">Search</button>
 </div>
-
-<EditForm Model="this">
-	<div class="mb-3">
-		<label>Udrejsedag:</label>
-		<DatePicker @bind-Date="FromDate" DateFormat="yyyy-MM-dd" Min="DateTime.Today" Enable="true" />
-	</div>
-
-	<div class="mb-3">
-		<label>Hjemrejsedag:</label>
-		<DatePicker @bind-Date="ToDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
-	</div>
-
-</EditForm>
 
 <!--<div class="row">
 	<div class="col-md-6">
@@ -84,6 +71,6 @@
 	</div>
 </div>-->
 @code {
-	private DateTime? FromDate = DateTime.Today;
-	private DateTime? ToDate = DateTime.Today.AddDays(1);
+	private DateOnly? FromDate;
+	private DateOnly? ToDate;
 }

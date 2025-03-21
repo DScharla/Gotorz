@@ -2,9 +2,6 @@ using GoTorz.Components;
 using GoTorz.Services;
 using System.Net.Http;
 using System.Text.Json;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
 using GoTorz.Components.Controllers;
 
 namespace GoTorz
@@ -33,9 +30,6 @@ namespace GoTorz
                         return new TravelBulderController(httpClient);
                     }
                 );
-            builder.Services.AddBlazorise(options => { options.Immediate = true; })
-	                        .AddBootstrapProviders()
-	                        .AddFontAwesomeIcons();
 			var app = builder.Build();
 
             var scope = app.Services.CreateScope();

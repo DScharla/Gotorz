@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazorise" Version="1.7.5" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="1.7.5" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.7.5" />
-    <PackageReference Include="FlatpickrBlazor" Version="5.0.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.3" />
   </ItemGroup>
 
