@@ -50,30 +50,22 @@ namespace GoTorz.Services
                 Data = new DataRequest
                 {
                     Flight = new List<FlightRequest>
-        {
-            new FlightRequest
-            {
-                Origin = origin,
-                Destination = destination,
-                DepartureDate = departureDate,
-            }
-        },
+                    {
+                        new FlightRequest
+                        {
+                            Origin = origin,
+                            Destination = destination,
+                            DepartureDate = departureDate,
+                        }
+                    },
                     Passengers = new List<PassengerRequest>
-        {
-            new PassengerRequest
-            {
-                Type = "adult",
-            }
-        },
-                {
-                }
-            },
-            new PassengerRequest { Age = 14 },
-            new PassengerRequest { FareType = "student" },
-            new PassengerRequest { Age = 5, FareType = "contract_bulk_child" }
-        },
+                    {
+                        new PassengerRequest
+                        {
+                            Type = "adult",
+                        }
+                    },
                     MaxConnections = 0,
-                    CabinClass = "economy"
                 }
             };
             return offerRequest;
