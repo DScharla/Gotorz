@@ -1,5 +1,6 @@
 using GoTorz.Components;
 using GoTorz.Services;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace GoTorz
@@ -13,24 +14,23 @@ namespace GoTorz
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-            builder.Services.AddHttpClient<OfferService>();
+            builder.Services.AddScoped<OfferService>
+                (
+                sp =>
+                    {
+                        var httpClient = new HttpClient();
+                        httpClient.BaseAddress = new Uri(
+                            builder.Configuration["HttpClients:DuffelClientURI"] ?? "Forkert URI"
+                            );
+                        httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                        httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
+                        httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
+                        return new OfferService(httpClient);
+                    }
+                );
             var app = builder.Build();
 
             var scope = app.Services.CreateScope();
-            //var offerService = scope.ServiceProvider.GetRequiredService<OfferService>();
-
-            //try
-            //{
-            //    var response = offerservice.postofferasync();
-            //    console.writeline(jsonserializer.serialize(response, new jsonserializeroptions { writeindented = true }));
-            //}
-            //catch (exception ex)
-            //{
-            //    console.writeline($"fejl: {ex.message}");
-            //}
-
-
-            
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
