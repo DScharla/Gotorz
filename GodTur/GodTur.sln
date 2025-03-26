@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodTur", "GodTur\GodTur\GodTur.csproj", "{4FCA8982-3355-4A78-BAC2-C65DFAE081B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodTur.Client", "GodTur\GodTur.Client\GodTur.Client.csproj", "{3BA13D0C-3387-43E6-906D-5F2A4B4A875A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FCA8982-3355-4A78-BAC2-C65DFAE081B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FCA8982-3355-4A78-BAC2-C65DFAE081B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FCA8982-3355-4A78-BAC2-C65DFAE081B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FCA8982-3355-4A78-BAC2-C65DFAE081B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BA13D0C-3387-43E6-906D-5F2A4B4A875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BA13D0C-3387-43E6-906D-5F2A4B4A875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BA13D0C-3387-43E6-906D-5F2A4B4A875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BA13D0C-3387-43E6-906D-5F2A4B4A875A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A459E36-9272-4895-AA41-EB7B23E67D57}
+	EndGlobalSection
+EndGlobal
