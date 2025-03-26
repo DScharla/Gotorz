@@ -1,5 +1,6 @@
-using GodTur.Client.Pages;
+using Client.Pages;
 using GodTur.Components;
+using GodTur.Controllers;
 
 namespace GodTur;
 
@@ -13,8 +14,21 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
-
-        var app = builder.Build();
+		builder.Services.AddScoped<FlightBuilderController>
+				(
+				sp =>
+				{
+					var httpClient = new HttpClient();
+					httpClient.BaseAddress = new Uri(
+						builder.Configuration["HttpClients:DuffelClientURI"] ?? "Forkert URI"
+						);
+					httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+					httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
+					httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
+					return new FlightBuilderController(httpClient);
+				}
+				);
+		var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -37,6 +51,7 @@ public class Program
             .AddInteractiveServerRenderMode()
             .AddInteractiveWebAssemblyRenderMode()
             .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
+        app.MapControllers(); // se om dette er nok ellers må vi ændre på det.
 
         app.Run();
     }
