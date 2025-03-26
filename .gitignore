@@ -399,10 +399,10 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-GoTorz/.vs
-GoTorz/GoTorz/appsettings.json
-GoTorz/GoTorz/appsettings.Development.json
+**/.vs/
+**/appsettings.json
+**/appsettings.*.json
 **/*.razor.g.cs
 **/*.razor.g.i.cs
-GoTorz/GoTorz/obj
-GoTorz/GoTorz/bin
+**/obj/
+**/bin/
