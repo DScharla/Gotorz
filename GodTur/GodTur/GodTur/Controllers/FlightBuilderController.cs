@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GodTur.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class FlightBuilderController : Controller
     {
+
         //MANGLER AT BLIVE IMPLEMENTERET: Sortering ift departure time ascending;
         HttpClient _flightHttpClient;
         OfferService? offerService;
@@ -19,7 +22,7 @@ namespace GodTur.Controllers
             return View();
         }
 
-        [HttpPost, Route("/create")]
+        [HttpPost, Route("/{origin}&{destination}&{departureDate}&{homeDate}")]
         public IActionResult Create(string origin, string destination, string departureDate, string homeDate)
         {
             List<OfferResponse> offerResponses = new List<OfferResponse>();
