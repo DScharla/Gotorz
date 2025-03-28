@@ -1,6 +1,7 @@
 ﻿using GodTur.Models;
 using GodTur.Services;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 namespace GodTur.Controllers
 {
@@ -22,25 +23,47 @@ namespace GodTur.Controllers
             return View();
         }
 
-        [HttpPost, Route("/{origin}&{destination}&{departureDate}&{homeDate}")]
-        public IActionResult Create(string origin, string destination, string departureDate, string homeDate)
+        [HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
+        public async Task<List<FlightDTO>> Create(FlightDTO departureFlightDTO, FlightDTO returnFlightDTO)
         {
-            List<OfferResponse> offerResponses = new List<OfferResponse>();
-            OfferRequest deparetureTravel = CreateOfferRequest(origin, destination, departureDate);
-            OfferRequest homeTravel = CreateOfferRequest(destination, origin, homeDate);
+            List<FlightDTO> flightDTOs = new List<FlightDTO>();
+            OfferRequest deparetureTravel = CreateOfferRequest(departureFlightDTO);
+            OfferRequest returnTravel = CreateOfferRequest(returnFlightDTO);
 
             if (offerService is not null)
             {
-                OfferResponse deparetureTravelResponse = offerService.PostOfferAsync(deparetureTravel).Result;
-                OfferResponse homeTravelResponse = offerService.PostOfferAsync(homeTravel).Result;
-                offerResponses.Add(deparetureTravelResponse);
-                offerResponses.Add(homeTravelResponse);
-            }
+                OfferResponse deparetureTravelResponse = await offerService.PostOfferAsync(deparetureTravel);
 
-            return View(offerResponses);
+                foreach (var flight in deparetureTravelResponse.Data.Flights)
+                {
+                    flightDTOs.Add(new FlightDTO
+                    {
+                        Origin = flight.Origin.Name,
+                        Destination = flight.Destination.Name,
+                        DepartureDate = DateTime.Parse(flight.DepartureDate),
+                    });
+                }
+                
+                OfferResponse returnTravelResponse = await offerService.PostOfferAsync(returnTravel);
+
+                foreach (var flight in returnTravelResponse.Data.Flights)
+                {
+                    flightDTOs.Add(new FlightDTO
+                    {
+                        Origin = flight.Origin.Name,
+                        Destination = flight.Destination.Name,
+                        DepartureDate = DateTime.Parse(flight.DepartureDate),
+                    });
+                }
+
+                /*offerResponses.Add(deparetureTravelResponse);
+                offerResponses.Add(returnTravelResponse);*/
+            }
+            
+            return flightDTOs;
 
         }
-        private OfferRequest CreateOfferRequest(string origin, string destination, string departureDate)
+        private OfferRequest CreateOfferRequest(FlightDTO flightDTO)
         {
             var offerRequest = new OfferRequest
             {
@@ -50,9 +73,9 @@ namespace GodTur.Controllers
                     {
                         new FlightRequest
                         {
-                            Origin = origin,
-                            Destination = destination,
-                            DepartureDate = departureDate,
+                            Origin = flightDTO.Origin,
+                            Destination = flightDTO.Destination,
+                            DepartureDate = flightDTO.DepartureDate.Date.ToString(),
                         }
                     },
                     Passengers = new List<PassengerRequest>
