@@ -14,6 +14,7 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
+        builder.Services.AddControllers();
 		builder.Services.AddScoped<FlightBuilderController>
 				(
 				sp =>
@@ -44,15 +45,17 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseStaticFiles();
+		app.UseStaticFiles();
         app.UseAntiforgery();
 
-        app.MapRazorComponents<App>()
+
+		app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode()
             .AddInteractiveWebAssemblyRenderMode()
             .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
-        app.MapControllers(); // se om dette er nok ellers må vi ændre på det.
 
-        app.Run();
+		app.MapControllers(); // se om dette er nok ellers må vi ændre på det.
+
+		app.Run();
     }
 }
