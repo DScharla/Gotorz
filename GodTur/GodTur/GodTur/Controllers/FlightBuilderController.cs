@@ -65,7 +65,7 @@ namespace GodTur.Controllers
         }
 */
         [HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
-        public async Task<List<FlightDTO>> Create(string JsonFlightDTO)
+        public async Task<string> Create(string JsonFlightDTO)
         {
             FlightDTO departureFlight = JsonSerializer.Deserialize<FlightDTO>(JsonFlightDTO);
             FlightDTO returnFlight = new FlightDTO() 
@@ -107,7 +107,7 @@ namespace GodTur.Controllers
                 }
             }
             flightDTOs.OrderBy(f => f.DepartureDate);
-            return await JsonSerializerflightDTOs;
+            return JsonSerializer.Serialize(flightDTOs);
 
         }
         private OfferRequest CreateOfferRequest(FlightDTO flightDTO)
