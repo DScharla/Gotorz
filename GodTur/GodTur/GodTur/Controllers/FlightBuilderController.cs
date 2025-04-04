@@ -2,6 +2,7 @@
 using GodTur.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
+using System.Text.Json;
 
 namespace GodTur.Controllers
 {
@@ -10,7 +11,6 @@ namespace GodTur.Controllers
     public class FlightBuilderController : Controller
     {
 
-        //MANGLER AT BLIVE IMPLEMENTERET: Sortering ift departure time ascending;
         HttpClient _flightHttpClient;
         OfferService? offerService;
         public FlightBuilderController(HttpClient httpClient)
@@ -23,7 +23,7 @@ namespace GodTur.Controllers
             return View();
         }
 
-        [HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
+        /*[HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
         public async Task<List<FlightDTO>> Create(FlightDTO departureFlightDTO, FlightDTO returnFlightDTO)
         {
             List<FlightDTO> flightDTOs = new List<FlightDTO>();
@@ -56,11 +56,58 @@ namespace GodTur.Controllers
                     });
                 }
 
-                /*offerResponses.Add(deparetureTravelResponse);
-                offerResponses.Add(returnTravelResponse);*/
+                *//*offerResponses.Add(deparetureTravelResponse);
+                offerResponses.Add(returnTravelResponse);*//*
             }
             
             return flightDTOs;
+
+        }
+*/
+        [HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
+        public async Task<List<FlightDTO>> Create(string JsonFlightDTO)
+        {
+            FlightDTO departureFlight = JsonSerializer.Deserialize<FlightDTO>(JsonFlightDTO);
+            FlightDTO returnFlight = new FlightDTO() 
+            { 
+                DepartureDate = departureFlight.ReturnDate, 
+                Origin = departureFlight.Destination, 
+                Destination = departureFlight.Origin 
+            };
+
+			List<FlightDTO> flightDTOs = new List<FlightDTO>();
+            OfferRequest deparetureTravel = CreateOfferRequest(departureFlight);
+            OfferRequest returnTravel = CreateOfferRequest(returnFlight);
+
+            if (offerService is not null)
+            {
+                OfferResponse deparetureTravelResponse = await offerService.PostOfferAsync(deparetureTravel);
+                foreach (var offer in deparetureTravelResponse.Data.Offers)
+                {
+                    flightDTOs.Add(new FlightDTO
+                    {
+                        Origin = offer.FlightsDetail[0].Origin.Name,
+                        Destination = offer.FlightsDetail[0].Destination.Name,
+                        DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+                        Price = double.Parse(offer.TotalAmount),
+                    });
+                }
+
+                OfferResponse returnTravelResponse = await offerService.PostOfferAsync(returnTravel);
+
+                foreach (var offer in returnTravelResponse.Data.Offers)
+                {
+                    flightDTOs.Add(new FlightDTO
+                    {
+						Origin = offer.FlightsDetail[0].Origin.Name,
+						Destination = offer.FlightsDetail[0].Destination.Name,
+						DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+						Price = double.Parse(offer.TotalAmount),
+					});
+                }
+            }
+            flightDTOs.OrderBy(f => f.DepartureDate);
+            return await JsonSerializerflightDTOs;
 
         }
         private OfferRequest CreateOfferRequest(FlightDTO flightDTO)
