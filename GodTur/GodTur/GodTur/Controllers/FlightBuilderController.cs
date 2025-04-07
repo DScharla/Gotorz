@@ -8,19 +8,14 @@ namespace GodTur.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class FlightBuilderController : Controller
+    public class FlightBuilderController : ControllerBase
     {
-
         HttpClient _flightHttpClient;
         OfferService? offerService;
         public FlightBuilderController(HttpClient httpClient)
         {
             _flightHttpClient = httpClient;
             offerService = new OfferService(_flightHttpClient);
-        }
-        public IActionResult TravelBuilder()
-        {
-            return View();
         }
 
         /*[HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
@@ -122,7 +117,7 @@ namespace GodTur.Controllers
                         {
                             Origin = flightDTO.Origin,
                             Destination = flightDTO.Destination,
-                            DepartureDate = flightDTO.DepartureDate.Date.ToString(),
+                            DepartureDate = flightDTO.DepartureDate.ToString(),
                         }
                     },
                     Passengers = new List<PassengerRequest>

@@ -1,6 +1,7 @@
 using Client.Pages;
 using GodTur.Components;
 using GodTur.Controllers;
+using Microsoft.AspNetCore.Cors;
 
 namespace GodTur;
 
@@ -14,8 +15,16 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://localhost:7177")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            );
+
+        });
         builder.Services.AddControllers();
-		builder.Services.AddScoped<FlightBuilderController>
+/*		builder.Services.AddScoped<FlightBuilderController>
 				(
 				sp =>
 				{
@@ -28,9 +37,10 @@ public class Program
 					httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
 					return new FlightBuilderController(httpClient);
 				}
-				);
+				);*/
+        
 		var app = builder.Build();
-
+        app.UseCors("AllowClient");
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
