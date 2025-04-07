@@ -59,7 +59,7 @@ namespace GodTur.Controllers
 
         }
 */
-        [HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
+        [HttpPost, Route("create")] //FlightDTO skal passes som argument i JSON format
         public async Task<string> Create(string JsonFlightDTO)
         {
             FlightDTO departureFlight = JsonSerializer.Deserialize<FlightDTO>(JsonFlightDTO);
