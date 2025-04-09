@@ -45,7 +45,7 @@ public class Program
                 builder.Configuration["HttpClients:DuffelClientURI"] ?? "https://api.duffel.com/");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("Duffel-Version", "v2");
-            client.DefaultRequestHeaders.Add("Authorization",
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
                 builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
         });
 		var app = builder.Build();

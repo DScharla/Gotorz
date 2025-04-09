@@ -10,12 +10,12 @@ namespace GodTur.Controllers
     [Route("api/[controller]")]
     public class FlightBuilderController : ControllerBase
     {
-        HttpClient _flightHttpClient;
-        OfferService? offerService;
-        public FlightBuilderController(HttpClient httpClient)
+       
+        OfferService? _offerService;
+        public FlightBuilderController(OfferService offerService)
         {
-            _flightHttpClient = httpClient;
-            offerService = new OfferService(_flightHttpClient);
+           
+            _offerService = offerService;
         }
 
         /*[HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
@@ -60,9 +60,9 @@ namespace GodTur.Controllers
         }
 */
         [HttpPost, Route("create")] //FlightDTO skal passes som argument i JSON format
-        public async Task<string> Create(string JsonFlightDTO)
+        public async Task<string> Create([FromBody]FlightDTO flightDTO)
         {
-            FlightDTO departureFlight = JsonSerializer.Deserialize<FlightDTO>(JsonFlightDTO);
+            FlightDTO departureFlight = flightDTO;
             FlightDTO returnFlight = new FlightDTO() 
             { 
                 DepartureDate = departureFlight.ReturnDate, 
@@ -74,21 +74,21 @@ namespace GodTur.Controllers
             OfferRequest deparetureTravel = CreateOfferRequest(departureFlight);
             OfferRequest returnTravel = CreateOfferRequest(returnFlight);
 
-            if (offerService is not null)
+            if (_offerService is not null)
             {
-                OfferResponse deparetureTravelResponse = await offerService.PostOfferAsync(deparetureTravel);
-                foreach (var offer in deparetureTravelResponse.Data.Offers)
-                {
-                    flightDTOs.Add(new FlightDTO
+                OfferResponse deparetureTravelResponse = await _offerService.PostOfferAsync(deparetureTravel);
+                    foreach (var offer in deparetureTravelResponse.Data.Offers)
                     {
-                        Origin = offer.FlightsDetail[0].Origin.Name,
-                        Destination = offer.FlightsDetail[0].Destination.Name,
-                        DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
-                        Price = double.Parse(offer.TotalAmount),
-                    });
-                }
-
-                OfferResponse returnTravelResponse = await offerService.PostOfferAsync(returnTravel);
+                        flightDTOs.Add(new FlightDTO
+                        {
+                            Origin = offer.FlightsDetail[0].Origin.Name,
+                            Destination = offer.FlightsDetail[0].Destination.Name,
+                            DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+                            Price = double.Parse(offer.TotalAmount),
+                        });
+                    }
+              
+                OfferResponse returnTravelResponse = await _offerService.PostOfferAsync(returnTravel);
 
                 foreach (var offer in returnTravelResponse.Data.Offers)
                 {
@@ -117,7 +117,7 @@ namespace GodTur.Controllers
                         {
                             Origin = flightDTO.Origin,
                             Destination = flightDTO.Destination,
-                            DepartureDate = flightDTO.DepartureDate.ToString(),
+                            DepartureDate = flightDTO.DepartureDate?.ToString("yyyy-MM-dd"),
                         }
                     },
                     Passengers = new List<PassengerRequest>

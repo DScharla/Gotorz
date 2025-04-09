@@ -19,7 +19,7 @@ namespace GodTur.Services
         //EN ELLER ANDEN METODE
         public async Task<OfferResponse> PostOfferAsync(OfferRequest offerRequest)
         {
-            string url = "/air/offer_requests?supplier_timeout=10000";
+            string url = "air/offer_requests?supplier_timeout=10000";
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,

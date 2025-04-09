@@ -20,11 +20,11 @@
 <ol>
     @foreach (var flight in flightOffers) {
         <li>
-            flight.Origin
-            flight.Destination
-            flight.DepartureDate
-            flight.Price
-            flight.FlightNumber
+            @flight.Origin
+            @flight.Destination
+            @flight.DepartureDate
+            @flight.Price
+            @*flight.FlightNumber*@
         </li>
     }
 </ol>
