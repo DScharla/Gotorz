@@ -25,20 +25,6 @@ public class Program
 
         });
         builder.Services.AddControllers();
-/*		builder.Services.AddScoped<FlightBuilderController>
-				(
-				sp =>
-				{
-					var httpClient = new HttpClient();
-					httpClient.BaseAddress = new Uri(
-						builder.Configuration["HttpClients:DuffelClientURI"] ?? "Forkert URI"
-						);
-					httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-					httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
-					httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
-					return new FlightBuilderController(httpClient);
-				}
-				);*/
         builder.Services.AddHttpClient<OfferService>(client =>
         {
             client.BaseAddress = new Uri(
