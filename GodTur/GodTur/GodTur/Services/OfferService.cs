@@ -11,9 +11,9 @@ namespace GodTur.Services
     {
         private readonly HttpClient _httpClient;
 
-        public OfferService(HttpClient httpClient)
+        public OfferService(DuffelClient duffelClient)
         {
-            _httpClient = httpClient;
+            _httpClient = duffelClient.HttpClient;
         }
 
         //EN ELLER ANDEN METODE

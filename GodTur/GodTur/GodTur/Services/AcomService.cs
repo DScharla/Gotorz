@@ -7,9 +7,9 @@ namespace GodTur.Services
     public class AcomService
     {
         private readonly HttpClient _httpClient;
-        public AcomService(HttpClient httpClient)
+        public AcomService(DuffelClient duffelClient)
         {
-            _httpClient = httpClient;
+            _httpClient = duffelClient.HttpClient;
         }
         public async Task<AcomResponse> PostAcomAsync(AcomRequest acomRequest)
         {
