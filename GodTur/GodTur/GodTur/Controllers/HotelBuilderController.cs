@@ -11,8 +11,8 @@ namespace GodTur.Controllers
 	[ApiController]
 	public class HotelBuilderController : ControllerBase
 	{
-		StaysService? _staysService;
-		public HotelBuilderController(StaysService staysService)
+		IStaysService? _staysService;
+		public HotelBuilderController(IStaysService staysService)
 		{
 
 			_staysService = staysService;
@@ -25,50 +25,47 @@ namespace GodTur.Controllers
 
 
 			List<StayDTO> stayDTOs = new List<StayDTO>();
-			StayRequest stayRequest = CreateStayRequest(stayParam);
+			StayOfferRequest stayOfferRequest = CreateStayOfferRequest(stayParam);
 
 			if (_staysService is not null)
 			{
-				StayResponse stayResponse = await _staysService.PostStayAsync(stayRequest);
-				foreach (var stay in stayResponse.Data.Results)
+				StayOfferResponse stayOfferResponse = await _staysService.PostStaysAsync(stayOfferRequest);
+				foreach (var accommodation in stayOfferResponse.Data.Accommodations)
 				{
 					stayDTOs.Add(new StayDTO
 					{
-						Hvad = stay.,
-						Vil = stay.,
-						Vi = stay.,
-						Ha = stay.,
+						Hvad = accommodation.,
+						Vil = accommodation.,
+						Vi = accommodation.,
+						Ha = accommodation.,
 					});
 				}
 			}
 			stayDTOs.OrderBy(f => f.PropertyTilSort);
 			return JsonSerializer.Serialize(stayDTOs);
 		}
-		private StayRequest CreateStayRequest(StayDTO stayDTO)
+		private StayOfferRequest CreateStayOfferRequest(StayDTO stayDTO)
 		{
-			var stayRequest = new StayRequest
+			var stayOfferRequest = new StayOfferRequest
 			{
-				Data = new DataRequest
+				Data = new StayDataRequest
 				{
-					Result = new List<ResultRequest>
+					Location = stayDTO.Location,
+					CheckInDate = stayDTO.CheckInDate,
+					CheckOutDate = stayDTO.CheckOutDate,
+					Rooms = stayDTO.Rooms,
+					
+					
+					Guests = new List<Guest>
 					{
-						new ResultRequest
-						{
-							Hvad = stayDTO.,
-							Vil = stayDTO.,
-							Vi = stayDTO.,
-						}
-					},
-					Guests = new List<GuestRequest>
-					{
-						new GuestRequest
+						new Guest
 						{
 							Type = "adult",
 						}
 					},
 				}
 			};
-			return StayRequest;
+			return stayOfferRequest;
 		}
 	}
 }

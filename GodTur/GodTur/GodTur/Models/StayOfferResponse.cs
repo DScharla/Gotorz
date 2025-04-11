@@ -6,9 +6,19 @@ namespace GodTur.Models
 {
     public class StayOfferResponse
     {
-        [JsonPropertyName("data")]
-        public List<Accommodation> Data { get; set; }
+		[JsonPropertyName("data")]
+        public StayData Data { get; set; }
+		
     }
+
+    public class StayData
+    {
+		[JsonPropertyName("created_at")]
+        public DateTime Created { get; set; }
+
+		[JsonPropertyName("results")]
+		public List<Accommodation>? Accommodations { get; set; }
+	}
 
     public class Accommodation
     {

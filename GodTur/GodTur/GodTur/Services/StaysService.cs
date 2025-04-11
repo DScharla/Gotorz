@@ -12,7 +12,7 @@ namespace GodTur.Services
         {
             _httpClient = duffelClient.HttpClient;
         }
-        public async Task<AcomResponse> PostStaysAsync(StaysRequest stayRequest)
+        public async Task<StayOfferResponse> PostStaysAsync(StayOfferRequest stayOfferRequest)
         {
             string url = "stays/search";
             var options = new JsonSerializerOptions
@@ -24,12 +24,12 @@ namespace GodTur.Services
             StringContent stringContent = new StringContent(responseBody, Encoding.UTF8, "application/json");
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);*/
 
-            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(url, stayRequest, options);
+            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(url, stayOfferRequest, options);
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 string responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<AcomResponse>(responseContent);
+                return JsonSerializer.Deserialize<StayOfferResponse>(responseContent);
             }
             else
             {
@@ -37,18 +37,5 @@ namespace GodTur.Services
             }
         }
 
-    }
-    public class StaysRequest
-    {
-        public string CheckIn { get; set; } = "2025-06-01";
-        public string CheckOut { get; set; } = "2025-06-06";
-        public int Guests { get; set; } = 1;
-        public int Rooms { get; set; } = 1;
-    }
-
-    public class AcomResponse
-    {
-        public string Id { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
     }
 }

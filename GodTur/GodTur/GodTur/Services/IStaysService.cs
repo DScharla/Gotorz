@@ -1,7 +1,9 @@
-﻿namespace GodTur.Services
+﻿using GodTur.Models;
+
+namespace GodTur.Services
 {
     public interface IStaysService
     {
-        Task<AcomResponse> PostStaysAsync(StaysRequest acomRequest);
+        Task<StayOfferResponse> PostStaysAsync(StayOfferRequest stayOfferRequest);
     }
 }
