@@ -13,7 +13,7 @@ namespace GodTur.Services
         }
         public async Task<AcomResponse> PostAcomAsync(AcomRequest acomRequest)
         {
-            string url = "accommodation/offer_requests?supplier_timeout=10000";
+            string url = "stays/search";
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -31,6 +31,19 @@ namespace GodTur.Services
             {
                 throw new Exception($"API request failed: {httpResponseMessage.StatusCode}");
             }
+        }
+        public class AcomRequest
+        {
+            public string CheckIn { get; set; } = "2025-06-01";
+            public string CheckOut { get; set; } = "2025-06-06";
+            public int Guests { get; set; } = 1;
+            public int Rooms { get; set; } = 1;
+        }
+
+        public class AcomResponse
+        {
+            public string Id { get; set; } = string.Empty;
+            public string Status { get; set; } = string.Empty;
         }
     }
 }
