@@ -5,14 +5,14 @@ using System.Text.Json.Serialization;
 
 namespace GodTur.Services
 {
-    public class AcomService : IAcomService
+    public class StaysService : IStaysService
     {
         private readonly HttpClient _httpClient;
-        public AcomService(DuffelClient duffelClient)
+        public StaysService(DuffelClient duffelClient)
         {
             _httpClient = duffelClient.HttpClient;
         }
-        public async Task<AcomResponse> PostAcommodationAsync(AcomRequest acomRequest)
+        public async Task<AcomResponse> PostStaysAsync(StaysRequest stayRequest)
         {
             string url = "stays/search";
             var options = new JsonSerializerOptions
@@ -24,7 +24,7 @@ namespace GodTur.Services
             StringContent stringContent = new StringContent(responseBody, Encoding.UTF8, "application/json");
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);*/
 
-            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(url, acomRequest, options);
+            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(url, stayRequest, options);
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {
@@ -38,7 +38,7 @@ namespace GodTur.Services
         }
 
     }
-    public class AcomRequest
+    public class StaysRequest
     {
         public string CheckIn { get; set; } = "2025-06-01";
         public string CheckOut { get; set; } = "2025-06-06";

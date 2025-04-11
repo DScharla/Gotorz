@@ -35,7 +35,7 @@ public class Program
                 builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
         });
         builder.Services.AddScoped<IOfferService, OfferService>();
-        builder.Services.AddScoped<IAcomService, AcomService>();
+        builder.Services.AddScoped<IStaysService, StaysService>();
 
         var app = builder.Build();
         app.UseCors("AllowClient");
