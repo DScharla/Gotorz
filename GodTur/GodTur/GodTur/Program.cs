@@ -25,21 +25,7 @@ public class Program
 
         });
         builder.Services.AddControllers();
-/*		builder.Services.AddScoped<FlightBuilderController>
-				(
-				sp =>
-				{
-					var httpClient = new HttpClient();
-					httpClient.BaseAddress = new Uri(
-						builder.Configuration["HttpClients:DuffelClientURI"] ?? "Forkert URI"
-						);
-					httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-					httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
-					httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
-					return new FlightBuilderController(httpClient);
-				}
-				);*/
-        builder.Services.AddHttpClient<OfferService>(client =>
+        builder.Services.AddHttpClient<DuffelClient>(client =>
         {
             client.BaseAddress = new Uri(
                 builder.Configuration["HttpClients:DuffelClientURI"] ?? "https://api.duffel.com/");
@@ -48,7 +34,10 @@ public class Program
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
                 builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
         });
-		var app = builder.Build();
+        builder.Services.AddScoped<IOfferService, OfferService>();
+        builder.Services.AddScoped<IStaysService, StaysService>();
+
+        var app = builder.Build();
         app.UseCors("AllowClient");
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

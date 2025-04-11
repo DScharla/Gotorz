@@ -20,6 +20,18 @@
 			</NavLink>
 		</div>
 
+<<<<<<< HEAD
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <p>@appState.Condition</p>
+        </div>
+    </nav>
+=======
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="weather">
 				<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
@@ -32,5 +44,17 @@
 			</NavLink>
 		</div>
 	</nav>
+>>>>>>> main
 </div>
+
+@code {
+    [CascadingParameter]
+    private AppState appState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        appState.Condition += " Success";
+        StateHasChanged();
+    }
+}
 

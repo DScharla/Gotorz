@@ -1,15 +1,73 @@
+<<<<<<< HEAD
+﻿@page "/"
+@rendermode InteractiveServer
+@inject OfferService OfferService
+@inject OfferResponse OfferResponse
+@inject ILogger<Home> logger
+@inject ILogger<Home> logger2
+@inject NavigationManager Navigation
+@inject IConfiguration Configuration
+@inject IJSRuntime JSRuntime
+@inject AppState AppState
+=======
 ﻿@using GoTorz.Services
 @using GoTorz.Model
 @page "/"
 @rendermode InteractiveServer
 @inject ILogger<Home> logger
 @inject IConfiguration configuration
+>>>>>>> main
 
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Prøver lige at tjekke API</h1>
+<button @onclick="GetOfferRequestID">OfferID</button>
+<p>
+    Hej, her er respons:
+    @if (offerResponse != null) 
+    {
+        <p>@offerResponse.Data.OfferReponseId</p>
+    }
+    else
+    {
+        <p>Der er ikke noget svar endnu</p>
+    }
+</p>
 
+<<<<<<< HEAD
+<p><button @onclick="Login">Login with Google</button></p>
+
+<Search/>
+<BookingForm/>
+
+@code {
+    private OfferResponse? offerResponse = null;
+
+
+    protected override async void OnInitialized()
+    {
+        logger.LogInformation("Home page visited");
+        logger2.LogInformation("Trooooooooools");
+    }
+
+    private async Task Login()
+    {
+        Navigation.NavigateTo("/authentication/login", forceLoad: true);
+    }
+
+
+    private async Task Logout()
+    {
+        Navigation.NavigateTo("Local", forceLoad: true);
+    }
+
+    private async Task<OfferResponse?> GetOfferRequestID()
+    {
+        return offerResponse = await OfferService.PostOfferAsync();
+    }
+}
+=======
 Welcome to your new app.
 
 <button class="btn btn-primary" @onclick="SendAPI">Test API</button>
@@ -34,3 +92,4 @@ else{
 		logger.LogInformation("Metoden bliver kaldt");
 	}
 }
+>>>>>>> main

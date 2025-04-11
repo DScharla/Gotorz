@@ -1,0 +1,51 @@
+﻿@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+@inject AppState AppState
+
+<input type="text" id="myInput" @bind="searchInput" @oninput="FilterList" placeholder="Search for names..">
+<button @onclick="() => AddName(searchInput)">Tilføj Navn</button>
+
+<ul id="myUL">
+    <li><a href="#">Adele</a></li>
+    <li><a href="#">Agnes</a></li>
+
+    <li><a href="#">Billy</a></li>
+    <li><a href="#">Bob</a></li>
+
+    <li><a href="#">Calvin</a></li>
+    <li><a href="#">Christina</a></li>
+    <li><a href="#">Cindy</a></li>
+</ul>
+
+@code {
+    private IJSObjectReference? searchModule;
+    private string? searchInput;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Console.WriteLine("OnAfterRenderAsync called.");
+            searchModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Search.js");
+            if (searchModule is not null)
+            {
+                Console.WriteLine("searchModule is not null");            }
+        }
+    }
+
+    private async Task FilterList()
+    {
+        if (searchModule is not null)
+        {
+            await searchModule.InvokeVoidAsync("FilterSearch");
+        }
+    }
+
+    private async Task AddName(string name)
+    {
+        if (searchModule is not null)
+        {
+            await searchModule.InvokeVoidAsync("AddNameToList", name);
+        }
+    }
+}

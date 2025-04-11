@@ -17,10 +17,17 @@ namespace GoTorz.Model
         public List<FlightResponse>? Flights { get; set; }
 
         [JsonPropertyName("offers")]
+<<<<<<< HEAD
+        public List<Offer> Offers { get; set; }
+
+        [JsonPropertyName("id")]
+        public string OfferReponseId { get; set; }
+=======
         public List<Offer>? Offers { get; set; }
 
         [JsonPropertyName("id")]
         public string? OfferReponseId { get; set; }
+>>>>>>> main
     }
 
     public class FlightResponse

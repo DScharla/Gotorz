@@ -7,13 +7,13 @@ using System.Text.Json.Serialization;
 
 namespace GodTur.Services
 {
-    public class OfferService
+    public class OfferService : IOfferService
     {
         private readonly HttpClient _httpClient;
 
-        public OfferService(HttpClient httpClient)
+        public OfferService(DuffelClient duffelClient)
         {
-            _httpClient = httpClient;
+            _httpClient = duffelClient.HttpClient;
         }
 
         //EN ELLER ANDEN METODE
@@ -25,10 +25,11 @@ namespace GodTur.Services
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             };
-            var responseBody = JsonSerializer.Serialize(offerRequest, options);
-            StringContent stringContent = new StringContent(responseBody, Encoding.UTF8,"application/json");
+            /*            var responseBody = JsonSerializer.Serialize(offerRequest, options);
+                        StringContent stringContent = new StringContent(responseBody, Encoding.UTF8,"application/json");
 
-            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);
+                        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);*/
+            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(url, offerRequest, options);
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {

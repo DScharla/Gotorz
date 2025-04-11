@@ -13,13 +13,17 @@ namespace GoTorz.Model
 	public class DataRequest
 	{
 		[JsonPropertyName("slices")]
+<<<<<<< HEAD
+		public List<FlightRequest>? Flight { get; set; }
+=======
 		public List<FlightRequest> Flight { get; set; }
+>>>>>>> main
 
 		[JsonPropertyName("private_fares")]
 		public Dictionary<string, List<PrivateFare>>? PrivateFares { get; set; }
 
 		[JsonPropertyName("passengers")]
-		public List<PassengerRequest> Passengers { get; set; }
+		public List<PassengerRequest>? Passengers { get; set; }
 
 		[JsonPropertyName("max_connections")]
 		public int? MaxConnections { get; set; }
@@ -31,13 +35,17 @@ namespace GoTorz.Model
 	public class FlightRequest
 	{
 		[JsonPropertyName("origin")]
-		public string Origin { get; set; }
+		public string? Origin { get; set; }
 
 		[JsonPropertyName("destination")]
-		public string Destination { get; set; }
+		public string? Destination { get; set; }
 
 		[JsonPropertyName("departure_time")]
+<<<<<<< HEAD
+		public TimeRange? DepartureTime { get; set; }
+=======
 		public TimeRange DepartureTime { get; set; }
+>>>>>>> main
 
 		[JsonPropertyName("departure_date")]
 		public string? DepartureDate { get; set; }
