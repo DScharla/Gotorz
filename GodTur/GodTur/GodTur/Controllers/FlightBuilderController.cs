@@ -10,8 +10,8 @@ namespace GodTur.Controllers
     [Route("api/[controller]")]
     public class FlightBuilderController : ControllerBase
     {
-        OfferService? _offerService;
-        public FlightBuilderController(OfferService offerService)
+        IOfferService? _offerService;
+        public FlightBuilderController(IOfferService offerService)
         {
            
             _offerService = offerService;

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace GodTur.Services
 {
-    public class OfferService
+    public class OfferService : IOfferService
     {
         private readonly HttpClient _httpClient;
 

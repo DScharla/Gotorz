@@ -4,14 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace GodTur.Services
 {
-    public class AcomService
+    public class AcomService : IAcomService
     {
         private readonly HttpClient _httpClient;
         public AcomService(DuffelClient duffelClient)
         {
             _httpClient = duffelClient.HttpClient;
         }
-        public async Task<AcomResponse> PostAcomAsync(AcomRequest acomRequest)
+        public async Task<AcomResponse> PostAcommodationAsync(AcomRequest acomRequest)
         {
             string url = "stays/search";
             var options = new JsonSerializerOptions
@@ -32,18 +32,19 @@ namespace GodTur.Services
                 throw new Exception($"API request failed: {httpResponseMessage.StatusCode}");
             }
         }
-        public class AcomRequest
-        {
-            public string CheckIn { get; set; } = "2025-06-01";
-            public string CheckOut { get; set; } = "2025-06-06";
-            public int Guests { get; set; } = 1;
-            public int Rooms { get; set; } = 1;
-        }
 
-        public class AcomResponse
-        {
-            public string Id { get; set; } = string.Empty;
-            public string Status { get; set; } = string.Empty;
-        }
+    }
+    public class AcomRequest
+    {
+        public string CheckIn { get; set; } = "2025-06-01";
+        public string CheckOut { get; set; } = "2025-06-06";
+        public int Guests { get; set; } = 1;
+        public int Rooms { get; set; } = 1;
+    }
+
+    public class AcomResponse
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
     }
 }

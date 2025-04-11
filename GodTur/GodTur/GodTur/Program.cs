@@ -34,8 +34,8 @@ public class Program
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
                 builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
         });
-        builder.Services.AddScoped<OfferService>();
-        builder.Services.AddScoped<AcomService>();
+        builder.Services.AddScoped<IOfferService, OfferService>();
+        builder.Services.AddScoped<IAcomService, AcomService>();
 
         var app = builder.Build();
         app.UseCors("AllowClient");
