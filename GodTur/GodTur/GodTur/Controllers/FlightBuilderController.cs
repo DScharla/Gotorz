@@ -85,7 +85,7 @@ namespace GodTur.Controllers
                             Type = "adult",
                         }
                     },
-                    MaxConnections = 0,
+                    //MaxConnections = 0,
                 }
             };
             return offerRequest;
