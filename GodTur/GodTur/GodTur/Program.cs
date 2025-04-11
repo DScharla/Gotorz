@@ -34,7 +34,16 @@ public class Program
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
                 builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
         });
-		var app = builder.Build();
+        builder.Services.AddHttpClient<AcomService>(client =>
+        {
+            client.BaseAddress = new Uri(
+                builder.Configuration["HttpClients:DuffelClientURI"] ?? "https://api.duffel.com/");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("Duffel-Version", "v2");
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " +
+                builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
+        });
+        var app = builder.Build();
         app.UseCors("AllowClient");
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
