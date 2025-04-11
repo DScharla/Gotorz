@@ -6,6 +6,12 @@ namespace GodTur.Models
 {
     public class StayOfferRequest
     {
+        [JsonPropertyName("data")]
+        public StayDataRequest Data { get; set; }
+    }
+
+    public class StayDataRequest
+    {
         [JsonPropertyName("location")]
         public Location Location { get; set; }
 
