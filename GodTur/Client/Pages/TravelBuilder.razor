@@ -1,0 +1,113 @@
+﻿@using Shared
+@using System.Text.Json
+@using System.Text
+@using System.Text.Json.Serialization
+
+@page "/TravelBuilder"
+@inject HttpClient client
+@*@rendermode InteractiveWebAssemblyRenderMode*@
+
+<h3>TravelBuilder</h3>
+<div>
+    <input @bind="flightsParam.Origin" placeholder="Departure Airport" />
+    <input @bind="flightsParam.Destination" placeholder="Arrival Airport" />
+    <InputDate @bind-Value="flightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Min="DateTime.Now" Enable="true" />
+    <InputDate @bind-Value="flightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
+    <button @onclick="GetFlights" name="Search">Search</button>
+</div>
+
+
+<ol>
+    @foreach (var flight in flightOffers) {
+        <li>
+            @flight.Origin
+            @flight.Destination
+            @flight.DepartureDate
+            @flight.Price
+            @*flight.FlightNumber*@
+        </li>
+    }
+</ol>
+
+<a href="c:\users\dscha\documents\team15gotorz\godtur\godtur\godtur\models\offerresponse.cs">c:\users\dscha\documents\team15gotorz\godtur\godtur\godtur\models\offerresponse.cs</a>
+<!--<div class="row">
+<div class="col-md-6">
+<label>Depature flights</label>
+<ol id="flight-list">-->
+@* @foreach (flight in Flights) {
+		<li>@flight.Airline @flight.DepartureTime @flight.ArrivalTime </li>
+	} *@
+<!--<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+<li>Item 4</li>
+<li>Item 5</li>
+<li>Item 6</li>
+<li>Item 7</li>
+<li>Item 8</li>
+<li>Item 9</li>
+<li>Item 10</li>
+<li>Item 11</li>
+<li>Item 12</li>
+<li>Item 13</li>
+<li>Item 14</li>
+<li>Item 15</li>
+<li>Item 16</li>
+<li>Item 17</li>
+<li>Item 18</li>
+<li>Item 19</li>
+<li>Item 20</li>
+</ol>
+</div>
+
+<div class="col-md-6">
+<label>Homebound flights</label>
+<ol id="flight-list">
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+<li>Item 4</li>
+<li>Item 5</li>
+<li>Item 6</li>
+<li>Item 7</li>
+<li>Item 8</li>
+<li>Item 9</li>
+<li>Item 10</li>
+<li>Item 11</li>
+<li>Item 12</li>
+<li>Item 13</li>
+<li>Item 14</li>
+<li>Item 15</li>
+<li>Item 16</li>
+<li>Item 17</li>
+<li>Item 18</li>
+<li>Item 19</li>
+<li>Item 20</li>
+</ol>
+</div>
+
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+<button class="col-md-1" name="Combine">Combine</button>
+</div>
+</div>-->
+@code {
+    private FlightDTO flightsParam = new FlightDTO();
+
+    private List<FlightDTO> flightOffers = new();
+
+    private async Task<List<FlightDTO>> GetFlights()
+    {
+        string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
+        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
+
+        //Forsøg at samle serializer og stringcontent i samme metode nedenunder
+        //var response = await client.PostAsJsonAsync("https://localhost:7112/api/FlightBuilder/create", jsonDeparture + jsonReturn);
+
+        var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
+        if (response.IsSuccessStatusCode) 
+        { 
+            return flightOffers = response.Content.ReadFromJsonAsync<List<FlightDTO>>().Result;
+        }
+        return flightOffers = new List<FlightDTO>();
+    }
+}

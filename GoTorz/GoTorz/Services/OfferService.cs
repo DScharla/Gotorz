@@ -10,7 +10,10 @@ namespace GoTorz.Services
     public class OfferService
     {
         private readonly HttpClient _httpClient;
+<<<<<<< HEAD
         public string responseStatus = string.Empty;
+=======
+>>>>>>> main
 
         public OfferService(HttpClient httpClient)
         {
@@ -18,19 +21,27 @@ namespace GoTorz.Services
         }
 
         //EN ELLER ANDEN METODE
-        public async Task<OfferResponse> PostOfferAsync(/*OfferRequest offerRequest*/)
+        public async Task<OfferResponse> PostOfferAsync(OfferRequest offerRequest)
         {
+<<<<<<< HEAD
             string url = "/air/offer_requests?return_offers=false&supplier_timeout=10000";
             OfferRequest offerRequest = Test();
+=======
+            string url = "/air/offer_requests?supplier_timeout=10000";
+>>>>>>> main
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             };
             var responseBody = JsonSerializer.Serialize(offerRequest, options);
+<<<<<<< HEAD
             StringContent stringContent = new StringContent(responseBody, Encoding.UTF8,"application/json" );
 
             var httpResponseMessage = await _httpClient.PostAsync(url, stringContent);
+=======
+            StringContent stringContent = new StringContent(responseBody, Encoding.UTF8,"application/json");
+>>>>>>> main
 
 
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -42,6 +53,7 @@ namespace GoTorz.Services
             {
                 throw new Exception($"API request failed: {httpResponseMessage.StatusCode}");
             }
+<<<<<<< HEAD
             
             
         }
@@ -90,5 +102,11 @@ namespace GoTorz.Services
             };
             return offerRequest;
         }
+=======
+        }
+
+
+        
+>>>>>>> main
     }
 }

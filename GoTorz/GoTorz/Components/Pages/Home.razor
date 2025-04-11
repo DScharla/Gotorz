@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject OfferService OfferService
@@ -8,6 +9,14 @@
 @inject IConfiguration Configuration
 @inject IJSRuntime JSRuntime
 @inject AppState AppState
+=======
+﻿@using GoTorz.Services
+@using GoTorz.Model
+@page "/"
+@rendermode InteractiveServer
+@inject ILogger<Home> logger
+@inject IConfiguration configuration
+>>>>>>> main
 
 
 <PageTitle>Home</PageTitle>
@@ -26,6 +35,7 @@
     }
 </p>
 
+<<<<<<< HEAD
 <p><button @onclick="Login">Login with Google</button></p>
 
 <Search/>
@@ -57,3 +67,29 @@
         return offerResponse = await OfferService.PostOfferAsync();
     }
 }
+=======
+Welcome to your new app.
+
+<button class="btn btn-primary" @onclick="SendAPI">Test API</button>
+
+@if(offerResponse!=null){
+	<p>
+		Id: @offerResponse.Data.OfferReponseId
+	</p>
+}
+else{
+	<p>
+		Id: Venter på API-kald
+	</p>
+}
+
+
+@code{
+
+	private OfferResponse? offerResponse;
+	private void SendAPI(MouseEventArgs e){
+		//offerResponse = OfferService.PostOfferAsync("LHR", "JFK", "2025-04-24").Result;
+		logger.LogInformation("Metoden bliver kaldt");
+	}
+}
+>>>>>>> main

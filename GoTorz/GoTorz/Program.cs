@@ -2,6 +2,7 @@ using GoTorz.Components;
 using GoTorz.Services;
 using System.Net.Http;
 using System.Text.Json;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +16,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication;
 using GoTorz.Model;
 using Microsoft.AspNetCore.Components.Web;
+=======
+using GoTorz.Components.Controllers;
+>>>>>>> main
 
 namespace GoTorz
 {
@@ -25,8 +29,10 @@ namespace GoTorz
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorComponents()
+            builder.Services
+                .AddRazorComponents()
                 .AddInteractiveServerComponents();
+<<<<<<< HEAD
             builder.Services.AddSingleton<AppState>();
             builder.Services.AddServerSideBlazor(options =>
             {
@@ -72,6 +78,25 @@ namespace GoTorz
             builder.Services.AddAuthorization();
             var app = builder.Build();
 
+=======
+            builder.Services.AddScoped<TravelBulderController>
+                (
+                sp =>
+                    {
+                        var httpClient = new HttpClient();
+                        httpClient.BaseAddress = new Uri(
+                            builder.Configuration["HttpClients:DuffelClientURI"] ?? "Forkert URI"
+                            );
+                        httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                        httpClient.DefaultRequestHeaders.Add("Duffel-Version", "v2");
+                        httpClient.DefaultRequestHeaders.Add("Authorization", builder.Configuration["APIKeys:DuffelKey"] ?? "Forkert Key");
+                        return new TravelBulderController(httpClient);
+                    }
+                );
+			var app = builder.Build();
+
+            var scope = app.Services.CreateScope();
+>>>>>>> main
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

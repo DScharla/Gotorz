@@ -10,12 +10,21 @@ namespace GodTur.Controllers
     [Route("api/[controller]")]
     public class FlightBuilderController : ControllerBase
     {
+<<<<<<< HEAD
         HttpClient _flightHttpClient;
         OfferService? offerService;
         public FlightBuilderController(HttpClient httpClient)
         {
             _flightHttpClient = httpClient;
             offerService = new OfferService(_flightHttpClient);
+=======
+       
+        OfferService? _offerService;
+        public FlightBuilderController(OfferService offerService)
+        {
+           
+            _offerService = offerService;
+>>>>>>> main
         }
 
         /*[HttpPost, Route("/create")] //FlightDTO skal passes som argument i JSON format
@@ -60,9 +69,15 @@ namespace GodTur.Controllers
         }
 */
         [HttpPost, Route("create")] //FlightDTO skal passes som argument i JSON format
+<<<<<<< HEAD
         public async Task<string> Create(FlightDTO flightDTO)
         {
             FlightDTO departureFlight = flightDTO as FlightDTO;
+=======
+        public async Task<string> Create([FromBody]FlightDTO flightDTO)
+        {
+            FlightDTO departureFlight = flightDTO;
+>>>>>>> main
             FlightDTO returnFlight = new FlightDTO() 
             { 
                 DepartureDate = departureFlight.ReturnDate, 
@@ -71,6 +86,7 @@ namespace GodTur.Controllers
             };
 
 			List<FlightDTO> flightDTOs = new List<FlightDTO>();
+<<<<<<< HEAD
             OfferRequest departureTravel = CreateOfferRequest(departureFlight);
             OfferRequest returnTravel = CreateOfferRequest(returnFlight);
 
@@ -89,6 +105,26 @@ namespace GodTur.Controllers
                 }
 
                 OfferResponse returnTravelResponse = await offerService.PostOfferAsync(returnTravel);
+=======
+            OfferRequest deparetureTravel = CreateOfferRequest(departureFlight);
+            OfferRequest returnTravel = CreateOfferRequest(returnFlight);
+
+            if (_offerService is not null)
+            {
+                OfferResponse deparetureTravelResponse = await _offerService.PostOfferAsync(deparetureTravel);
+                    foreach (var offer in deparetureTravelResponse.Data.Offers)
+                    {
+                        flightDTOs.Add(new FlightDTO
+                        {
+                            Origin = offer.FlightsDetail[0].Origin.Name,
+                            Destination = offer.FlightsDetail[0].Destination.Name,
+                            DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+                            Price = double.Parse(offer.TotalAmount),
+                        });
+                    }
+              
+                OfferResponse returnTravelResponse = await _offerService.PostOfferAsync(returnTravel);
+>>>>>>> main
 
                 foreach (var offer in returnTravelResponse.Data.Offers)
                 {

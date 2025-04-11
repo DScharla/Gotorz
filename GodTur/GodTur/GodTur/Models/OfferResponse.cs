@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace GoTorz.Model
+namespace GodTur.Models
 {
 
     public class OfferResponse
@@ -17,17 +17,10 @@ namespace GoTorz.Model
         public List<FlightResponse>? Flights { get; set; }
 
         [JsonPropertyName("offers")]
-<<<<<<< HEAD
-        public List<Offer> Offers { get; set; }
-
-        [JsonPropertyName("id")]
-        public string OfferReponseId { get; set; }
-=======
         public List<Offer>? Offers { get; set; }
 
         [JsonPropertyName("id")]
         public string? OfferReponseId { get; set; }
->>>>>>> main
     }
 
     public class FlightResponse
