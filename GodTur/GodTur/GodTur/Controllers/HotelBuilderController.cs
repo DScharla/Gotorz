@@ -50,10 +50,18 @@ namespace GodTur.Controllers
 			{
 				Data = new StayDataRequest
 				{
-					Location = stayDTO.Location,
-					CheckInDate = stayDTO.CheckInDate,
-					CheckOutDate = stayDTO.CheckOutDate,
-					Rooms = stayDTO.Rooms,
+					Location = new Location
+					{
+						Radius = stayDTO.Location.Radius,
+						GeographicCoordinates = new GeographicCoordinates
+						{
+							Latitude = stayDTO.Location.GeographicCoordinates.Latitude,
+							Longitude = stayDTO.Location.GeographicCoordinates.Longitude,
+						}
+					},
+					CheckInDate = stayDTO.CheckInDate.ToString("yyyy-MM-dd"),
+					CheckOutDate = stayDTO.CheckOutDate.ToString("yyyy-MM-dd"),
+					Rooms = 1,
 					
 					
 					Guests = new List<Guest>
