@@ -6,3 +6,30 @@ padding: 10px;
 overflow-y: auto;
 background-color: aqua;
 }
+#Search {
+    
+    
+}
+#Search2 {
+    
+    display:flex;
+    gap: 100px;
+}
+.SearchElement {
+    margin-right: 2rem;
+}
+#BigSearch {
+    display: flex;
+    column-gap:200px;
+}
+.SearchElement2 {
+    flex: 0 0 auto;
+    width:auto;
+}
+.row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    max-width: 200px;
+    flex-wrap: nowrap;
+}

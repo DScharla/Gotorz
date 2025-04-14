@@ -11,6 +11,7 @@ namespace Shared
         public LocationDTO Location { get; set; } 
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set;}
+        public string City { get; set; }
     }
     public class LocationDTO
     {

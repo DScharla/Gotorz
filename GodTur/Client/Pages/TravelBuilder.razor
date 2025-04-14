@@ -8,13 +8,44 @@
 @*@rendermode InteractiveWebAssemblyRenderMode*@
 
 <h3>TravelBuilder</h3>
-<div>
-    <input @bind="flightsParam.Origin" placeholder="Departure Airport" />
-    <input @bind="flightsParam.Destination" placeholder="Arrival Airport" />
-    <InputDate @bind-Value="flightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Min="DateTime.Now" Enable="true" />
-    <InputDate @bind-Value="flightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
-    <button @onclick="GetFlights" name="Search">Search</button>
+<div id="BigSearch">
+<div id="Search">
+    <div>
+        <input class="SearchElement"@bind="flightsParam.Origin" placeholder="Departure Airport" />
+        <InputDate @bind-Value="flightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Min="DateTime.Now" Enable="true" />
+    </div>
+    <br>
+    <br>
+    <br>
+    <div id="Search">
+        <input class="SearchElement" @bind="flightsParam.Destination" placeholder="Arrival Airport" />
+        <InputDate @bind-Value="flightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
+        <br />
+        <br />
+        <button @onclick="GetFlights" name="Search">Search</button>
+    </div>
 </div>
+
+<div id="Search">
+    <div>
+        <input class="SearchElement" @bind="stayParam.City" placeholder="City" />
+        
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        
+            <InputDate class="SearchElement2" @bind-Value="stayParam.CheckInDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
+            <InputDate class="SearchElement2"  @bind-Value="stayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />        
+    </div>
+    <br />
+    <div>
+            <button @onclick="GetFlights" name="Search">Search</button>
+    </div>
+</div>
+</div>
+
 
 
 <ol>
@@ -29,7 +60,6 @@
     }
 </ol>
 
-<a href="c:\users\dscha\documents\team15gotorz\godtur\godtur\godtur\models\offerresponse.cs">c:\users\dscha\documents\team15gotorz\godtur\godtur\godtur\models\offerresponse.cs</a>
 <!--<div class="row">
 <div class="col-md-6">
 <label>Depature flights</label>
@@ -92,6 +122,8 @@
 </div>-->
 @code {
     private FlightDTO flightsParam = new FlightDTO();
+
+	private StayDTO stayParam = new StayDTO();
 
     private List<FlightDTO> flightOffers = new();
 
