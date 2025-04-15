@@ -11,7 +11,7 @@ namespace Shared
         public LocationDTO Location { get; set; } 
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set;}
-        public StayAdressDTO StayAdress { get; set; }
+        public StayAdressDTO StayAdress = new StayAdressDTO();
         public double? Price { get; set; }
         public int? AvailableRooms { get; set; }
         public string? HotelName { get; set; }
