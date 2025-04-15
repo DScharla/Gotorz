@@ -36,6 +36,7 @@ public class Program
         });
         builder.Services.AddScoped<IOfferService, OfferService>();
         builder.Services.AddScoped<IStaysService, StaysService>();
+        builder.Services.AddScoped<IGeoService, GeoService>();
 
         var app = builder.Build();
         app.UseCors("AllowClient");

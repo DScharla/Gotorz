@@ -12,10 +12,11 @@ namespace GodTur.Controllers
 	public class HotelBuilderController : ControllerBase
 	{
 		IStaysService? _staysService;
-		public HotelBuilderController(IStaysService staysService)
+		IGeoService? _geoService;
+        public HotelBuilderController(IStaysService staysService, IGeoService geoService)
 		{
-
-			_staysService = staysService;
+            _geoService = geoService;
+            _staysService = staysService;
 		}
 
 		[HttpPost, Route("stays")]
