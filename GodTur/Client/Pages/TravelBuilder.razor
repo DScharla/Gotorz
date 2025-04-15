@@ -33,13 +33,13 @@
         <br>
         <br>
         <div class="row">
-        
+
             <InputDate @bind-Value="stayParam.CheckInDate" DateFormat="yyyy-MM-dd" Min="Datetime.Now" Enable="true" />
             <InputDate @bind-Value="stayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />        
         </div>
         <br />
         <div>
-                <button @onclick="GetFlights" name="Search">Search</button>
+            <button @onclick="GetStays" name="Search">Search</button>
         </div>
     </div>
 </div>
@@ -121,9 +121,11 @@
 @code {
     private FlightDTO flightsParam = new FlightDTO();
 
-	private StayDTO stayParam = new StayDTO();
+    private StayDTO stayParam = new StayDTO();
 
     private List<FlightDTO> flightOffers = new();
+
+    private List<StayDTO> stayOffers = new();
 
     private async Task<List<FlightDTO>> GetFlights()
     {
@@ -139,5 +141,18 @@
             return flightOffers = response.Content.ReadFromJsonAsync<List<FlightDTO>>().Result;
         }
         return flightOffers = new List<FlightDTO>();
+    }
+
+    private async Task<List<StayDTO>> GetStays()
+    {
+        string jsonStayParam = JsonSerializer.Serialize(stayParam);
+        var content = new StringContent(jsonStayParam, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync("https://localhost:7112/api/HotelBuilder/stays", content);
+        if(response.IsSuccessStatusCode)
+        {
+            return stayOffers = response.Content.ReadFromJsonAsync<List<StayDTO>>().Result;
+        }
+        return stayOffers = new List<StayDTO>();
     }
 }
