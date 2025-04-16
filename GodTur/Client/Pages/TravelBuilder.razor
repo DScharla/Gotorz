@@ -27,8 +27,8 @@
     </div>
     <div>
         <div>
-            <input class="SearchElement" @bind="stayParam.StayAdress.City" placeholder="City" />        
-            <input class="SearchElement" @bind="stayParam.StayAdress.Country" placeholder="Country" />
+            <input class="SearchElement" @bind="stayParam.City" placeholder="City" />        
+            <input class="SearchElement" @bind="stayParam.Country" placeholder="Country" />
         </div>
         <br>
         <br>
@@ -59,17 +59,17 @@
     }
 </ol>
 
-@* <ol>
+ <ol>
 	@foreach (var stay in stayOffers)
 	{
 		<li>
             @stay.HotelName
-            @($"{stay.StayAdress.StreetName} {stay.StayAdress.StreetNumber}, {stay.StayAdress.City}, {stay.StayAdress.Country}")
+            @($"{stay.StreetNameNumber}, {stay.City}, {stay.Country}")
 			@stay.Price
             @stay.AvailableRooms			
 		</li>
-	})
-</ol> *@
+	}
+</ol> 
 
 @code {
     private FlightDTO flightsParam = new FlightDTO();

@@ -1,17 +1,29 @@
 ﻿using GodTur.Models;
 using Shared;
+using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using static System.Net.WebRequestMethods;
 
 namespace GodTur.Services
 {
     public class GeoService : IGeoService
     {
-        private readonly HttpClient _httpClient = new HttpClient();
-        public async Task<GeoResponse> GetGeographicCoordinatesAsync(StayDTO stayDTO)
+        private readonly HttpClient _httpClient;
+
+		public GeoService(GeoClient geoClient)
+		{
+			_httpClient = geoClient.HttpClient;
+		}
+		public async Task<GeoResponse> GetGeographicCoordinatesAsync(StayDTO stayDTO)
         {
-            string url = "https://nominatim.openstreetmap.org/search?";
-            string query = $"q={stayDTO.StayAdress.City},{stayDTO.StayAdress.Country}";
+			var options = new JsonSerializerOptions
+			{
+				DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+				WriteIndented = true
+			};
+			string url = "search?";
+            string query = $"q={stayDTO.City},{stayDTO.Country}";
             string format = "&limit=1&format=json";
 
             string requestUrl = url + query + format;
@@ -20,9 +32,11 @@ namespace GodTur.Services
             {
                 if (httpResponseMessage.Content != null)
                 {
-                    string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                    return JsonSerializer.Deserialize<GeoResponse>(responseContent);                    
-                }
+                    string responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+					var geoResponses = JsonSerializer.Deserialize<List<GeoResponse>>(responseContent);
+
+                    return geoResponses.FirstOrDefault();                  
+                } 
                 else
                 {
                     throw new Exception("No content in response");

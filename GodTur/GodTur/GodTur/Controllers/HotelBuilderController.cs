@@ -7,8 +7,8 @@ using Shared;
 
 namespace GodTur.Controllers
 {
-	[Route("api/[controller]")]
 	[ApiController]
+	[Route("api/[controller]")]
 	public class HotelBuilderController : ControllerBase
 	{
 		IStaysService? _staysService;
@@ -36,13 +36,10 @@ namespace GodTur.Controllers
 					stayDTOs.Add(new StayDTO
 					{
                         HotelName = hotel.Accommodation.Name,
-                        Price = hotel.CheapestRateTotalAmount,
-                        StayAdress = new StayAdressDTO
-                        {
-                            City = hotel.Accommodation.Location.Address.City,
-                            Country = stayDTO.StayAdress.Country,
-                            StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber,                            
-                        },
+                        Price = Double.Parse(hotel.CheapestRateTotalAmount),
+                        City = hotel.Accommodation.Location.Address.City,
+                        Country = stayDTO.Country,
+                        StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber                            
                     });
 				}
 			}
@@ -61,8 +58,8 @@ namespace GodTur.Controllers
 						Radius = 100,
 						GeographicCoordinates = new GeographicCoordinates
 						{
-							Latitude = geoResponse.Latitude,
-							Longitude = geoResponse.Longitude
+							Latitude = Double.Parse(geoResponse.Latitude),
+							Longitude = Double.Parse(geoResponse.Longitude)
 						}
 					},
 					CheckInDate = stayDTO.CheckInDate.ToString("yyyy-MM-dd"),

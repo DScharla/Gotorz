@@ -24,10 +24,10 @@ public class StayOfferResult
     public string? CheapestRatePublicCurrency { get; set; }
 
     [JsonPropertyName("cheapest_rate_public_amount")]
-    public double? CheapestRatePublicAmount { get; set; }
+    public string? CheapestRatePublicAmount { get; set; }
 
     [JsonPropertyName("cheapest_rate_total_amount")]
-    public double? CheapestRateTotalAmount { get; set; }
+    public string? CheapestRateTotalAmount { get; set; }
 
     [JsonPropertyName("cheapest_rate_currency")]
     public string? CheapestRateCurrency { get; set; }
@@ -162,7 +162,7 @@ public class AccommodationRating
     [JsonPropertyName("source")]
     public string? Source { get; set; }
     
-    [JsonPropertyName("Value")]
+    [JsonPropertyName("value")]
     public double? Rating { get; set; }
 }
 public class AccommodationPhoto

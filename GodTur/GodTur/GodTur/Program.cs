@@ -34,7 +34,15 @@ public class Program
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + 
                 builder.Configuration["APIKeys:DuffelKey"] ?? "Bearer MISSING_KEY");
         });
-        builder.Services.AddScoped<IOfferService, OfferService>();
+        builder.Services.AddHttpClient<GeoClient>(client =>
+        {
+            client.BaseAddress = new Uri(
+                   builder.Configuration["HttpClients:GeoClientURI"] ?? "https://nominatim.openstreetmap.org/");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("User-Agent", "GodTur");
+        });
+
+			builder.Services.AddScoped<IOfferService, OfferService>();
         builder.Services.AddScoped<IStaysService, StaysService>();
         builder.Services.AddScoped<IGeoService, GeoService>();
 
