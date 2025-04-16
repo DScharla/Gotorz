@@ -24,10 +24,10 @@ public class StayOfferResult
     public string? CheapestRatePublicCurrency { get; set; }
 
     [JsonPropertyName("cheapest_rate_public_amount")]
-    public string? CheapestRatePublicAmount { get; set; }
+    public double? CheapestRatePublicAmount { get; set; }
 
     [JsonPropertyName("cheapest_rate_total_amount")]
-    public string? CheapestRateTotalAmount { get; set; }
+    public double? CheapestRateTotalAmount { get; set; }
 
     [JsonPropertyName("cheapest_rate_currency")]
     public string? CheapestRateCurrency { get; set; }

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Shared
 {
     public class StayDTO
-    {
-        public LocationDTO Location { get; set; } 
+    {        
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set;}
         public StayAdressDTO StayAdress = new StayAdressDTO();
@@ -18,21 +17,11 @@ namespace Shared
     }
     public class StayAdressDTO
     {
-        public string? StreetName { get; set; }
+        public string? StreetNameNumber { get; set; }
         public string City { get; set; }
-        public string? Country { get; set; }
-        public string? StreetNumber { get; set; }
+        public string Country { get; set; }
+        
 
     }
-    public class LocationDTO
-    {
-		public int Radius { get; set; }
-
-		public GeographicCoordinatesDTO GeographicCoordinates { get; set; }
-	}
-    public class GeographicCoordinatesDTO
-    {
-		public double Latitude { get; set; }
-		public double Longitude { get; set; }
-	}
+    
 }

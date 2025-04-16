@@ -26,45 +26,50 @@ namespace GodTur.Controllers
 
 
 			List<StayDTO> stayDTOs = new List<StayDTO>();
-			StayOfferRequest stayOfferRequest = CreateStayOfferRequest(stayParam);
+			StayOfferRequest stayOfferRequest = await CreateStayOfferRequest(stayParam);
 
 			if (_staysService is not null)
 			{
 				StayOfferResponse stayOfferResponse = await _staysService.PostStaysAsync(stayOfferRequest);
-				foreach (var accommodation in stayOfferResponse.Data.Accommodations)
+				foreach (var hotel in stayOfferResponse.Data.Results)
 				{
 					stayDTOs.Add(new StayDTO
 					{
-						Hvad = accommodation.,
-						Vil = accommodation.,
-						Vi = accommodation.,
-						Ha = accommodation.,
-					});
+                        HotelName = hotel.Accommodation.Name,
+                        Price = hotel.CheapestRateTotalAmount,
+                        StayAdress = new StayAdressDTO
+                        {
+                            City = hotel.Accommodation.Location.Address.City,
+                            Country = stayDTO.StayAdress.Country,
+                            StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber,                            
+                        },
+                    });
 				}
 			}
-			stayDTOs.OrderBy(f => f.PropertyTilSort);
+			stayDTOs.OrderBy(f => f.Price);
 			return JsonSerializer.Serialize(stayDTOs);
 		}
-		private StayOfferRequest CreateStayOfferRequest(StayDTO stayDTO)
+		private async Task<StayOfferRequest> CreateStayOfferRequest(StayDTO stayDTO)
 		{
+			GeoResponse geoResponse = await _geoService.GetGeographicCoordinatesAsync(stayDTO);
 			var stayOfferRequest = new StayOfferRequest
 			{
 				Data = new StayDataRequest
 				{
 					Location = new Location
 					{
-						Radius = stayDTO.Location.Radius,
+						Radius = 100,
 						GeographicCoordinates = new GeographicCoordinates
 						{
-							Latitude = stayDTO.Location.GeographicCoordinates.Latitude,
-							Longitude = stayDTO.Location.GeographicCoordinates.Longitude,
+							Latitude = geoResponse.Latitude,
+							Longitude = geoResponse.Longitude
 						}
 					},
 					CheckInDate = stayDTO.CheckInDate.ToString("yyyy-MM-dd"),
 					CheckOutDate = stayDTO.CheckOutDate.ToString("yyyy-MM-dd"),
 					Rooms = 1,
-					
-					
+
+
 					Guests = new List<Guest>
 					{
 						new Guest
