@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using GodTur.Models;
 using GodTur.Services;
 using Microsoft.AspNetCore.Http;
@@ -58,8 +59,8 @@ namespace GodTur.Controllers
 						Radius = 100,
 						GeographicCoordinates = new GeographicCoordinates
 						{
-							Latitude = Double.Parse(geoResponse.Latitude),
-							Longitude = Double.Parse(geoResponse.Longitude)
+							Latitude = Double.Parse(geoResponse.Latitude, CultureInfo.InvariantCulture),
+							Longitude = Double.Parse(geoResponse.Longitude, CultureInfo.InvariantCulture)
 						}
 					},
 					CheckInDate = stayDTO.CheckInDate.ToString("yyyy-MM-dd"),
