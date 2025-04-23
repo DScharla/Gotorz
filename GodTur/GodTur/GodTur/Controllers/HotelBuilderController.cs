@@ -37,15 +37,16 @@ namespace GodTur.Controllers
 					stayDTOs.Add(new StayDTO
 					{
                         HotelName = hotel.Accommodation.Name,
-                        Price = Double.Parse(hotel.CheapestRateTotalAmount),
+                        Price = Double.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
+						Currency = hotel.CheapestRateCurrency,
                         City = hotel.Accommodation.Location.Address.City,
                         Country = stayDTO.Country,
                         StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber                            
                     });
 				}
 			}
-			stayDTOs.OrderBy(f => f.Price);
-			return JsonSerializer.Serialize(stayDTOs);
+			List<StayDTO> sortedStayDTOs = stayDTOs.OrderBy(stayDTO => stayDTO.Price).ToList();
+			return JsonSerializer.Serialize(sortedStayDTOs);
 		}
 		private async Task<StayOfferRequest> CreateStayOfferRequest(StayDTO stayDTO)
 		{

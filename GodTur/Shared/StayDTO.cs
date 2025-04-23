@@ -16,6 +16,7 @@ namespace Shared
 		public double? Price { get; set; }
         public int? AvailableRooms { get; set; }
         public string? HotelName { get; set; }
+        public string? Currency { get; set; }
     }
 
 
