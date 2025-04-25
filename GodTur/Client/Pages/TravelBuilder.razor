@@ -72,9 +72,21 @@
 </ol> 
 
 @code {
-    private FlightDTO flightsParam = new FlightDTO();
+    private FlightDTO flightsParam = new FlightDTO() 
+    {
+            Origin = "CPH",
+            Destination = "DTM",
+            DepartureDate = new DateTime(2025, 06, 01),
+            ReturnDate = new DateTime(2025, 06, 06),
+    };
 
-    private StayDTO stayParam = new StayDTO();
+    private StayDTO stayParam = new StayDTO() 
+    {
+        City = "Dortmund",
+        Country = "Germany",
+        CheckInDate = new DateTime(2025,06,01),
+        CheckOutDate = new DateTime(2025, 06, 06),
+    };
 
     private List<FlightDTO> flightOffers = new();
 
