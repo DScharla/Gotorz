@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace GodTur.Models
@@ -25,7 +26,7 @@ namespace GodTur.Models
 
     public class FlightResponse
 	{
-        [JsonPropertyName("origin_type")]
+		[JsonPropertyName("origin_type")]
         public string? OriginType { get; set; }
 
         [JsonPropertyName("origin")]
@@ -43,7 +44,8 @@ namespace GodTur.Models
 
     public class Airport
     {
-        [JsonPropertyName("type")]
+		
+		[JsonPropertyName("type")]
         public string? Type { get; set; }
 
         [JsonPropertyName("time_zone")]
@@ -59,7 +61,7 @@ namespace GodTur.Models
         public double? Latitude { get; set; }
 
         [JsonPropertyName("id")]
-        public string? Id { get; set; }
+        public string? AirportId { get; set; }
 
         [JsonPropertyName("icao_code")]
         public string? IcaoCode { get; set; }
@@ -79,17 +81,18 @@ namespace GodTur.Models
         [JsonPropertyName("city")]
         public City? City { get; set; }
 
-        [JsonPropertyName("airports")]
-        public List<Airport>? Airports { get; set; }
+        // Skabte en loop i ER-diagrammet, og var egentlig ikke noget vi fik tilbage i responsen fra duffel.
+        //[JsonPropertyName("airports")]
+        //public List<Airport>? Airports { get; set; }
     }
 
     public class City
     {
-        [JsonPropertyName("name")]
+		[JsonPropertyName("name")]
         public string? Name { get; set; }
 
         [JsonPropertyName("id")]
-        public string? Id { get; set; }
+        public string? CityId { get; set; }
 
         [JsonPropertyName("iata_country_code")]
         public string? IataCountryCode { get; set; }
@@ -103,6 +106,7 @@ namespace GodTur.Models
 
     public class Offer
     {
+        public int? OfferId { get; set; }
         [JsonPropertyName("total_emissions_kg")]
         public string? TotalEmissionsKg { get; set; }
 
@@ -127,6 +131,7 @@ namespace GodTur.Models
 
     public class FlightDetail
 	{
+        public int? FlightId { get; set; }
         [JsonPropertyName("segments")]
         public List<Segment>? Segments { get; set; }
 
@@ -148,7 +153,8 @@ namespace GodTur.Models
 
     public class Segment
     {
-        [JsonPropertyName("stops")]
+		public int? FlightDetailId { get; set; }
+		[JsonPropertyName("stops")]
         public List<Stop>? Stops { get; set; }
 
         [JsonPropertyName("passengers")]
@@ -178,8 +184,8 @@ namespace GodTur.Models
 
     public class Stop
     {
-        [JsonPropertyName("id")]
-        public string? Id { get; set; }
+		[JsonPropertyName("id")]
+        public string? StopId { get; set; }
 
         [JsonPropertyName("duration")]
         public string? Duration { get; set; }
@@ -196,7 +202,7 @@ namespace GodTur.Models
 
     public class PassengerResponse
     {
-        [JsonPropertyName("passenger_id")]
+		[JsonPropertyName("passenger_id")] [Key]
         public string? PassengerId { get; set; }
 
         [JsonPropertyName("fare_basis_code")]
