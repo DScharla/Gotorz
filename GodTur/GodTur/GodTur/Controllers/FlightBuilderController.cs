@@ -31,7 +31,7 @@ namespace GodTur.Controllers
 			List<FlightDTO> flightDTOs = new List<FlightDTO>();
             OfferRequest departureTravel = CreateOfferRequest(departureFlight);
             OfferRequest returnTravel = CreateOfferRequest(returnFlight);
-
+            int i = 0;
             if (_offerService is not null)
             {
                 OfferResponse departureTravelResponse = await _offerService.PostOfferAsync(departureTravel);
@@ -39,11 +39,13 @@ namespace GodTur.Controllers
                 {
                     flightDTOs.Add(new FlightDTO
                     {
+                        ID = i,
                         Origin = offer.FlightsDetail[0].Origin.Name,
                         Destination = offer.FlightsDetail[0].Destination.Name,
                         DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
                         Price = double.Parse(offer.TotalAmount),
                     });
+                    i++;
                 }
               
                 OfferResponse returnTravelResponse = await _offerService.PostOfferAsync(returnTravel);
@@ -52,11 +54,13 @@ namespace GodTur.Controllers
                 {
                     flightDTOs.Add(new FlightDTO
                     {
-						Origin = offer.FlightsDetail[0].Origin.Name,
+                        ID = i,
+                        Origin = offer.FlightsDetail[0].Origin.Name,
 						Destination = offer.FlightsDetail[0].Destination.Name,
 						DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
 						Price = double.Parse(offer.TotalAmount),
 					});
+                    i++;
                 }
             }
             flightDTOs.OrderBy(f => f.DepartureDate);
