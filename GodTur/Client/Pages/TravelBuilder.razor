@@ -46,14 +46,36 @@
 </div>
 
 
-<InputSelect @bind-Value="selectedFlightID">
+<InputSelect @bind-Value="selectedOutboundFlightID">
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
-        <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
+        @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
+        {
+            <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
+        }
     }
 </InputSelect>
-
+<InputSelect @bind-Value="selectedHomeboundFlightID">
+    <option value="-1">Select a flight</option>
+    @foreach (var flight in flightOffers)
+    {
+        @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+        {
+            <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
+        }
+    }
+</InputSelect>
+<InputSelect @bind-Value="selectedHomeboundFlightID">
+    <option value="-1">Select a flight</option>
+    @foreach (var flight in flightOffers)
+    {
+        @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+        {
+            <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
+        }
+    }
+</InputSelect>
 <ol>
     @foreach (var stay in stayOffers)
     {
@@ -67,8 +89,13 @@
 </ol> 
 
 @code {
-    private int selectedFlightID = -1;
-    private FlightDTO? selectedFlightDTO => flightOffers.FirstOrDefault(f => f.ID == selectedFlightID);
+    private int selectedOutboundFlightID = -1;
+    private FlightDTO? selectedOutboundFlightDTO => flightOffers.FirstOrDefault(f => f.ID == selectedOutboundFlightID);
+
+    private int selectedHomeboundFlightID = -1;
+    private FlightDTO? selectedHomeboundFlightDTO => flightOffers.FirstOrDefault(f => f.ID == selectedHomeboundFlightID);
+
+
     private FlightDTO flightsParam = new FlightDTO() 
     {
             Origin = "CPH",
@@ -91,7 +118,7 @@
 
     private async Task<List<FlightDTO>> GetFlights()
     {
-        if (selectedFlightDTO is not null) Console.WriteLine(selectedFlightDTO.ID.ToString());
+        if (selectedOutboundFlightDTO is not null) Console.WriteLine(selectedOutboundFlightDTO.ID.ToString());
         string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
         var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
 
