@@ -52,7 +52,7 @@
     {
         @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
         {
-            <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
+            <option value="@flight.ID">@flight.ID - @flight.Origin - @flight.Destination</option>
         }
     }
 </InputSelect>
@@ -62,7 +62,7 @@
     {
         @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
         {
-            <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
+            <option value="@flight.ID">@flight.ID - @flight.Origin - @flight.Destination</option>
         }
     }
 </InputSelect>
@@ -70,12 +70,68 @@
     <option value="-1">Select an acommodation</option>
     @foreach (var stay in stayOffers)
     {
-        <option value="@stay.ID">@stay.HotelName - @stay.Price</option>
+        <option value="@stay.ID">@stay.ID - @stay.HotelName - @stay.Price</option>
     }
 </InputSelect>
 
 <button @onclick="SaveTravel" name="Save">Save</button>
 
+<div>
+    <ol class="border-black">
+        @if (stayOffers.Count > 0)
+        {
+            foreach (var stay in stayOffers)
+            {
+                <li @onclick="@(() => SelectStay(stay.ID))">
+                    <div>
+                        <p>@stay.ID</p>
+                        <p>@stay.HotelName</p>
+                        <p>@stay.Price</p>
+                        <p>@stay.City, @stay.Country</p>
+                    </div>
+                </li>
+            }
+        }
+    </ol>
+</div>
+
+
+<ol>
+    @if (flightOffers.Count > 0)
+    {
+        foreach (var flight in flightOffers)
+        {
+            @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date){
+                <li @onclick="@(() => SelectOutboundFlight(flight.ID))">
+                    <div>
+                        <p>@flight.ID</p>
+                        <p>@flight.Origin - @flight.Destination</p>
+                        <p>@flight.DepartureDate</p>
+                    </div>
+                </li>
+            }
+        }
+    }
+</ol>
+
+<ol>
+    @if (flightOffers.Count > 0)
+    {
+        foreach (var flight in flightOffers)
+        {
+            @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+            {
+                <li @onclick="@(() => SelectHomeboundFlight(flight.ID))">
+                    <div>
+                        <p>@flight.ID</p>
+                        <p>@flight.Origin - @flight.Destination</p>
+                        <p>@flight.DepartureDate</p>
+                    </div>
+                </li>
+            }
+        }
+    }
+</ol>
 
 @code {
     private int selectedOutboundFlightID = -1;
@@ -90,10 +146,10 @@
 
     private FlightDTO flightsParam = new FlightDTO() 
     {
-            Origin = "CPH",
-            Destination = "DTM",
-            DepartureDate = new DateTime(2025, 06, 01),
-            ReturnDate = new DateTime(2025, 06, 06),
+        Origin = "CPH",
+        Destination = "DTM",
+        DepartureDate = new DateTime(2025, 06, 01),
+        ReturnDate = new DateTime(2025, 06, 06),
     };
 
     private StayDTO stayParam = new StayDTO() 
@@ -141,11 +197,11 @@
     private async Task<TravelDTO> SaveTravel()
     {
         TravelDTO travel = new TravelDTO()
-            {
-                OutboundFlight = selectedOutboundFlightDTO,
-                HomeboundFlight = selectedHomeboundFlightDTO,
-                Stay = selectedStayDTO
-            };
+        {
+            OutboundFlight = selectedOutboundFlightDTO,
+            HomeboundFlight = selectedHomeboundFlightDTO,
+            Stay = selectedStayDTO
+        };
         string jsonTravel = JsonSerializer.Serialize(travel);
         var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
         var response = await client.PostAsync("https://localhost:7112/api/TravelBuilder/CreateTravel", content);
@@ -155,6 +211,17 @@
         }
         return null;
     }
-
+    private void SelectStay(int ID) 
+    {
+        selectedStayID = ID; 
+    }
+    private void SelectOutboundFlight(int ID)
+    {
+        selectedOutboundFlightID = ID;
+    }
+    private void SelectHomeboundFlight(int ID)
+    {
+        selectedHomeboundFlightID = ID;
+    }
 
 }

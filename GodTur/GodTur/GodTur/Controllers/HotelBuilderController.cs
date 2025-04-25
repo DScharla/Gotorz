@@ -24,14 +24,14 @@ namespace GodTur.Controllers
 		public async Task<string> Stays([FromBody] StayDTO stayDTO)
 		{
 			StayDTO stayParam = stayDTO;
+            int i = 0;
 
-
-			List<StayDTO> stayDTOs = new List<StayDTO>();
+            List<StayDTO> stayDTOs = new List<StayDTO>();
 			StayOfferRequest stayOfferRequest = await CreateStayOfferRequest(stayParam);
 
 			if (_staysService is not null)
 			{
-				int i = 0;
+
 				StayOfferResponse stayOfferResponse = await _staysService.PostStaysAsync(stayOfferRequest);
 				foreach (var hotel in stayOfferResponse.Data.Results)
 				{

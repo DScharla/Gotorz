@@ -1,0 +1,86 @@
+﻿@typeparam TItem
+@typeparam TValue
+
+<div class="search-list-container">
+    <h4>@Title</h4>
+
+    <div class="search-list">
+        @if (Items == null || !Items.Any())
+        {
+            <div class="no-results">No items available. Please search first.</div>
+        }
+        else
+        {
+            @foreach (var item in Items)
+            {
+                var itemValue = ValueSelector(item);
+                var isSelected = EqualityComparer<TValue>.Default.Equals(itemValue, SelectedValue);
+
+                <div class="list-item @(isSelected ? "selected" : "")"
+                     @onclick="() => SelectItem(itemValue)">
+                    @ItemTemplate(item)
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+    .search-list-container {
+        margin-bottom: 20px;
+    }
+
+    .search-list {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
+    .list-item {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+    }
+
+        .list-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .list-item.selected {
+            background-color: #e0f0ff;
+            font-weight: bold;
+        }
+
+    .no-results {
+        padding: 15px;
+        text-align: center;
+        color: #666;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Select an item";
+
+    [Parameter]
+    public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+
+    [Parameter]
+    public TValue SelectedValue { get; set; }
+
+    [Parameter]
+    public EventCallback<TValue> SelectedValueChanged { get; set; }
+
+    [Parameter]
+    public Func<TItem, TValue> ValueSelector { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+
+    private async Task SelectItem(TValue value)
+    {
+        SelectedValue = value;
+        await SelectedValueChanged.InvokeAsync(value);
+    }
+}
