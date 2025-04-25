@@ -66,27 +66,16 @@
         }
     }
 </InputSelect>
-<InputSelect @bind-Value="selectedHomeboundFlightID">
-    <option value="-1">Select a flight</option>
-    @foreach (var flight in flightOffers)
-    {
-        @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
-        {
-            <option value="@flight.ID">@flight.Origin - @flight.Destination</option>
-        }
-    }
-</InputSelect>
-<ol>
+<InputSelect @bind-Value="selectedStayID">
+    <option value="-1">Select an acommodation</option>
     @foreach (var stay in stayOffers)
     {
-        <li>
-            @stay.HotelName
-            @($"{stay.StreetNameNumber}, {stay.City}, {stay.Country}")
-            @stay.Price
-            @stay.AvailableRooms			
-        </li>
+        <option value="@stay.ID">@stay.HotelName - @stay.Price</option>
     }
-</ol> 
+</InputSelect>
+
+<button @onclick="SaveTravel" name="Save">Save</button>
+
 
 @code {
     private int selectedOutboundFlightID = -1;
@@ -94,6 +83,9 @@
 
     private int selectedHomeboundFlightID = -1;
     private FlightDTO? selectedHomeboundFlightDTO => flightOffers.FirstOrDefault(f => f.ID == selectedHomeboundFlightID);
+
+    private int selectedStayID = -1;
+    private StayDTO? selectedStayDTO => stayOffers.FirstOrDefault(s => s.ID == selectedStayID);
 
 
     private FlightDTO flightsParam = new FlightDTO() 
@@ -145,4 +137,24 @@
         }
         return stayOffers = new List<StayDTO>();
     }
+
+    private async Task<TravelDTO> SaveTravel()
+    {
+        TravelDTO travel = new TravelDTO()
+            {
+                OutboundFlight = selectedOutboundFlightDTO,
+                HomeboundFlight = selectedHomeboundFlightDTO,
+                Stay = selectedStayDTO
+            };
+        string jsonTravel = JsonSerializer.Serialize(travel);
+        var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
+        var response = await client.PostAsync("https://localhost:7112/api/TravelBuilder/CreateTravel", content);
+        if (response.IsSuccessStatusCode)
+        {
+            return travel;
+        }
+        return null;
+    }
+
+
 }

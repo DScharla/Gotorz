@@ -8,6 +8,7 @@ namespace Shared
 {
     public class StayDTO
     {        
+        public int ID { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set;}
 		public string? StreetNameNumber { get; set; }

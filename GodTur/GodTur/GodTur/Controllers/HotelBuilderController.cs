@@ -31,17 +31,20 @@ namespace GodTur.Controllers
 
 			if (_staysService is not null)
 			{
+				int i = 0;
 				StayOfferResponse stayOfferResponse = await _staysService.PostStaysAsync(stayOfferRequest);
 				foreach (var hotel in stayOfferResponse.Data.Results)
 				{
 					stayDTOs.Add(new StayDTO
 					{
+                        ID = i,
                         HotelName = hotel.Accommodation.Name,
                         Price = Double.Parse(hotel.CheapestRateTotalAmount),
                         City = hotel.Accommodation.Location.Address.City,
                         Country = stayDTO.Country,
                         StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber                            
                     });
+					i++;
 				}
 			}
 			stayDTOs.OrderBy(f => f.Price);
