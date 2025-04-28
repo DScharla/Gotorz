@@ -9,7 +9,7 @@ namespace Shared.ValidationAttributes
 {
     internal class AvailableCountriesAttribute : ValidationAttribute
     {
-        private readonly List<string> _countries = new List<string>();
+        internal readonly List<string> _countries = new List<string>();
         public AvailableCountriesAttribute()
         {
             _countries = AvailableCountries();

@@ -18,10 +18,10 @@ namespace Shared
         [DateFromPlusOne]
         public DateTime? ReturnDate { get; set; }
         [Required]
-        [AvailableCities]
+        [AvailableAirports]
         public string Origin { get; set; }
         [Required]
-        [AvailableCountries]
+        [AvailableAirports]
         public string Destination { get; set; }
         public double? Price { get; set; }
         public string? FlightNumber { get; set; }

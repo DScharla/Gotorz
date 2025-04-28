@@ -33,5 +33,11 @@ namespace Shared
             return availableCities._cities;
         }
 
+        public List<string> AvailableCountries()
+        {
+            AvailableCountriesAttribute availableCountries = new AvailableCountriesAttribute();
+            return availableCountries._countries;
+        }
+
     }
 }

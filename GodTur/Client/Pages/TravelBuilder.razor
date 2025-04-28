@@ -31,7 +31,7 @@
         </div>
         <div>
             <div>
-                <InputText @bind-Value="stayParam.City" placeholder="City" @oninput="FilterInput" />
+                <InputText @bind-Value="stayParam.City" placeholder="City" @oninput="FilterCityInput" />
 
                 @if (filteredCities is not null)
                 {
@@ -51,7 +51,25 @@
                         }
                     </ul>
                 }
-                <InputText @bind-Value="stayParam.Country" placeholder="Country" />
+                <InputText @bind-Value="stayParam.Country" placeholder="Country" @oninput="FilterCountryInput" />
+                @if (filteredCountries is not null)
+                {
+                    <ul class="options">
+                        @if (filteredCountries.Any())
+                        {
+                            @foreach (var country in filteredCountries)
+                            {
+                                <li class="option" @onclick="@(() => SelectCountry(country))">
+                                    <span class="option-text">@country</span>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="disabled option">No results</li>
+                        }
+                    </ul>
+                }
             </div>
             <br>
             <br>
@@ -187,6 +205,9 @@
     private List<string>? filteredCities;
     private List<string> availableCities => stayParam.AvailableCities();
 
+    private List<string>? filteredCountries;
+    private List<string> availableCountries => stayParam.AvailableCountries();
+
     private List<FlightDTO> flightOffers = new();
 
     private List<StayDTO> stayOffers = new();
@@ -250,7 +271,7 @@
     {
         selectedHomeboundFlightID = ID;
     }
-    private void FilterInput(ChangeEventArgs e)
+    private void FilterCityInput(ChangeEventArgs e)
     {
         stayParam.City = e.Value?.ToString() ?? string.Empty;
         if (string.IsNullOrWhiteSpace(stayParam.City))
@@ -265,9 +286,29 @@
         }
 
     }
+    private void FilterCountryInput(ChangeEventArgs e)
+    {
+        stayParam.Country = e.Value?.ToString() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(stayParam.Country))
+        {
+            filteredCountries = null;
+        }
+        else
+        {
+            filteredCountries = availableCountries
+                .Where(country => country.Contains(stayParam.Country, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+    }
     private void SelectCity(string city)
     {
         stayParam.City = city;
         filteredCities = null;
+    }
+    private void SelectCountry(string country)
+    {
+        stayParam.Country = country;
+        filteredCountries = null;
     }
 }
