@@ -8,43 +8,45 @@
 @*@rendermode InteractiveWebAssemblyRenderMode*@
 
 <h3>TravelBuilder</h3>
-<div id="BigSearch">
-    <div>
+<EditForm Model="flightsParam" OnValidSubmit="GetFlights">
+    <DataAnnotationsValidator />
+        <div id="BigSearch">
         <div>
-            <input class="SearchElement" @bind="flightsParam.Origin" placeholder="Departure Airport" />
-            <InputDate @bind-Value="flightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Min="DateTime.Now" Enable="true" />
+            <div>
+                <input class="SearchElement" @bind="flightsParam.Origin" placeholder="Departure Airport" />
+                <InputDate @bind-Value="flightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Min="DateTime.Now" Enable="true" />
+            </div>
+            <br>
+            <br>
+            <br>
+            <div>
+                <input class="SearchElement" @bind="flightsParam.Destination" placeholder="Arrival Airport" />
+                <InputDate @bind-Value="flightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
+                <br />
+                <br />
+                <button @onclick="GetFlights" name="Search">Search</button>
+            </div>
         </div>
-        <br>
-        <br>
-        <br>
         <div>
-            <input class="SearchElement" @bind="flightsParam.Destination" placeholder="Arrival Airport" />
-            <InputDate @bind-Value="flightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />
+            <div>
+                <input class="SearchElement" @bind="stayParam.City" placeholder="City" />        
+                <input class="SearchElement" @bind="stayParam.Country" placeholder="Country" />
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+
+                <InputDate @bind-Value="stayParam.CheckInDate" DateFormat="yyyy-MM-dd" Min="Datetime.Now" Enable="true" />
+                <InputDate @bind-Value="stayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />        
+            </div>
             <br />
-            <br />
-            <button @onclick="GetFlights" name="Search">Search</button>
+            <div>
+                <button @onclick="GetStays" name="Search">Search</button>
+            </div>
         </div>
     </div>
-    <div>
-        <div>
-            <input class="SearchElement" @bind="stayParam.City" placeholder="City" />        
-            <input class="SearchElement" @bind="stayParam.Country" placeholder="Country" />
-        </div>
-        <br>
-        <br>
-        <br>
-        <div class="row">
-
-            <InputDate @bind-Value="stayParam.CheckInDate" DateFormat="yyyy-MM-dd" Min="Datetime.Now" Enable="true" />
-            <InputDate @bind-Value="stayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Min="FromDate?.AddDays(1)" Enable="true" />        
-        </div>
-        <br />
-        <div>
-            <button @onclick="GetStays" name="Search">Search</button>
-        </div>
-    </div>
-</div>
-
+</EditForm>
 
 <InputSelect @bind-Value="selectedOutboundFlightID">
     <option value="-1">Select a flight</option>
@@ -178,7 +180,7 @@
         { 
             return flightOffers = response.Content.ReadFromJsonAsync<List<FlightDTO>>().Result;
         }
-        return flightOffers = new List<FlightDTO>();
+        return flightOffers = new List<FlightDTO>();    
     }
 
     private async Task<List<StayDTO>> GetStays()

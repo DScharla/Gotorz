@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shared
 {
     public class StayDTO
     {        
         public int ID { get; set; }
+        [Required, ]
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set;}
 		public string? StreetNameNumber { get; set; }
@@ -21,5 +23,5 @@ namespace Shared
 
 
 
-    
-}
+
+    }
