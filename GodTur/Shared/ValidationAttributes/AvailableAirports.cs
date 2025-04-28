@@ -10,13 +10,10 @@ namespace Shared.ValidationAttributes
 {
     internal class AvailableAirportsAttribute : ValidationAttribute
     {
-        internal readonly List<Airport> _airports = new();
+        internal readonly List<string> _airports = new();
         public AvailableAirportsAttribute()
         {
             _airports = AvailableAirports();
-            System.Diagnostics.Debug.WriteLine("Airports loaded");
-            System.Diagnostics.Debug.WriteLine(_airports.Count);
-            System.Diagnostics.Debug.WriteLine(_airports[0].ToString());
         }
 
         public string GetErrorMessage() => $"Ugyldig lufthavn. vælg en fra listen - vores autocomplete er awesome";
@@ -28,16 +25,30 @@ namespace Shared.ValidationAttributes
             else return ValidationResult.Success;
         }
 
-        private List<Airport> AvailableAirports()
+        private List<string> AvailableAirports()
         {
-            return ImportAirportsFromCSV();
+            List<Airport> airports = new List<Airport>{ 
+                new Airport { Name = "Copenhagen Airport", IATACode = "CPH", Continent = "Europe", CountryCode = "DK", Municipality = "Copenhagen" },
+                new Airport { Name = "Billund Airport", IATACode = "BLL", Continent = "Europe", CountryCode = "DK", Municipality = "Billund" },
+                new Airport { Name = "Aalborg Airport", IATACode = "AAL", Continent = "Europe", CountryCode = "DK", Municipality = "Aalborg" },
+                new Airport { Name = "JFK Airport", IATACode = "JFK", Continent = "North America", CountryCode = "UD", Municipality = "New York" },
+                new Airport { Name = "Los Angeles International Airport", IATACode = "LAX", Continent = "North America", CountryCode = "US", Municipality = "Los Angeles" },
+                new Airport { Name = "Chicago O'Hare International Airport", IATACode = "ORD", Continent = "North America", CountryCode = "US", Municipality = "Chicago" },
+                new Airport { Name = "Houston George Bush Intercontinental Airport", IATACode = "IAH", Continent = "North America", CountryCode = "US", Municipality = "Houston" },
+                new Airport { Name = "Phoenix Sky Harbor International Airport", IATACode = "PHX", Continent = "North America", CountryCode = "US", Municipality = "Phoenix" },
+            };//ImportAirportsFromCSV(); Virker ikke pt
+            List<string> airportStrings = new List<string>();
+            foreach (Airport airport in airports) 
+            {
+                airportStrings.Add(airport.ToString());
+            }
+            return airportStrings;
         }
         private bool IsValidAirport(string airport)
         {
-            return _airports.Any(a =>
-                    (a.CountryCode?.ToUpperInvariant() == airport) ||
-                    (a.IATACode?.ToUpperInvariant() == airport)
-                );
+            return _airports.Any(a => 
+            a.Contains(airport)
+            );
         }
         private List<Airport> ImportAirportsFromCSV()
         {

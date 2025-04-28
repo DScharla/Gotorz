@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared
 {
-    internal class Airport
+    public class Airport
     {
         public string Name { get; set; }
         public string Continent { get; set; }
