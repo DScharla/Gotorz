@@ -8,11 +8,12 @@
 @*@rendermode InteractiveWebAssemblyRenderMode*@
 
 <h3>TravelBuilder</h3>
-<EditForm Model="flightsParam" OnValidSubmit="GetFlights">
+
+
+<div>
+    <EditForm Model="flightsParam" OnValidSubmit="GetFlights">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <div>
         <div>
             <div>
                 <InputText @bind-Value="flightsParam.Origin" placeholder="Departure Airport" @oninput="FilterOriginAirportInput" />
@@ -47,6 +48,10 @@
                 <button type="submit" name="Search">Search</button>
             </div>
         </div>
+    </EditForm>
+    <EditForm Model="stayParam" OnValidSubmit="GetStays">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
         <div>
             <div>
                 <InputText @bind-Value="stayParam.City" placeholder="City" @oninput="FilterCityInput" />
@@ -102,8 +107,9 @@
                 <button type="submit" name="Search">Search</button>
             </div>
         </div>
-    </div>
-</EditForm>
+    </EditForm>
+</div>
+
 
 <InputSelect @bind-Value="selectedOutboundFlightID">
     <option value="-1">Select a flight</option>
