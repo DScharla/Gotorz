@@ -30,19 +30,19 @@ namespace GodTur.Models
         public string? OriginType { get; set; }
 
         [JsonPropertyName("origin")]
-        public Airport? Origin { get; set; }
+        public AirportResponse? Origin { get; set; }
 
         [JsonPropertyName("destination_type")]
         public string? DestinationType { get; set; }
 
         [JsonPropertyName("destination")]
-        public Airport? Destination { get; set; }
+        public AirportResponse? Destination { get; set; }
 
         [JsonPropertyName("departure_date")]
         public string? DepartureDate { get; set; }
     }
 
-    public class Airport
+    public class AirportResponse
     {
 		
 		[JsonPropertyName("type")]
@@ -79,14 +79,14 @@ namespace GodTur.Models
         public string? CityName { get; set; }
 
         [JsonPropertyName("city")]
-        public City? City { get; set; }
+        public CityResponse? City { get; set; }
 
         // Skabte en loop i ER-diagrammet, og var egentlig ikke noget vi fik tilbage i responsen fra duffel.
         //[JsonPropertyName("airports")]
         //public List<Airport>? Airports { get; set; }
     }
 
-    public class City
+    public class CityResponse
     {
 		[JsonPropertyName("name")]
         public string? Name { get; set; }
@@ -101,7 +101,7 @@ namespace GodTur.Models
         public string? IataCode { get; set; }
 
         [JsonPropertyName("airports")]
-        public List<Airport>? Airports { get; set; }
+        public List<AirportResponse>? Airports { get; set; }
     }
 
     public class Offer
@@ -139,13 +139,13 @@ namespace GodTur.Models
         public string? OriginType { get; set; }
 
         [JsonPropertyName("origin")]
-        public Airport? Origin { get; set; }
+        public AirportResponse? Origin { get; set; }
 
         [JsonPropertyName("destination_type")]
         public string? DestinationType { get; set; }
 
         [JsonPropertyName("destination")]
-        public Airport? Destination { get; set; }
+        public AirportResponse? Destination { get; set; }
 
         [JsonPropertyName("duration")]
         public string? Duration { get; set; }
@@ -164,10 +164,10 @@ namespace GodTur.Models
         public string? OriginTerminal { get; set; }
 
         [JsonPropertyName("origin")]
-        public Airport? Origin { get; set; }
+        public AirportResponse? Origin { get; set; }
 
         [JsonPropertyName("destination")]
-        public Airport? Destination { get; set; }
+        public AirportResponse? Destination { get; set; }
 
         [JsonPropertyName("departing_at")]
         public string? DepartingAt { get; set; }
@@ -197,7 +197,7 @@ namespace GodTur.Models
         public string? ArrivingAt { get; set; }
 
         [JsonPropertyName("airport")]
-        public Airport? Airport { get; set; }
+        public AirportResponse? Airport { get; set; }
     }
 
     public class PassengerResponse
