@@ -20,6 +20,15 @@
     display: flex;
     column-gap: 200px;
 }
+.SearchResult {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid black !important;
+    width: 300px;
+    height: 300px;
+    overflow: scroll;
+}
 .border-black {
         border: 2px solid black !important;
     }

@@ -25,7 +25,7 @@ namespace Shared
         public string Destination { get; set; }
         public double? Price { get; set; }
         public string? FlightNumber { get; set; }
-        public List<string> AvailableAirports()
+        public List<Airport> AvailableAirports()
         {
             AvailableAirportsAttribute availableAirports = new AvailableAirportsAttribute();
             return availableAirports._airports;

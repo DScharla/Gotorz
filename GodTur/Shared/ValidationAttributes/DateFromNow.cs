@@ -9,7 +9,7 @@ namespace Shared.ValidationAttributes
         public string GetErrorMessage() => $"Date must be past {_dateTime}";
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var date = (DateTime)value;
+            DateTime date = (DateTime)value;
 
             if (DateTime.Compare(date, DateTime.Now) < 0) return new ValidationResult(GetErrorMessage());
             else return ValidationResult.Success;

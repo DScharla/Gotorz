@@ -18,5 +18,9 @@ namespace Shared
         {
             return $"{Name} ({IATACode}) - {Municipality}, {CountryCode}, {Continent}";
         }
+        public string GetIATACode()
+        {
+            return IATACode;
+        }
     }
 }

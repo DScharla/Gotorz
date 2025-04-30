@@ -10,7 +10,7 @@ namespace Shared.ValidationAttributes
 {
     internal class AvailableAirportsAttribute : ValidationAttribute
     {
-        internal readonly List<string> _airports = new();
+        internal readonly List<Airport> _airports = new();
         public AvailableAirportsAttribute()
         {
             _airports = AvailableAirports();
@@ -25,7 +25,7 @@ namespace Shared.ValidationAttributes
             else return ValidationResult.Success;
         }
 
-        private List<string> AvailableAirports()
+        private List<Airport> AvailableAirports()
         {
             List<Airport> airports = new List<Airport>{ 
                 new Airport { Name = "Copenhagen Airport", IATACode = "CPH", Continent = "Europe", CountryCode = "DK", Municipality = "Copenhagen" },
@@ -37,17 +37,17 @@ namespace Shared.ValidationAttributes
                 new Airport { Name = "Houston George Bush Intercontinental Airport", IATACode = "IAH", Continent = "North America", CountryCode = "US", Municipality = "Houston" },
                 new Airport { Name = "Phoenix Sky Harbor International Airport", IATACode = "PHX", Continent = "North America", CountryCode = "US", Municipality = "Phoenix" },
             };//ImportAirportsFromCSV(); Virker ikke pt
-            List<string> airportStrings = new List<string>();
+            /*List<string> airportStrings = new List<string>();
             foreach (Airport airport in airports) 
             {
                 airportStrings.Add(airport.ToString());
-            }
-            return airportStrings;
+            }*/
+            return airports;
         }
         private bool IsValidAirport(string airport)
         {
             return _airports.Any(a => 
-            a.Contains(airport)
+            a.IATACode.Contains(airport)
             );
         }
         private List<Airport> ImportAirportsFromCSV()

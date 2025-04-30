@@ -12,8 +12,8 @@
 
 <div>
     <EditForm Model="flightsParam" OnValidSubmit="GetFlights">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div>
             <div>
                 <InputText @bind-Value="flightsParam.Origin" placeholder="Departure Airport" @oninput="FilterOriginAirportInput" />
@@ -24,7 +24,7 @@
                         {
                             @foreach (var airport in filteredAirports)
                             {
-                                <li class="option" @onclick="@(() => SelectOriginAirport(airport))">
+                                <li class="option" @onclick="@(() => SelectOriginAirport(airport.IATACode))">
                                     <span class="option-text">@airport</span>
                                 </li>
                             }
@@ -50,8 +50,8 @@
         </div>
     </EditForm>
     <EditForm Model="stayParam" OnValidSubmit="GetStays">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div>
             <div>
                 <InputText @bind-Value="stayParam.City" placeholder="City" @oninput="FilterCityInput" />
@@ -138,8 +138,76 @@
         <option value="@stay.ID">@stay.ID - @stay.HotelName - @stay.Price</option>
     }
 </InputSelect>
+<InputSelect @bind-value="selectedResultsID">
+    <option value="0">Select results</option>
+    <option value="1">Outbound Flight</option>
+    <option value="2">Homebound Flight</option>
+    <option value="3">Hotel</option>
+</InputSelect>
+<ol class="SearchResult">
+    @if (selectedResultsID == 1)
+    {
+        if (flightOffers.Count == 0)
+        {
+            <p>Du skal søge for at få vist resultater</p>
+        }
+        foreach (var flight in flightOffers)
+        {
+            @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
+            {
+                <li @onclick="@(() => SelectOutboundFlight(flight.ID))">
+                    <div>
+                        <p>@flight.ID</p>
+                        <p>@flight.Origin - @flight.Destination</p>
+                        <p>@flight.DepartureDate</p>
+                    </div>
+                </li>
+            }
+        }
+    }
+
+    @if (selectedResultsID == 2)
+    {
+        if (flightOffers.Count == 0)
+        {
+            <p>Du skal søge for at få vist resultater</p>
+        }
+        foreach (var flight in flightOffers)
+        {
+            @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+            {
+                <li @onclick="@(() => SelectHomeboundFlight(flight.ID))">
+                    <div>
+                        <p>@flight.ID</p>
+                        <p>@flight.Origin - @flight.Destination</p>
+                        <p>@flight.DepartureDate</p>
+                    </div>
+                </li>
+            }
+        }
+    }
+    @if (selectedResultsID == 3)
+    {
+        if (stayOffers.Count == 0)
+        {
+            <p>Du skal søge for at få vist resultater</p>
+        }
+        foreach (var stay in stayOffers)
+        {
+            <li @onclick="@(() => SelectStay(stay.ID))">
+                <div>
+                    <p>@stay.ID</p>
+                    <p>@stay.HotelName</p>
+                    <p>@stay.Price</p>
+                    <p>@stay.City, @stay.Country</p>
+                </div>
+            </li>
+        }
+    }
+</ol>
 
 <button @onclick="SaveTravel" name="Save">Save</button>
+
 
 <div>
     <ol class="border-black">
@@ -208,7 +276,7 @@
     private int selectedStayID = -1;
     private StayDTO? selectedStayDTO => stayOffers.FirstOrDefault(s => s.ID == selectedStayID);
 
-
+    private int selectedResultsID = 0;
 
 
     private FlightDTO flightsParam = new FlightDTO() 
@@ -232,8 +300,8 @@
     private List<string>? filteredCountries;
     private List<string> availableCountries => stayParam.AvailableCountries();
 
-    private List<string>? filteredAirports;
-    private List<string> availableAirports => flightsParam.AvailableAirports();
+    private List<Airport>? filteredAirports;
+    private List<Airport> availableAirports => flightsParam.AvailableAirports();
 
     private List<FlightDTO> flightOffers = new();
 
@@ -337,7 +405,7 @@
         else
         {
             filteredAirports = availableAirports
-                .Where(airport => airport.Contains(flightsParam.Origin, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
+                .Where(airport => airport.ToString().Contains(flightsParam.Origin, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
                 .ToList();
         }
     }
@@ -353,7 +421,7 @@
     }
     private void SelectOriginAirport(string airport)
     {
-        flightsParam.Origin = airport;
+        flightsParam.Origin = availableAirports.FirstOrDefault(f => f.IATACode.Contains(airport)).IATACode;
         filteredAirports = null;
     }
     
