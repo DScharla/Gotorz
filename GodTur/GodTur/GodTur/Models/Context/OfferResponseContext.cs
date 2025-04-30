@@ -4,7 +4,15 @@ namespace GodTur.Models.Context
 {
 	public class OfferResponseContext : DbContext
 	{
-        public OfferResponseContext(DbContextOptions<OfferResponseContext> options)
+		// https://www.c-sharpcorner.com/article/migration-in-code-first-approach/
+		// Ovenstående hjemmeside er brugt til inspirationn og guide for steps i EF core migrationen,
+		// gennem Package Manager Console. Testet resultat ud fra en lokal DB hvor appsettings er sat op,
+        // til en eksisterende db med en bruger.
+
+		// Commands:
+		// 1. Add-Migration -Context OfferResponseContext
+		// 2. Update-Database -Context OfferResponseContext
+		public OfferResponseContext(DbContextOptions<OfferResponseContext> options)
           : base(options)
         {
         }
