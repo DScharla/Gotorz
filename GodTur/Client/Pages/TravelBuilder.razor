@@ -247,64 +247,6 @@
 
 <button @onclick="SaveTravel" name="Save">Save</button>
 
-
-<div>
-    <ol class="border-black">
-        @if (stayOffers.Count > 0)
-        {
-            foreach (var stay in stayOffers)
-            {
-                <li @onclick="@(() => SelectStay(stay.ID))">
-                    <div>
-                        <p>@stay.ID</p>
-                        <p>@stay.HotelName</p>
-                        <p>@stay.Price</p>
-                        <p>@stay.City, @stay.Country</p>
-                    </div>
-                </li>
-            }
-        }
-    </ol>
-</div>
-
-
-<ol>
-    @if (flightOffers.Count > 0)
-    {
-        foreach (var flight in flightOffers)
-        {
-            @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date){
-                <li @onclick="@(() => SelectOutboundFlight(flight.ID))">
-                    <div>
-                        <p>@flight.ID</p>
-                        <p>@flight.Origin - @flight.Destination</p>
-                        <p>@flight.DepartureDate</p>
-                    </div>
-                </li>
-            }
-        }
-    }
-</ol>
-
-<ol>
-    @if (flightOffers.Count > 0)
-    {
-        foreach (var flight in flightOffers)
-        {
-            @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
-            {
-                <li @onclick="@(() => SelectHomeboundFlight(flight.ID))">
-                    <div>
-                        <p>@flight.ID</p>
-                        <p>@flight.Origin - @flight.Destination</p>
-                        <p>@flight.DepartureDate</p>
-                    </div>
-                </li>
-            }
-        }
-    }
-</ol>
-
 @code {
     private int selectedOutboundFlightID = -1;
     private FlightDTO? selectedOutboundFlightDTO => flightOffers.FirstOrDefault(f => f.ID == selectedOutboundFlightID);
