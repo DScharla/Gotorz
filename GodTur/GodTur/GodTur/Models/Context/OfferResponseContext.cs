@@ -20,6 +20,7 @@ namespace GodTur.Models.Context
         public DbSet<City> Cities { get; set; }
         public DbSet<Airport> Airports { get; set; }
         public DbSet<Flight> Flights { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
         public DbSet<TravelPackage> TravelPackages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,6 +44,12 @@ namespace GodTur.Models.Context
                 .HasForeignKey(f => f.DestinationAirportId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Konfigurer en-til-mange relationer for Hotel
+            modelBuilder.Entity<Hotel>()
+                .HasOne(a => a.City)
+                .WithMany(c => c.Hotels)
+                .HasForeignKey(a => a.CityId);
+
             // Konfigurer en-til-mange relationer for TravelPackage
             modelBuilder.Entity<TravelPackage>()
                 .HasOne(tp => tp.OutboundFlight)
@@ -54,6 +61,12 @@ namespace GodTur.Models.Context
                 .HasOne(tp => tp.ReturnFlight)
                 .WithMany(f => f.ReturnTravelPackages)
                 .HasForeignKey(tp => tp.ReturnFlightId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TravelPackage>()
+                .HasOne(tp => tp.PackageHotel)
+                .WithMany(h => h.HotelTravelPackages)
+                .HasForeignKey(tp => tp.PackageHotelId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

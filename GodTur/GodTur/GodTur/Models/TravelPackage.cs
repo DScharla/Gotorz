@@ -16,6 +16,9 @@ namespace GodTur.Models
         public int ReturnFlightId { get; set; }
         public Flight ReturnFlight { get; set; }
 
+        [ForeignKey("PackageHotel")]
+        public int PackageHotelId { get; set; }
+        public Hotel PackageHotel { get; set; }
         public decimal Price { get; set; }
     }
 }
