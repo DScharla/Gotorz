@@ -15,7 +15,7 @@ namespace Shared
         [DateFromNow]
         public DateTime? DepartureDate { get; set; }
         [Required]
-        [DateFromPlusOne]
+        [DateFromPlusOne("DepartureDate")]
         public DateTime? ReturnDate { get; set; }
         [Required]
         [AvailableAirports]

@@ -15,7 +15,7 @@ namespace Shared
         [DateFromNow]
         public DateTime CheckInDate { get; set; }
         [Required]
-        [DateFromPlusOne]
+        [DateFromPlusOne("CheckInDate")]
         public DateTime CheckOutDate { get; set;}
 		public string? StreetNameNumber { get; set; }
         [Required]
