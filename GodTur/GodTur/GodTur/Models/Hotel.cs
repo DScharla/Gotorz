@@ -11,7 +11,7 @@ namespace GodTur.Models
         public DateTime CheckOutDate { get; set; }
         public double? StayPrice { get; set; }
         [ForeignKey("City")]
-        public string CityId { get; set; }
+        public int CityId { get; set; }
         public City City { get; set; }
         public ICollection<TravelPackage> HotelTravelPackages { get; set; }
 

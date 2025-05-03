@@ -6,12 +6,12 @@ namespace GodTur.Models
     public class Airport
     {
         [Key]
-        public string AirportId { get; set; }
+        public int AirportId { get; set; }
         public string Name { get; set; }
         public string IataCode { get; set; }
 
         [ForeignKey("City")]
-        public string CityId { get; set; }
+        public int CityId { get; set; }
         public City City { get; set; }
 
         public ICollection<Flight> OriginFlights { get; set; }

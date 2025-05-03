@@ -5,7 +5,7 @@ namespace GodTur.Models
     public class City
     {
         [Key]
-        public string CityId { get; set; }
+        public int CityId { get; set; }
         public string Name { get; set; }
         public string IataCountryCode { get; set; }
 

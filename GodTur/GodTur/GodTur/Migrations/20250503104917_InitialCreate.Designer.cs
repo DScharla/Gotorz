@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GodTur.Migrations
 {
     [DbContext(typeof(OfferResponseContext))]
-    [Migration("20250430105736_InitialCreate")]
+    [Migration("20250503104917_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,12 +27,14 @@ namespace GodTur.Migrations
 
             modelBuilder.Entity("GodTur.Models.Airport", b =>
                 {
-                    b.Property<string>("AirportId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AirportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("CityId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AirportId"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("IataCode")
                         .IsRequired()
@@ -51,8 +53,11 @@ namespace GodTur.Migrations
 
             modelBuilder.Entity("GodTur.Models.City", b =>
                 {
-                    b.Property<string>("CityId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
 
                     b.Property<string>("IataCountryCode")
                         .IsRequired()
@@ -81,21 +86,18 @@ namespace GodTur.Migrations
                     b.Property<DateTime>("DepartingAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DestinationAirportId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DestinationAirportId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FlightNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OriginAirportId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OriginAirportId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TotalAmount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
 
                     b.Property<string>("TotalCurrency")
                         .IsRequired()
@@ -110,6 +112,37 @@ namespace GodTur.Migrations
                     b.ToTable("Flights");
                 });
 
+            modelBuilder.Entity("GodTur.Models.Hotel", b =>
+                {
+                    b.Property<int>("HotelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelId"));
+
+                    b.Property<DateTime>("CheckInDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOutDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("StayPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("HotelId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Hotels");
+                });
+
             modelBuilder.Entity("GodTur.Models.TravelPackage", b =>
                 {
                     b.Property<int>("TravelPackageId")
@@ -121,6 +154,9 @@ namespace GodTur.Migrations
                     b.Property<int>("OutboundFlightId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PackageHotelId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -130,6 +166,8 @@ namespace GodTur.Migrations
                     b.HasKey("TravelPackageId");
 
                     b.HasIndex("OutboundFlightId");
+
+                    b.HasIndex("PackageHotelId");
 
                     b.HasIndex("ReturnFlightId");
 
@@ -166,11 +204,28 @@ namespace GodTur.Migrations
                     b.Navigation("OriginAirport");
                 });
 
+            modelBuilder.Entity("GodTur.Models.Hotel", b =>
+                {
+                    b.HasOne("GodTur.Models.City", "City")
+                        .WithMany("Hotels")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
             modelBuilder.Entity("GodTur.Models.TravelPackage", b =>
                 {
                     b.HasOne("GodTur.Models.Flight", "OutboundFlight")
                         .WithMany("OutboundTravelPackages")
                         .HasForeignKey("OutboundFlightId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GodTur.Models.Hotel", "PackageHotel")
+                        .WithMany("HotelTravelPackages")
+                        .HasForeignKey("PackageHotelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -181,6 +236,8 @@ namespace GodTur.Migrations
                         .IsRequired();
 
                     b.Navigation("OutboundFlight");
+
+                    b.Navigation("PackageHotel");
 
                     b.Navigation("ReturnFlight");
                 });
@@ -195,6 +252,8 @@ namespace GodTur.Migrations
             modelBuilder.Entity("GodTur.Models.City", b =>
                 {
                     b.Navigation("Airports");
+
+                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("GodTur.Models.Flight", b =>
@@ -202,6 +261,11 @@ namespace GodTur.Migrations
                     b.Navigation("OutboundTravelPackages");
 
                     b.Navigation("ReturnTravelPackages");
+                });
+
+            modelBuilder.Entity("GodTur.Models.Hotel", b =>
+                {
+                    b.Navigation("HotelTravelPackages");
                 });
 #pragma warning restore 612, 618
         }

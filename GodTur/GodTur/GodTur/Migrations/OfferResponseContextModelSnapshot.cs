@@ -24,12 +24,14 @@ namespace GodTur.Migrations
 
             modelBuilder.Entity("GodTur.Models.Airport", b =>
                 {
-                    b.Property<string>("AirportId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AirportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("CityId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AirportId"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("IataCode")
                         .IsRequired()
@@ -48,8 +50,11 @@ namespace GodTur.Migrations
 
             modelBuilder.Entity("GodTur.Models.City", b =>
                 {
-                    b.Property<string>("CityId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
 
                     b.Property<string>("IataCountryCode")
                         .IsRequired()
@@ -78,21 +83,18 @@ namespace GodTur.Migrations
                     b.Property<DateTime>("DepartingAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DestinationAirportId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DestinationAirportId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FlightNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OriginAirportId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OriginAirportId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TotalAmount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
 
                     b.Property<string>("TotalCurrency")
                         .IsRequired()
@@ -121,15 +123,14 @@ namespace GodTur.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CityId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("StayPrice")
+                    b.Property<double?>("StayPrice")
                         .HasColumnType("float");
 
                     b.HasKey("HotelId");
