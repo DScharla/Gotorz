@@ -19,6 +19,6 @@ namespace GodTur.Models
         [ForeignKey("PackageHotel")]
         public int PackageHotelId { get; set; }
         public Hotel PackageHotel { get; set; }
-        public decimal Price { get; set; }
+        public decimal PackagePrice { get; set; }
     }
 }

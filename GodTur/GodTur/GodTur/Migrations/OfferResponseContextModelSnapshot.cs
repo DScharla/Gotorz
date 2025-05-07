@@ -56,6 +56,28 @@ namespace GodTur.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CityId");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("GodTur.Models.Country", b =>
+                {
+                    b.Property<int>("CountryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"));
+
                     b.Property<string>("IataCountryCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -64,9 +86,9 @@ namespace GodTur.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CityId");
+                    b.HasKey("CountryId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("GodTur.Models.Flight", b =>
@@ -86,19 +108,19 @@ namespace GodTur.Migrations
                     b.Property<int>("DestinationAirportId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FPCurrency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FlightNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("FlightPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("OriginAirportId")
                         .HasColumnType("int");
-
-                    b.Property<double>("TotalAmount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("TotalCurrency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FlightId");
 
@@ -130,8 +152,8 @@ namespace GodTur.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("StayPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("StayPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("HotelId");
 
@@ -154,7 +176,7 @@ namespace GodTur.Migrations
                     b.Property<int>("PackageHotelId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("PackagePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ReturnFlightId")
@@ -180,6 +202,17 @@ namespace GodTur.Migrations
                         .IsRequired();
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("GodTur.Models.City", b =>
+                {
+                    b.HasOne("GodTur.Models.Country", "Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("GodTur.Models.Flight", b =>
@@ -251,6 +284,11 @@ namespace GodTur.Migrations
                     b.Navigation("Airports");
 
                     b.Navigation("Hotels");
+                });
+
+            modelBuilder.Entity("GodTur.Models.Country", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("GodTur.Models.Flight", b =>

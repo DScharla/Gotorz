@@ -9,7 +9,7 @@ namespace GodTur.Models
         public string Name { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
-        public double? StayPrice { get; set; }
+        public decimal? StayPrice { get; set; }
         [ForeignKey("City")]
         public int CityId { get; set; }
         public City City { get; set; }

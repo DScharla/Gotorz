@@ -19,8 +19,8 @@ namespace GodTur.Models
         public DateTime DepartingAt { get; set; }
         public DateTime ArrivingAt { get; set; }
 
-        public double TotalAmount { get; set; }
-        public string TotalCurrency { get; set; }
+        public decimal FlightPrice { get; set; }
+        public string FPCurrency { get; set; }
         public string FlightNumber { get; set; }
 
         public ICollection<TravelPackage> OutboundTravelPackages { get; set; }

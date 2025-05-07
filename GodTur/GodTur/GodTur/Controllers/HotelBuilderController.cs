@@ -37,7 +37,7 @@ namespace GodTur.Controllers
 					stayDTOs.Add(new StayDTO
 					{
                         HotelName = hotel.Accommodation.Name,
-                        Price = Double.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
+                        Price = Decimal.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
 						Currency = hotel.CheapestRateCurrency,
                         City = hotel.Accommodation.Location.Address.City,
                         Country = stayDTO.Country,
