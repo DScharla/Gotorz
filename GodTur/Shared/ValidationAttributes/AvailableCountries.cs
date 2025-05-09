@@ -15,7 +15,7 @@ namespace Shared.ValidationAttributes
             _countries = AvailableCountries();
         }
 
-        public string GetErrorMessage() => $"Ugyldig land. vælg et fra listen - vores autocomplete er awesome";
+        private string GetErrorMessage() => $"Ugyldig land. vælg et fra listen - vores autocomplete er awesome";
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var country = (string)value;

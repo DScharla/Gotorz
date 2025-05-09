@@ -7,10 +7,10 @@ namespace Shared.ValidationAttributes
         internal readonly List<string> _cities = new List<string>();
         public AvailableCitiesAttribute() 
         {
-            _cities = AvailableCities();
+            _cities = GetAvailableCities();
         }
 
-        public string GetErrorMessage() => $"Ugyldig by. vælg en fra listen - vores autocomplete er awesome";
+        private string GetErrorMessage() => $"Ugyldig by. vælg en fra listen - vores autocomplete er awesome";
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var city = (string)value;
@@ -19,7 +19,7 @@ namespace Shared.ValidationAttributes
             else return ValidationResult.Success;
         }
 
-        private List<string> AvailableCities()
+        private List<string> GetAvailableCities()
         {
             return new List<string>
             {

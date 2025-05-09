@@ -13,10 +13,10 @@ namespace Shared.ValidationAttributes
         internal readonly List<Airport> _airports = new();
         public AvailableAirportsAttribute()
         {
-            _airports = AvailableAirports();
+            _airports = GetAvailableAirports();
         }
 
-        public string GetErrorMessage() => $"Ugyldig lufthavn. vælg en fra listen - vores autocomplete er awesome";
+        private string GetErrorMessage() => $"Ugyldig lufthavn. vælg en fra listen - vores autocomplete er awesome";
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var airports = (string)value;
@@ -25,7 +25,7 @@ namespace Shared.ValidationAttributes
             else return ValidationResult.Success;
         }
 
-        private List<Airport> AvailableAirports()
+        private List<Airport> GetAvailableAirports()
         {
             List<Airport> airports = new List<Airport>{ 
                 new Airport { Name = "Copenhagen Airport", IATACode = "CPH", Continent = "Europe", CountryCode = "DK", Municipality = "Copenhagen" },

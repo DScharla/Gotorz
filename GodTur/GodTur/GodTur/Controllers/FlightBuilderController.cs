@@ -16,8 +16,8 @@ namespace GodTur.Controllers
            
             _offerService = offerService;
         }
-        [HttpPost, Route("create")] //FlightDTO skal passes som argument i JSON format
-        public async Task<string> Create([FromBody]FlightDTO flightDTO)
+        [HttpPost, Route("create")]
+        public async Task<string> PostCreateAsync([FromBody]FlightDTO flightDTO)
         {
             FlightDTO departureFlight = flightDTO;
 

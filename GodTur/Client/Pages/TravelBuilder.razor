@@ -13,7 +13,7 @@
         <div>
             <div >
                 <div >
-                <EditForm Model="flightsParam" OnValidSubmit="GetFlights">
+                <EditForm Model="flightsParam" OnValidSubmit="GetFlightsAsync">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <h3>Vælg fly</h3>
@@ -288,7 +288,7 @@
 
     private List<StayDTO> stayOffers = new();
 
-    private async Task<List<FlightDTO>> GetFlights()
+    private async Task<List<FlightDTO>> GetFlightsAsync()
     {
         if (selectedOutboundFlightDTO is not null) Console.WriteLine(selectedOutboundFlightDTO.ID.ToString());
         string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
