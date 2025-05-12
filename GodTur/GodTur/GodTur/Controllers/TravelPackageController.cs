@@ -100,9 +100,6 @@ namespace GodTur.Controllers
             return NoContent();
         }
 
-        private bool TravelPackageExists(int id)
-        {
-            return _context.TravelPackages.Any(e => e.TravelPackageId == id);
         }
     }
 }
