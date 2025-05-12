@@ -1,0 +1,123 @@
+﻿<h3>StaySearch</h3>
+<EditForm Model="StayParam" OnValidSubmit="GetStaysAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText class="form-control" @bind-Value="StayParam.City" placeholder="City" @oninput="FilterCityInput" />
+    @if (filteredCities is not null)
+    {
+        <ul class="options">
+            @if (filteredCities.Any())
+            {
+                @foreach (var city in filteredCities)
+                {
+                    <li class="option" @onclick="@(() => SelectCity(city))">
+                        <span class="option-text">@city</span>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="disabled option">No results</li>
+            }
+        </ul>
+    }
+    <InputText class="form-control" @bind-Value="StayParam.Country" placeholder="Country" @oninput="FilterCountryInput" />
+    @if (filteredCountries is not null)
+    {
+        <ul class="options">
+            @if (filteredCountries.Any())
+            {
+                @foreach (var country in filteredCountries)
+                {
+                    <li class="option" @onclick="@(() => SelectCountry(country))">
+                        <span class="option-text">@country</span>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="disabled option">No results</li>
+            }
+        </ul>
+    }
+    <br>
+    <br>
+    <br>
+    <InputDate @bind-Value="StayParam.CheckInDate" DateFormat="yyyy-MM-dd" Enable="true" />
+    <InputDate @bind-Value="StayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Enable="true" />
+</EditForm>
+
+@code {
+    [Parameter]
+    public HttpClient client { get; set; }
+    
+    private StayDTO StayParam = new StayDTO()
+    {
+        City = "Dortmund",
+        Country = "Germany",
+        CheckInDate = new DateTime(2025, 06, 01),
+        CheckOutDate = new DateTime(2025, 06, 06),
+    };
+
+    private List<StayDTO> stayOffers = new();
+
+    private List<string>? filteredCities;
+    private List<string> availableCities => StayParam.AvailableCities();
+
+    private List<string>? filteredCountries;
+    private List<string> availableCountries => StayParam.AvailableCountries();
+
+    private void FilterCityInput(ChangeEventArgs e)
+    {
+        StayParam.City = e.Value?.ToString() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(StayParam.City))
+        {
+            filteredCities = null;
+        }
+        else
+        {
+            filteredCities = availableCities
+                .Where(city => city.Contains(StayParam.City, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+    }
+    private void FilterCountryInput(ChangeEventArgs e)
+    {
+        StayParam.Country = e.Value?.ToString() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(StayParam.Country))
+        {
+            filteredCountries = null;
+        }
+        else
+        {
+            filteredCountries = availableCountries
+                .Where(country => country.Contains(StayParam.Country, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+    }
+
+    private void SelectCity(string city)
+    {
+        StayParam.City = city;
+        filteredCities = null;
+    }
+    private void SelectCountry(string country)
+    {
+        StayParam.Country = country;
+        filteredCountries = null;
+    }
+    private async Task<List<StayDTO>> GetStaysAsync()
+    {
+        string jsonStayParam = JsonSerializer.Serialize(StayParam);
+        var content = new StringContent(jsonStayParam, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync("https://localhost:7112/api/HotelBuilder/stays", content);
+        if (response.IsSuccessStatusCode)
+        {
+            return stayOffers = response.Content.ReadFromJsonAsync<List<StayDTO>>().Result;
+        }
+        return stayOffers = new List<StayDTO>();
+    }
+}

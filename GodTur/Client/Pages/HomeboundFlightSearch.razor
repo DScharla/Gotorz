@@ -1,0 +1,49 @@
+﻿<h3>HomeboundFlightSearch</h3>
+<p>Flyv til:</p>
+<InputText class="form-control" @bind-Value="FlightsParam.Destination" placeholder="Departure Airport" @oninput="FilterHomeboundAirportInput" />
+@if (filteredAirports is not null)
+{
+    <ul class="options">
+        @if (filteredAirports.Any())
+        {
+            @foreach (var airport in filteredAirports)
+            {
+                <li class="option" @onclick="@(() => SelectHomeboundAirport(airport.IATACode))">
+                    <span class="option-text">@airport</span>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="disabled option">No results</li>
+        }
+    </ul>
+}
+<InputDate class="form-control" @bind-Value="FlightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Enable="true" />
+@code {
+    [Parameter]
+    public FlightDTO FlightsParam { get; set; }
+
+    private List<Airport>? filteredAirports;
+    private List<Airport> availableAirports => FlightsParam.AvailableAirports();
+
+    private void FilterHomeboundAirportInput(ChangeEventArgs e)
+    {
+        FlightsParam.Destination = e.Value?.ToString() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(FlightsParam.Origin))
+        {
+            filteredAirports = null;
+        }
+        else
+        {
+            filteredAirports = availableAirports
+                .Where(airport => airport.ToString().Contains(FlightsParam.Destination, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
+                .ToList();
+        }
+    }
+    private void SelectHomeboundAirport(string airport)
+    {
+        FlightsParam.Destination = availableAirports.FirstOrDefault(f => f.IATACode.Contains(airport)).IATACode;
+        filteredAirports = null;
+    }
+}
