@@ -328,7 +328,7 @@
         };
         string jsonTravel = JsonSerializer.Serialize(travel);
         var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("https://localhost:7112/api/TravelBuilder/CreateTravel", content);
+        var response = await client.PostAsync("https://localhost:7112/api/TravelPackage/Create", content);
         if (response.IsSuccessStatusCode)
         {
             return travel;
