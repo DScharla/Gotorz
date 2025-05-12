@@ -15,8 +15,6 @@ namespace GodTur.Services
         {
             _httpClient = duffelClient.HttpClient;
         }
-
-        //EN ELLER ANDEN METODE
         public async Task<OfferResponse> PostOfferAsync(OfferRequest offerRequest)
         {
             string url = "air/offer_requests?supplier_timeout=10000";
@@ -25,10 +23,6 @@ namespace GodTur.Services
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             };
-            /*            var responseBody = JsonSerializer.Serialize(offerRequest, options);
-                        StringContent stringContent = new StringContent(responseBody, Encoding.UTF8,"application/json");
-
-                        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(url, stringContent);*/
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(url, offerRequest, options);
 
             if (httpResponseMessage.IsSuccessStatusCode)
