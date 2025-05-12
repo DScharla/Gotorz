@@ -2,6 +2,7 @@
 <EditForm Model="StayParam" OnValidSubmit="GetStaysAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    <h3>Vælg hotel</h3>
     <InputText class="form-control" @bind-Value="StayParam.City" placeholder="City" @oninput="FilterCityInput" />
     @if (filteredCities is not null)
     {
@@ -45,6 +46,8 @@
     <br>
     <InputDate @bind-Value="StayParam.CheckInDate" DateFormat="yyyy-MM-dd" Enable="true" />
     <InputDate @bind-Value="StayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Enable="true" />
+    <br />
+    <button type="submit" name="Search">Search</button>
 </EditForm>
 
 @code {

@@ -30,14 +30,7 @@
                 </EditForm>
                 </div>
                 <div>
-                <EditForm Model="stayParam" OnValidSubmit="GetStays">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <h3>Vælg hotel</h3>
-                    <StaySearch StayParam="stayParam"/>
-                    <br />
-                    <button type="submit" name="Search">Search</button>
-                </EditForm>
+                    <StaySearch client="client"/>
                 </div>
             </div>
         </div>
