@@ -24,25 +24,28 @@ namespace GodTur.Controllers
 		public async Task<string> Stays([FromBody] StayDTO stayDTO)
 		{
 			StayDTO stayParam = stayDTO;
+            int i = 0;
 
-
-			List<StayDTO> stayDTOs = new List<StayDTO>();
+            List<StayDTO> stayDTOs = new List<StayDTO>();
 			StayOfferRequest stayOfferRequest = await CreateStayOfferRequest(stayParam);
 
 			if (_staysService is not null)
 			{
+
 				StayOfferResponse stayOfferResponse = await _staysService.PostStaysAsync(stayOfferRequest);
 				foreach (var hotel in stayOfferResponse.Data.Results)
 				{
 					stayDTOs.Add(new StayDTO
 					{
+                        ID = i,
                         HotelName = hotel.Accommodation.Name,
-                        Price = Double.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
+                        Price = Decimal.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
 						Currency = hotel.CheapestRateCurrency,
                         City = hotel.Accommodation.Location.Address.City,
                         Country = stayDTO.Country,
                         StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber                            
                     });
+					i++;
 				}
 			}
 			List<StayDTO> sortedStayDTOs = stayDTOs.OrderBy(stayDTO => stayDTO.Price).ToList();
