@@ -1,16 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GodTur.Models;
 using GodTur.Models.Context;
 
 namespace GodTur.Controllers
 {
-    public class TravelPackageController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TravelPackageController : ControllerBase
     {
         private readonly OfferResponseContext _context;
 
@@ -19,153 +21,83 @@ namespace GodTur.Controllers
             _context = context;
         }
 
-        // GET: TravelPackage
-        public async Task<IActionResult> Index()
+        // GET: api/TravelPackage
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TravelPackage>>> GetTravelPackages()
         {
-            var offerResponseContext = _context.TravelPackages.Include(t => t.OutboundFlight).Include(t => t.PackageHotel).Include(t => t.ReturnFlight);
-            return View(await offerResponseContext.ToListAsync());
+            return await _context.TravelPackages.ToListAsync();
         }
 
-        // GET: TravelPackage/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/TravelPackage/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TravelPackage>> GetTravelPackage(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var travelPackage = await _context.TravelPackages
-                .Include(t => t.OutboundFlight)
-                .Include(t => t.PackageHotel)
-                .Include(t => t.ReturnFlight)
-                .FirstOrDefaultAsync(m => m.TravelPackageId == id);
-            if (travelPackage == null)
-            {
-                return NotFound();
-            }
-
-            return View(travelPackage);
-        }
-
-        // GET: TravelPackage/Create
-        public IActionResult Create()
-        {
-            ViewData["OutboundFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId");
-            ViewData["PackageHotelId"] = new SelectList(_context.Hotels, "HotelId", "HotelId");
-            ViewData["ReturnFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId");
-            return View();
-        }
-
-        // POST: TravelPackage/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TravelPackageId,OutboundFlightId,ReturnFlightId,PackageHotelId,PackagePrice")] TravelPackage travelPackage)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(travelPackage);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["OutboundFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId", travelPackage.OutboundFlightId);
-            ViewData["PackageHotelId"] = new SelectList(_context.Hotels, "HotelId", "HotelId", travelPackage.PackageHotelId);
-            ViewData["ReturnFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId", travelPackage.ReturnFlightId);
-            return View(travelPackage);
-        }
-
-        // GET: TravelPackage/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var travelPackage = await _context.TravelPackages.FindAsync(id);
+
             if (travelPackage == null)
             {
                 return NotFound();
             }
-            ViewData["OutboundFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId", travelPackage.OutboundFlightId);
-            ViewData["PackageHotelId"] = new SelectList(_context.Hotels, "HotelId", "HotelId", travelPackage.PackageHotelId);
-            ViewData["ReturnFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId", travelPackage.ReturnFlightId);
-            return View(travelPackage);
+
+            return travelPackage;
         }
 
-        // POST: TravelPackage/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TravelPackageId,OutboundFlightId,ReturnFlightId,PackageHotelId,PackagePrice")] TravelPackage travelPackage)
+        // PUT: api/TravelPackage/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTravelPackage(int id, TravelPackage travelPackage)
         {
             if (id != travelPackage.TravelPackageId)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Entry(travelPackage).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    _context.Update(travelPackage);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TravelPackageExists(travelPackage.TravelPackageId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            ViewData["OutboundFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId", travelPackage.OutboundFlightId);
-            ViewData["PackageHotelId"] = new SelectList(_context.Hotels, "HotelId", "HotelId", travelPackage.PackageHotelId);
-            ViewData["ReturnFlightId"] = new SelectList(_context.Flights, "FlightId", "FlightId", travelPackage.ReturnFlightId);
-            return View(travelPackage);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TravelPackageExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: TravelPackage/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // POST: api/TravelPackage
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<TravelPackage>> PostTravelPackage(TravelPackage travelPackage)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            _context.TravelPackages.Add(travelPackage);
+            await _context.SaveChangesAsync();
 
-            var travelPackage = await _context.TravelPackages
-                .Include(t => t.OutboundFlight)
-                .Include(t => t.PackageHotel)
-                .Include(t => t.ReturnFlight)
-                .FirstOrDefaultAsync(m => m.TravelPackageId == id);
+            return CreatedAtAction("GetTravelPackage", new { id = travelPackage.TravelPackageId }, travelPackage);
+        }
+
+        // DELETE: api/TravelPackage/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTravelPackage(int id)
+        {
+            var travelPackage = await _context.TravelPackages.FindAsync(id);
             if (travelPackage == null)
             {
                 return NotFound();
             }
 
-            return View(travelPackage);
-        }
-
-        // POST: TravelPackage/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var travelPackage = await _context.TravelPackages.FindAsync(id);
-            if (travelPackage != null)
-            {
-                _context.TravelPackages.Remove(travelPackage);
-            }
-
+            _context.TravelPackages.Remove(travelPackage);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
 
         private bool TravelPackageExists(int id)
