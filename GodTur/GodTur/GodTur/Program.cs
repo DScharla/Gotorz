@@ -3,6 +3,8 @@ using GodTur.Components;
 using GodTur.Controllers;
 using GodTur.Services;
 using Microsoft.AspNetCore.Cors;
+using GodTur.Models.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace GodTur;
 
@@ -16,6 +18,10 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
+        builder.Services.AddDbContext<OfferResponseContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
+
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://localhost:7177")

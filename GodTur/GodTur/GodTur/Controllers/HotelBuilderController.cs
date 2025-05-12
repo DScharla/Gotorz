@@ -39,7 +39,8 @@ namespace GodTur.Controllers
 					{
                         ID = i,
                         HotelName = hotel.Accommodation.Name,
-                        Price = Double.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
+                        Price = Decimal.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
+						Currency = hotel.CheapestRateCurrency,
                         City = hotel.Accommodation.Location.Address.City,
                         Country = stayDTO.Country,
                         StreetNameNumber = hotel.Accommodation.Location.Address.StreetNameNumber                            

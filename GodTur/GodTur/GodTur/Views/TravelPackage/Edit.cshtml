@@ -1,0 +1,55 @@
+@model GodTur.Models.TravelPackage
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>TravelPackage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TravelPackageId" />
+            <div class="form-group">
+                <label asp-for="OutboundFlightId" class="control-label"></label>
+                <select asp-for="OutboundFlightId" class="form-control" asp-items="ViewBag.OutboundFlightId"></select>
+                <span asp-validation-for="OutboundFlightId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnFlightId" class="control-label"></label>
+                <select asp-for="ReturnFlightId" class="form-control" asp-items="ViewBag.ReturnFlightId"></select>
+                <span asp-validation-for="ReturnFlightId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackageHotelId" class="control-label"></label>
+                <select asp-for="PackageHotelId" class="form-control" asp-items="ViewBag.PackageHotelId"></select>
+                <span asp-validation-for="PackageHotelId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackagePrice" class="control-label"></label>
+                <input asp-for="PackagePrice" class="form-control" />
+                <span asp-validation-for="PackagePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>
