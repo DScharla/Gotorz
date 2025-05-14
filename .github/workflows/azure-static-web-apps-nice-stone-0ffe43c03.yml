@@ -25,47 +25,25 @@ jobs:
         with:
           dotnet-version: '8.0.x'  # Adjust as needed
       
-      # Create a custom NuGet.Config to disable treating warnings as errors
-      - name: Create custom NuGet.Config
+      # Fix the InputSelect component by adding the missing TValue type parameter
+      - name: Fix InputSelect in TravelBuilder.razor
         run: |
-          cat > NuGet.Config << 'EOL'
-          <?xml version="1.0" encoding="utf-8"?>
-          <configuration>
-            <packageSources>
-              <clear />
-              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-            </packageSources>
-            <config>
-              <add key="warningsaserrors" value="false" />
-            </config>
-          </configuration>
-          EOL
+          # Create a backup of the file
+          cp GodTur/Client/Pages/TravelBuilder.razor GodTur/Client/Pages/TravelBuilder.razor.bak
+          
+          # Replace the InputSelect without a type parameter with InputSelect<int>
+          # We're assuming selectedHomeboundFlightID is an int based on your code
+          sed -i 's/<InputSelect @bind-Value="selectedHomeboundFlightID">/<InputSelect<int> @bind-Value="selectedHomeboundFlightID">/g' GodTur/Client/Pages/TravelBuilder.razor
+          
+          # Do the same for any other InputSelect elements that might be missing type parameters
+          sed -i 's/<InputSelect @bind-Value="selectedOutboundFlightID">/<InputSelect<int> @bind-Value="selectedOutboundFlightID">/g' GodTur/Client/Pages/TravelBuilder.razor
       
-      # Modify csproj file to disable treating warnings as errors
-      - name: Modify csproj
-        run: |
-          find GodTur -name "*.csproj" -exec sed -i 's/<TreatWarningsAsErrors>true<\/TreatWarningsAsErrors>/<TreatWarningsAsErrors>false<\/TreatWarningsAsErrors>/g' {} \;
-          find GodTur -name "*.csproj" -exec sed -i 's/<WarningsAsErrors>.*<\/WarningsAsErrors>/<WarningsAsErrors><\/WarningsAsErrors>/g' {} \;
-      
-      # Build in Release mode with various options to ignore warnings
+      # Build the app
       - name: Build Blazor WebAssembly App
         run: |
-          dotnet publish GodTur/Client/Client.csproj \
-            -c Release \
-            -o publish \
-            -p:TreatWarningsAsErrors=false \
-            -nowarn:CS8602 \
-            --nologo \
-            -v:m
+          dotnet publish GodTur/Client/Client.csproj -c Release -o publish
       
-      # Copy staticwebapp.config.json if it exists
-      - name: Copy Static Web App config
-        run: |
-          if [ -f "GodTur/Client/staticwebapp.config.json" ]; then
-            cp GodTur/Client/staticwebapp.config.json publish/wwwroot/
-          fi
-      
-      # Deploy only the static content without building
+      # Deploy to Azure Static Web Apps
       - name: Deploy to Azure Static Web Apps
         id: deploy
         uses: Azure/static-web-apps-deploy@v1
@@ -73,9 +51,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "publish/wwwroot"  # Only the compiled wwwroot files
-          output_location: ""  # Leave empty as we're providing the final content
-          skip_app_build: true  # Skip Oryx build entirely
+          app_location: "publish/wwwroot"
+          output_location: ""
+          skip_app_build: true
           api_location: ""
 
   close_pull_request_job:
