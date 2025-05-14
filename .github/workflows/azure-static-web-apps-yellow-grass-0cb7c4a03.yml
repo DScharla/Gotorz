@@ -23,29 +23,38 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0.x'  # Use the .NET version your project requires
+          dotnet-version: '8.0.x'  # Adjust as needed
       
-      - name: Restore dependencies
+      # Fix the InputSelect component by adding the missing TValue type parameter
+      - name: Fix InputSelect in TravelBuilder.razor
         run: |
-          # Restore dependencies for the entire solution to ensure all project references are resolved
-          dotnet restore GodTur/Client/Client.csproj
+          # Create a backup of the file
+          cp GodTur/Client/Pages/TravelBuilder.razor GodTur/Client/Pages/TravelBuilder.razor.bak
+          
+          # Replace the InputSelect without a type parameter with InputSelect<int>
+          # We're assuming selectedHomeboundFlightID is an int based on your code
+          sed -i 's/<InputSelect @bind-Value="selectedHomeboundFlightID">/<InputSelect<int> @bind-Value="selectedHomeboundFlightID">/g' GodTur/Client/Pages/TravelBuilder.razor
+          
+          # Do the same for any other InputSelect elements that might be missing type parameters
+          sed -i 's/<InputSelect @bind-Value="selectedOutboundFlightID">/<InputSelect<int> @bind-Value="selectedOutboundFlightID">/g' GodTur/Client/Pages/TravelBuilder.razor
       
+      # Build the app
       - name: Build Blazor WebAssembly App
         run: |
-          # Build the Client project with reference to the Shared project
           dotnet publish GodTur/Client/Client.csproj -c Release -o publish
       
-      - name: Build And Deploy
-        id: builddeploy
+      # Deploy to Azure Static Web Apps
+      - name: Deploy to Azure Static Web Apps
+        id: deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "publish/wwwroot"  # Location of the published output
+          app_location: "publish/wwwroot"
+          output_location: ""
+          skip_app_build: true
           api_location: ""
-          skip_app_build: true  # We're building manually before this step
-          output_location: ""  # Since we're using skip_app_build, this should be empty
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
