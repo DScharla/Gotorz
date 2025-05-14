@@ -169,41 +169,19 @@
         CheckInDate = new DateTime(2025,06,01),
         CheckOutDate = new DateTime(2025, 06, 06),
     };
-    private List<string>? filteredCities;
-    private List<string> availableCities => stayParam.AvailableCities();
-
-    private List<string>? filteredCountries;
-    private List<string> availableCountries => stayParam.AvailableCountries();
-
-    private List<Airport>? filteredAirports;
-    private List<Airport> availableAirports => flightsParam.AvailableAirports();
 
     private List<FlightDTO> flightOffers = new();
 
     private List<StayDTO> stayOffers = new();
 
-    private async Task<List<FlightDTO>> GetFlightsAsync()
-    {
-        if (selectedOutboundFlightDTO is not null) Console.WriteLine(selectedOutboundFlightDTO.ID.ToString());
-        string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
-        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
-
-        //Forsøg at samle serializer og stringcontent i samme metode nedenunder
-        //var response = await client.PostAsJsonAsync("https://localhost:7112/api/FlightBuilder/create", jsonDeparture + jsonReturn);
-
-        var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
-        if (response.IsSuccessStatusCode) 
-        { 
-            return flightOffers = response.Content.ReadFromJsonAsync<List<FlightDTO>>().Result;
-        }
-        return flightOffers = new List<FlightDTO>();    
-    }
-
     private void UpdateStayOffer(List<StayDTO> stayDTOs)
     {
         stayOffers = stayDTOs;
     }
-
+    private void UpdateFlightOffers(List<FlightDTO> offers)
+    {
+        flightOffers = offers;
+    }
     private async Task<TravelDTO> SaveTravel()
     {
         TravelDTO travel = new TravelDTO()
@@ -233,69 +211,4 @@
     {
         selectedHomeboundFlightID = ID;
     }
-    private void FilterCityInput(ChangeEventArgs e)
-    {
-        stayParam.City = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(stayParam.City))
-        {
-            filteredCities = null;
-        }
-        else
-        {
-            filteredCities = availableCities
-                .Where(city => city.Contains(stayParam.City, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-
-    }
-    private void FilterCountryInput(ChangeEventArgs e)
-    {
-        stayParam.Country = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(stayParam.Country))
-        {
-            filteredCountries = null;
-        }
-        else
-        {
-            filteredCountries = availableCountries
-                .Where(country => country.Contains(stayParam.Country, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-
-    }
-    private void FilterOriginAirportInput(ChangeEventArgs e) {
-        flightsParam.Origin = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(flightsParam.Destination))
-        {
-            filteredAirports = null;
-        }
-        else
-        {
-            filteredAirports = availableAirports
-                .Where(airport => airport.ToString().Contains(flightsParam.Origin, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
-                .ToList();
-        }
-    }
-    
-    private void SelectCity(string city)
-    {
-        stayParam.City = city;
-        filteredCities = null;
-    }
-    private void SelectCountry(string country)
-    {
-        stayParam.Country = country;
-        filteredCountries = null;
-    }
-    private void SelectOriginAirport(string airport)
-    {
-        flightsParam.Origin = availableAirports.FirstOrDefault(f => f.IATACode.Contains(airport)).IATACode;
-        filteredAirports = null;
-    }
-
-    private void UpdateFlightOffers(List<FlightDTO> offers)
-    {
-        flightOffers = offers;
-    }
-    
 }
