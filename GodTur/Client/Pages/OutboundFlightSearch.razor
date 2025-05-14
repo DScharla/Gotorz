@@ -1,26 +1,26 @@
 ﻿<h3>OutboundFlightSearch</h3>
 
-    <p>Flyv fra:</p>
-    <InputText class="form-control" @bind-Value="FlightsParam.Origin" placeholder="Departure Airport" @oninput="FilterOriginAirportInput" />
-    @if (filteredAirports is not null)
-    {
-        <ul class="options">
-            @if (filteredAirports.Any())
+<p>Flyv fra:</p>
+<InputText class="form-control" @bind-Value="FlightsParam.Origin" placeholder="Departure Airport" @oninput="FilterOriginAirportInput" />
+@if (filteredAirports is not null)
+{
+    <ul class="options">
+        @if (filteredAirports.Any())
+        {
+            @foreach (var airport in filteredAirports)
             {
-                @foreach (var airport in filteredAirports)
-                {
-                    <li class="option" @onclick="@(() => SelectOriginAirport(airport.IATACode))">
-                        <span class="option-text">@airport</span>
-                    </li>
-                }
+                <li class="option" @onclick="@(() => SelectOriginAirport(airport.IATACode))">
+                    <span class="option-text">@airport</span>
+                </li>
             }
-            else
-            {
-                <li class="disabled option">No results</li>
-            }
-        </ul>
-    }
-    <InputDate class="form-control" @bind-Value="FlightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Enable="true" />
+        }
+        else
+        {
+            <li class="disabled option">No results</li>
+        }
+    </ul>
+}
+<InputDate class="form-control" @bind-Value="FlightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Enable="true" />
 
 @code {
     [Parameter]

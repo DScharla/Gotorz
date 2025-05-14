@@ -14,23 +14,10 @@
         <div>
             <div >
                 <div >
-                <EditForm Model="flightsParam" OnValidSubmit="GetFlightsAsync">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <h3>Vælg fly</h3>
-                    <div>
-                        <div>
-                            <OutboundFlightSearch FlightsParam="flightsParam" />
-                        </div>
-                        <div>
-                            <HomeboundFlightSearch FlightsParam="flightsParam"/>
-                        </div>
-                    </div>
-                    <button type="submit" name="Search">Search</button>
-                </EditForm>
+                    <FlightSearch client="client" flightoffers="@UpdateFlightOffers" />
                 </div>
                 <div>
-                    <StaySearch client="client"/>
+                    <StaySearch client="client" StayOffers="@UpdateStayOffer" />
                 </div>
             </div>
         </div>
@@ -212,17 +199,9 @@
         return flightOffers = new List<FlightDTO>();    
     }
 
-    private async Task<List<StayDTO>> GetStays()
+    private void UpdateStayOffer(List<StayDTO> stayDTOs)
     {
-        string jsonStayParam = JsonSerializer.Serialize(stayParam);
-        var content = new StringContent(jsonStayParam, Encoding.UTF8, "application/json");
-
-        var response = await client.PostAsync("https://localhost:7112/api/HotelBuilder/stays", content);
-        if(response.IsSuccessStatusCode)
-        {
-            return stayOffers = response.Content.ReadFromJsonAsync<List<StayDTO>>().Result;
-        }
-        return stayOffers = new List<StayDTO>();
+        stayOffers = stayDTOs;
     }
 
     private async Task<TravelDTO> SaveTravel()
@@ -314,6 +293,9 @@
         filteredAirports = null;
     }
 
-    
+    private void UpdateFlightOffers(List<FlightDTO> offers)
+    {
+        flightOffers = offers;
+    }
     
 }

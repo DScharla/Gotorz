@@ -1,5 +1,5 @@
 ﻿<h3>StaySearch</h3>
-<EditForm Model="StayParam" OnValidSubmit="GetStaysAsync">
+<EditForm Model="StayParam" OnValidSubmit="@(() => StayOffers.InvokeAsync())">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <h3>Vælg hotel</h3>
@@ -53,7 +53,9 @@
 @code {
     [Parameter]
     public HttpClient client { get; set; }
-    
+    [Parameter]
+    public EventCallback<List<StayDTO>> StayOffers { get; set; }
+
     private StayDTO StayParam = new StayDTO()
     {
         City = "Dortmund",
@@ -62,7 +64,6 @@
         CheckOutDate = new DateTime(2025, 06, 06),
     };
 
-    private List<StayDTO> stayOffers = new();
 
     private List<string>? filteredCities;
     private List<string> availableCities => StayParam.AvailableCities();
@@ -111,16 +112,20 @@
         StayParam.Country = country;
         filteredCountries = null;
     }
-    private async Task<List<StayDTO>> GetStaysAsync()
+    private async Task GetStaysAsync()
     {
-        string jsonStayParam = JsonSerializer.Serialize(StayParam);
-        var content = new StringContent(jsonStayParam, Encoding.UTF8, "application/json");
+        string jsonFlightParam = JsonSerializer.Serialize(StayParam);
+        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
 
-        var response = await client.PostAsync("https://localhost:7112/api/HotelBuilder/stays", content);
+        var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
         if (response.IsSuccessStatusCode)
         {
-            return stayOffers = response.Content.ReadFromJsonAsync<List<StayDTO>>().Result;
+            var result = await response.Content.ReadFromJsonAsync<List<StayDTO>>();
+            await StayOffers.InvokeAsync(result);
         }
-        return stayOffers = new List<StayDTO>();
+        else
+        {
+            await StayOffers.InvokeAsync(new List<StayDTO>());
+        }
     }
 }
