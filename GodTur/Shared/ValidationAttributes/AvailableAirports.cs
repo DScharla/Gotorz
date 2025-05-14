@@ -19,6 +19,7 @@ namespace Shared.ValidationAttributes
         private string GetErrorMessage() => $"Ugyldig lufthavn. vælg en fra listen - vores autocomplete er awesome";
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null) return new ValidationResult(GetErrorMessage());
             var airports = (string)value;
 
             if (!IsValidAirport(airports)) return new ValidationResult(GetErrorMessage());
