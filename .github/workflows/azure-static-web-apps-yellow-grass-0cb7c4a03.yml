@@ -25,10 +25,15 @@ jobs:
         with:
           dotnet-version: '8.0.x'  # Use the .NET version your project requires
       
+      - name: Restore dependencies
+        run: |
+          # Restore dependencies for the entire solution to ensure all project references are resolved
+          dotnet restore GodTur/Client/Client.csproj
+      
       - name: Build Blazor WebAssembly App
         run: |
-          cd GodTur/Client
-          dotnet publish -c Release -o publish
+          # Build the Client project with reference to the Shared project
+          dotnet publish GodTur/Client/Client.csproj -c Release -o publish
       
       - name: Build And Deploy
         id: builddeploy
@@ -37,10 +42,10 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "GodTur/"  # Location of the Blazor project
-          output_location: "publish/wwwroot"  # Location of the published output
+          app_location: "publish/wwwroot"  # Location of the published output
           api_location: ""
           skip_app_build: true  # We're building manually before this step
+          output_location: ""  # Since we're using skip_app_build, this should be empty
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
