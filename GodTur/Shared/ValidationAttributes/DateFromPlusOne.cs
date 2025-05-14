@@ -29,6 +29,10 @@ namespace Shared.ValidationAttributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return new ValidationResult($"Value cannot be null");
+            }
             var currentValue = (DateTime)value;
 
             var property = validationContext.ObjectType.GetProperty(_comparisonProperty);

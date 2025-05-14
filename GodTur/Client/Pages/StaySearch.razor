@@ -1,5 +1,5 @@
 ﻿<h3>StaySearch</h3>
-<EditForm Model="StayParam" OnValidSubmit="@(() => StayOffers.InvokeAsync())">
+<EditForm Model="StayParam" OnValidSubmit="GetStaysAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <h3>Vælg hotel</h3>
