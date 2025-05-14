@@ -117,7 +117,7 @@
         string jsonFlightParam = JsonSerializer.Serialize(StayParam);
         var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
 
-        var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
+        var response = await client.PostAsync("https://localhost:7112/api/HotelBuilder/stays", content);
         if (response.IsSuccessStatusCode)
         {
             var result = await response.Content.ReadFromJsonAsync<List<StayDTO>>();
