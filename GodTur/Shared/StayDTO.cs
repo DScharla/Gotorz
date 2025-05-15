@@ -11,18 +11,10 @@ namespace Shared
     public class StayDTO
     {        
         public int ID { get; set; }
-        [Required]
-        [DateFromNow]
         public DateTime CheckInDate { get; set; }
-        [Required]
-        [DateFromPlusOne("CheckInDate")]
         public DateTime CheckOutDate { get; set;}
 		public string? StreetNameNumber { get; set; }
-        [Required]
-        [AvailableCities]
 		public string City { get; set; }
-        [Required]
-        [AvailableCountries]
 		public string Country { get; set; }
 		public decimal? Price { get; set; }
         public string? Currency { get; set; }
