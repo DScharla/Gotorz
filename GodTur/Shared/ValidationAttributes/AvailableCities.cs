@@ -13,6 +13,7 @@ namespace Shared.ValidationAttributes
         private string GetErrorMessage() => $"Ugyldig by. vælg en fra listen - vores autocomplete er awesome";
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null) return new ValidationResult(GetErrorMessage());
             var city = (string)value;
 
             if (!IsValidCity(city)) return new ValidationResult(GetErrorMessage());
@@ -32,7 +33,8 @@ namespace Shared.ValidationAttributes
                 "San Antonio",
                 "San Diego",
                 "Dallas",
-                "San Jose"
+                "San Jose",
+                "Aalborg"
             };
         }
         private bool IsValidCity(string city)

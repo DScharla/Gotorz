@@ -1,0 +1,45 @@
+﻿<EditForm Model="flightsParam" OnValidSubmit="GetFlightsAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <h3>Vælg fly</h3>
+    <div>
+        <div>
+            <OutboundFlightSearch FlightsParam="flightsParam" />
+        </div>
+        <div>
+            <HomeboundFlightSearch FlightsParam="flightsParam"/>
+        </div>
+    </div>
+    <button type="submit" name="Search">Search</button>
+</EditForm>
+@code {
+    [Parameter]
+    public HttpClient client { get; set; }
+    [Parameter]
+    public EventCallback<List<FlightDTO>> FlightOffers { get; set; }
+    
+    private FlightDTO flightsParam = new FlightDTO()
+    {
+        Origin = "CPH",
+        Destination = "DTM",
+        DepartureDate = new DateTime(2025, 06, 01),
+        ReturnDate = new DateTime(2025, 06, 06),
+    };
+
+    private async Task GetFlightsAsync()
+    {
+        string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
+        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<List<FlightDTO>>();
+            await FlightOffers.InvokeAsync(result);
+        }
+        else
+        {
+            await FlightOffers.InvokeAsync(new List<FlightDTO>());
+        }
+    }
+}

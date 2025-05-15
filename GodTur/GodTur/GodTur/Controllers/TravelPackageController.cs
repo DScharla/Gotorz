@@ -30,13 +30,14 @@ namespace GodTur.Controllers
 		}
 
 		[HttpPost, Route("Create")]
-		public async Task<ActionResult<TravelPackage>> CreateTravelPackage([FromBody] TravelPackageDTO dto)
+		public async Task<ActionResult<TravelPackageDTO>> CreateTravelPackage([FromBody] TravelPackageDTO dto)
 		{
-			var createdPackage = await _travelPackageService.CreateTravelPackageAsync(dto);
+			TravelPackageDTO travelPackageDTO = dto;
+			TravelPackage createdPackage = await _travelPackageService.CreateTravelPackageAsync(travelPackageDTO);
 			if (createdPackage == null)
 				return BadRequest("Unable to create travel package. Check that airports and country exist.");
 
-			return Ok(createdPackage);
+			return Ok(dto);
 		}
 		// GET: api/TravelPackage
 		//[HttpGet, Route("Get")]

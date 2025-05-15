@@ -1,0 +1,49 @@
+﻿<p>Flyv fra:</p>
+<InputText class="form-control" @bind-Value="FlightsParam.Origin" placeholder="Departure Airport" @oninput="FilterOriginAirportInput" />
+@if (filteredAirports is not null)
+{
+    <ul class="options">
+        @if (filteredAirports.Any())
+        {
+            @foreach (var airport in filteredAirports)
+            {
+                <li class="option" @onclick="@(() => SelectOriginAirport(airport.IATACode))">
+                    <span class="option-text">@airport</span>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="disabled option">No results</li>
+        }
+    </ul>
+}
+<InputDate class="form-control" @bind-Value="FlightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Enable="true" />
+
+@code {
+    [Parameter]
+    public FlightDTO FlightsParam { get; set; }
+
+    private List<Airport>? filteredAirports;
+    private List<Airport> availableAirports => FlightsParam.AvailableAirports();
+
+    private void FilterOriginAirportInput(ChangeEventArgs e)
+    {
+        FlightsParam.Origin = e.Value?.ToString() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(FlightsParam.Destination))
+        {
+            filteredAirports = null;
+        }
+        else
+        {
+            filteredAirports = availableAirports
+                .Where(airport => airport.ToString().Contains(FlightsParam.Origin, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
+                .ToList();
+        }
+    }
+    private void SelectOriginAirport(string airport)
+    {
+        FlightsParam.Origin = availableAirports.FirstOrDefault(f => f.IATACode.Contains(airport)).IATACode;
+        filteredAirports = null;
+    }
+}
