@@ -79,7 +79,7 @@ namespace GodTur.Controllers
                         {
                             Origin = flightDTO.Origin,
                             Destination = flightDTO.Destination,
-                            DepartureDate = flightDTO.DepartureDate?.ToString("yyyy-MM-dd"),
+                            DepartureDate = flightDTO.DepartureDate.ToString("yyyy-MM-dd"),
                         }
                     },
                     Passengers = new List<PassengerRequest>

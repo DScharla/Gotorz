@@ -18,7 +18,7 @@
     [Parameter]
     public EventCallback<List<FlightDTO>> FlightOffers { get; set; }
     
-    private FlightDTO flightsParam = new FlightDTO()
+    private FlightInput flightsParam = new FlightInput()
     {
         Origin = "CPH",
         Destination = "DTM",
@@ -28,7 +28,8 @@
 
     private async Task GetFlightsAsync()
     {
-        string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
+
+        string jsonFlightParam = JsonSerializer.Serialize(ConvertFlightInputToFlightDTO());
         var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
 
         var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
@@ -41,5 +42,15 @@
         {
             await FlightOffers.InvokeAsync(new List<FlightDTO>());
         }
+    }
+    private FlightDTO ConvertFlightInputToFlightDTO()
+    {
+        return new FlightDTO()
+            {
+                Origin = flightsParam.Origin,
+                Destination = flightsParam.Destination,
+                DepartureDate = flightsParam.DepartureDate,
+                ReturnDate = flightsParam.ReturnDate
+            };
     }
 }

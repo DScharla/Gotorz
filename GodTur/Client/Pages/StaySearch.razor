@@ -55,7 +55,7 @@
     [Parameter]
     public EventCallback<List<StayDTO>> StayOffers { get; set; }
 
-    private StayDTO StayParam = new StayDTO()
+    private StayInput StayParam = new StayInput()
     {
         City = "Dortmund",
         Country = "Germany",
@@ -126,5 +126,15 @@
         {
             await StayOffers.InvokeAsync(new List<StayDTO>());
         }
+    }
+    private StayDTO ConvertStayInputToStayDTO()
+    {
+        return new StayDTO()
+            {
+                City = StayParam.City,
+                Country = StayParam.Country,
+                CheckInDate = StayParam.CheckInDate,
+                CheckOutDate = StayParam.CheckOutDate
+            };
     }
 }
