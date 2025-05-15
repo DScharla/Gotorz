@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GodTur.Migrations
 {
     [DbContext(typeof(OfferResponseContext))]
-    [Migration("20250507111326_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250514234640_InitialCreate2")]
+    partial class InitialCreate2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,7 +91,27 @@ namespace GodTur.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            CountryId = 1,
+                            IataCountryCode = "DK",
+                            Name = "Denmark"
+                        },
+                        new
+                        {
+                            CountryId = 2,
+                            IataCountryCode = "DE",
+                            Name = "Germany"
+                        },
+                        new
+                        {
+                            CountryId = 3,
+                            IataCountryCode = "FR",
+                            Name = "France"
+                        });
                 });
 
             modelBuilder.Entity("GodTur.Models.Flight", b =>

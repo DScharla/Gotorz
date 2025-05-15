@@ -88,7 +88,27 @@ namespace GodTur.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            CountryId = 1,
+                            IataCountryCode = "DK",
+                            Name = "Denmark"
+                        },
+                        new
+                        {
+                            CountryId = 2,
+                            IataCountryCode = "DE",
+                            Name = "Germany"
+                        },
+                        new
+                        {
+                            CountryId = 3,
+                            IataCountryCode = "FR",
+                            Name = "France"
+                        });
                 });
 
             modelBuilder.Entity("GodTur.Models.Flight", b =>

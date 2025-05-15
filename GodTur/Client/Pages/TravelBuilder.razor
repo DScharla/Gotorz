@@ -318,7 +318,7 @@
         return stayOffers = new List<StayDTO>();
     }
 
-    private async Task<TravelDTO> SaveTravel()
+    private async Task<string> SaveTravel()
     {
         TravelDTO travel = new TravelDTO()
         {
@@ -331,9 +331,9 @@
         var response = await client.PostAsync("https://localhost:7112/api/TravelPackage/Create", content);
         if (response.IsSuccessStatusCode)
         {
-            return travel;
+            return $"{travel} er nu oprettet i databasen";
         }
-        return null;
+        return "Der er gået fejl i oprettelsen";
     }
     private void SelectStay(int ID) 
     {
@@ -378,7 +378,7 @@
 
     }
     private void FilterOriginAirportInput(ChangeEventArgs e) {
-        flightsParam.Origin = e.Value?.ToString() ?? string.Empty;
+        flightsParam.Destination = e.Value?.ToString() ?? string.Empty;
         if (string.IsNullOrWhiteSpace(flightsParam.Destination))
         {
             filteredAirports = null;

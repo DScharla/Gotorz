@@ -16,8 +16,8 @@ namespace GodTur.Models.Context
           : base(options)
         {
         }
-
-        public DbSet<City> Cities { get; set; }
+		public DbSet<Country> Countries { get; set; }
+		public DbSet<City> Cities { get; set; }
         public DbSet<Airport> Airports { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
@@ -31,8 +31,28 @@ namespace GodTur.Models.Context
                 .WithMany(c => c.Airports)
                 .HasForeignKey(a => a.CityId);
 
-            // Konfigurer en-til-mange relationer for Flight
-            modelBuilder.Entity<Flight>()
+            // Seeder Databasen med lande.
+			modelBuilder.Entity<Country>().HasData(
+	            new Country { CountryId = 1, Name = "Denmark", IataCountryCode = "DK" },
+	            new Country { CountryId = 2, Name = "Germany", IataCountryCode = "DE" },
+	            new Country { CountryId = 3, Name = "France", IataCountryCode = "FR" }
+                );
+
+//			--Add cities
+//INSERT INTO Cities(Name, CountryId)
+//VALUES
+//('Copenhagen', (SELECT CountryId FROM Countries WHERE Name = 'Denmark')),
+//('Aalborg', (SELECT CountryId FROM Countries WHERE Name = 'Denmark'));
+
+//			--Add airports
+//			INSERT INTO Airports(Name, IataCode, CityId)
+//VALUES
+//('Copenhagen Airport', 'CPH', (SELECT CityId FROM Cities WHERE Name = 'Copenhagen')),
+//('AAlborg Airport', 'AAL', (SELECT CityId FROM Cities WHERE Name = 'Aalborg'));
+
+
+			// Konfigurer en-til-mange relationer for Flight
+			modelBuilder.Entity<Flight>()
                 .HasOne(f => f.OriginAirport)
                 .WithMany(a => a.OriginFlights)
                 .HasForeignKey(f => f.OriginAirportId)

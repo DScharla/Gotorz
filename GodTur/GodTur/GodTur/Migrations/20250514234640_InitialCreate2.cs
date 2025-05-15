@@ -3,26 +3,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace GodTur.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreate2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Country",
+                name: "Countries",
                 columns: table => new
                 {
                     CountryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IataCountryCode = table.Column<string>(type: "nchar(2)", nullable: false)
+                    IataCountryCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Country", x => x.CountryId);
+                    table.PrimaryKey("PK_Countries", x => x.CountryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,9 +40,9 @@ namespace GodTur.Migrations
                 {
                     table.PrimaryKey("PK_Cities", x => x.CityId);
                     table.ForeignKey(
-                        name: "FK_Cities_Country_CountryId",
+                        name: "FK_Cities_Countries_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "Country",
+                        principalTable: "Countries",
                         principalColumn: "CountryId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -52,7 +54,7 @@ namespace GodTur.Migrations
                     AirportId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IataCode = table.Column<string>(type: "nchar(3)", nullable: false),
+                    IataCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -73,8 +75,8 @@ namespace GodTur.Migrations
                     HotelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CheckInDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    CheckOutDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StayPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -97,11 +99,11 @@ namespace GodTur.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OriginAirportId = table.Column<int>(type: "int", nullable: false),
                     DestinationAirportId = table.Column<int>(type: "int", nullable: false),
-                    DepartingAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    ArrivingAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DepartingAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ArrivingAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FlightPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FPCurrency = table.Column<string>(type: "nchar(3)", nullable: false),
-                    FlightNumber = table.Column<string>(type: "nvarchar(6)", nullable: false)
+                    FPCurrency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FlightNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -152,6 +154,16 @@ namespace GodTur.Migrations
                         principalTable: "Hotels",
                         principalColumn: "HotelId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "CountryId", "IataCountryCode", "Name" },
+                values: new object[,]
+                {
+                    { 1, "DK", "Denmark" },
+                    { 2, "DE", "Germany" },
+                    { 3, "FR", "France" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -214,7 +226,7 @@ namespace GodTur.Migrations
                 name: "Cities");
 
             migrationBuilder.DropTable(
-                name: "Country");
+                name: "Countries");
         }
     }
 }
