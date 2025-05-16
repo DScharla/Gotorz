@@ -74,7 +74,7 @@ public class Program
         app.UseHttpsRedirection();
 
 		app.UseStaticFiles();
-        app.UseAntiforgery();
+        //app.UseAntiforgery();
 
 
 		app.MapRazorComponents<App>()
