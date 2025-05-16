@@ -24,7 +24,7 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://localhost:7177")
+            options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://nice-stone-0ffe43c03.6.azurestaticapps.net")
             .AllowAnyHeader()
             .AllowAnyMethod()
             );

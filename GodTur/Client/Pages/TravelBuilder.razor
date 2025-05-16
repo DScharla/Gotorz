@@ -297,7 +297,7 @@
         //Forsøg at samle serializer og stringcontent i samme metode nedenunder
         //var response = await client.PostAsJsonAsync("https://localhost:7112/api/FlightBuilder/create", jsonDeparture + jsonReturn);
 
-        var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
+        var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/FlightBuilder/create", content);
         if (response.IsSuccessStatusCode) 
         { 
             return flightOffers = response.Content.ReadFromJsonAsync<List<FlightDTO>>().Result;
@@ -310,7 +310,7 @@
         string jsonStayParam = JsonSerializer.Serialize(stayParam);
         var content = new StringContent(jsonStayParam, Encoding.UTF8, "application/json");
 
-        var response = await client.PostAsync("https://localhost:7112/api/HotelBuilder/stays", content);
+        var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/HotelBuilder/stays", content);
         if(response.IsSuccessStatusCode)
         {
             return stayOffers = response.Content.ReadFromJsonAsync<List<StayDTO>>().Result;
@@ -328,7 +328,7 @@
         };
         string jsonTravel = JsonSerializer.Serialize(travel);
         var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("https://localhost:7112/api/TravelPackage/Create", content);
+        var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/TravelPackage/Create", content);
         if (response.IsSuccessStatusCode)
         {
             return travel;
