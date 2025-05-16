@@ -22,22 +22,21 @@ namespace GodTur.Controllers
 		//{
 		//    _context = context;
 		//}
-		private readonly TravelPackageService _travelPackageService;
+		private readonly TravelPackageDBService _travelPackageService;
 
-		public TravelPackageController(TravelPackageService travelPackageService)
+		public TravelPackageController(TravelPackageDBService travelPackageService)
 		{
 			_travelPackageService = travelPackageService;
 		}
 
 		[HttpPost, Route("Create")]
-		public async Task<ActionResult<TravelPackageDTO>> CreateTravelPackage([FromBody] TravelPackageDTO dto)
+		public async Task<ActionResult<TravelPackageDTO>> CreateTravelPackage([FromBody] TravelPackageDTO travelPackageDTO)
 		{
-			TravelPackageDTO travelPackageDTO = dto;
 			TravelPackage createdPackage = await _travelPackageService.CreateTravelPackageAsync(travelPackageDTO);
 			if (createdPackage == null)
 				return BadRequest("Unable to create travel package. Check that airports and country exist.");
 
-			return Ok(dto);
+			return Ok(travelPackageDTO);
 		}
 		// GET: api/TravelPackage
 		//[HttpGet, Route("Get")]

@@ -40,7 +40,7 @@
                         }
                         foreach (var flight in flightOffers)
                         {
-                            @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
+                            @if (flight.DepartureDate.Date == flightsParam.DepartureDate.Date)
                             {
                                 <li @onclick="@(() => SelectOutboundFlight(flight.ID))">
                                     <div>
@@ -61,7 +61,7 @@
                         }
                         foreach (var flight in flightOffers)
                         {
-                            @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+                            @if (flight.DepartureDate.Date == flightsParam.ReturnDate.Date)
                             {
                                 <li @onclick="@(() => SelectHomeboundFlight(flight.ID))">
                                     <div>
@@ -115,7 +115,7 @@
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
-        @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
+        @if (flight.DepartureDate.Date == flightsParam.DepartureDate.Date)
         {
             <option value="@flight.ID">@flight.ID - @flight.Origin - @flight.Destination</option>
         }
@@ -125,7 +125,7 @@
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
-        @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+        @if (flight.DepartureDate.Date == flightsParam.ReturnDate.Date)
         {
             <option value="@flight.ID">@flight.ID - @flight.Origin - @flight.Destination</option>
         }
@@ -154,7 +154,7 @@
     private int selectedResultsID = 0;
 
 
-    private FlightDTO flightsParam = new FlightDTO() 
+    private FlightInput flightsParam = new FlightInput() 
     {
         Origin = "CPH",
         Destination = "DTM",

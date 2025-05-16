@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GodTur.Migrations
 {
-    [DbContext(typeof(OfferResponseContext))]
+    [DbContext(typeof(TravelPackageContext))]
     [Migration("20250514234640_InitialCreate2")]
     partial class InitialCreate2
     {

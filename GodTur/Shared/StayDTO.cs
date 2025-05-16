@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Shared.ValidationAttributes;
 
 namespace Shared
 {
@@ -20,17 +19,6 @@ namespace Shared
         public string? Currency { get; set; }
         public int? AvailableRooms { get; set; }
         public string? HotelName { get; set; }
-        public List<string> AvailableCities() 
-        { 
-            AvailableCitiesAttribute availableCities = new AvailableCitiesAttribute();
-            return availableCities._cities;
-        }
-
-        public List<string> AvailableCountries()
-        {
-            AvailableCountriesAttribute availableCountries = new AvailableCountriesAttribute();
-            return availableCountries._countries;
-        }
 
     }
 }

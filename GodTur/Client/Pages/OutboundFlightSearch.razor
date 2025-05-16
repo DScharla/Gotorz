@@ -22,7 +22,7 @@
 
 @code {
     [Parameter]
-    public FlightDTO FlightsParam { get; set; }
+    public FlightInput FlightsParam { get; set; }
 
     private List<Airport>? filteredAirports;
     private List<Airport> availableAirports => FlightsParam.AvailableAirports();

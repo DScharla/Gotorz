@@ -19,7 +19,7 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
-        builder.Services.AddDbContext<OfferResponseContext>(options =>
+        builder.Services.AddDbContext<TravelPackageContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
 
@@ -54,7 +54,7 @@ public class Program
 		builder.Services.AddScoped<IOfferService, OfferService>();
         builder.Services.AddScoped<IStaysService, StaysService>();
         builder.Services.AddScoped<IGeoService, GeoService>();
-        builder.Services.AddScoped<TravelPackageService>();
+        builder.Services.AddScoped<TravelPackageDBService>();
 
         var app = builder.Build();
         app.UseCors("AllowClient");
