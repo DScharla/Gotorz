@@ -55,6 +55,7 @@ public class Program
         builder.Services.AddScoped<IGeoService, GeoService>();
 
         var app = builder.Build();
+        app.UseRouting();
         app.UseCors("AllowClient");
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
