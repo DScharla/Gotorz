@@ -27,7 +27,7 @@ jobs:
         run: dotnet dotnet build ./GodTur/GodTur/GodTur --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish ./GodTur/GodTur/GodTur/GodTur.csproj -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
