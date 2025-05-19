@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GodTur.Migrations
 {
     [DbContext(typeof(TravelPackageContext))]
-    [Migration("20250519101455_CreateUserTables")]
-    partial class CreateUserTables
+    [Migration("20250519122825_EmployeeTable")]
+    partial class EmployeeTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,10 +117,7 @@ namespace GodTur.Migrations
             modelBuilder.Entity("GodTur.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
 
                     b.Property<string>("Email")
                         .IsRequired()

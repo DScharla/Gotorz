@@ -1,4 +1,7 @@
-﻿namespace GodTur.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace GodTur.Models
 {
     public class Employee : User
     {
@@ -7,6 +10,8 @@
             EmployeeId = employeeId;
             Role = role;
         }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int EmployeeId { get; set; }
         public string Role { get; set; }
 
