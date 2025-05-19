@@ -25,9 +25,10 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://localhost:7177")
+            options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://nice-stone-0ffe43c03.6.azurestaticapps.net")
             .AllowAnyHeader()
             .AllowAnyMethod()
+            .AllowCredentials()
             );
 
         });
@@ -57,6 +58,7 @@ public class Program
         builder.Services.AddScoped<TravelPackageDBService>();
 
         var app = builder.Build();
+        app.UseRouting();
         app.UseCors("AllowClient");
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -75,7 +77,7 @@ public class Program
         app.UseHttpsRedirection();
 
 		app.UseStaticFiles();
-        app.UseAntiforgery();
+        //app.UseAntiforgery();
 
 
 		app.MapRazorComponents<App>()

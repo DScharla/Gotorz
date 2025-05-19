@@ -23,7 +23,7 @@
         </div>
         <div>
             <h3>Søge resultater</h3>
-            <InputSelect @bind-value="selectedResultsID">
+            <InputSelect TValue="int" @bind-Value="selectedResultsID">
                 <option value="0">Select results</option>
                 <option value="1">Outbound Flight</option>
                 <option value="2">Homebound Flight</option>
@@ -111,7 +111,7 @@
 
 
 
-<InputSelect @bind-Value="selectedOutboundFlightID">
+<InputSelect TValue="int" @bind-Value="selectedOutboundFlightID">
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
@@ -121,7 +121,7 @@
         }
     }
 </InputSelect>
-<InputSelect @bind-Value="selectedHomeboundFlightID">
+<InputSelect TValue="int" @bind-Value="selectedHomeboundFlightID">
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
@@ -131,7 +131,7 @@
         }
     }
 </InputSelect>
-<InputSelect @bind-Value="selectedStayID">
+<InputSelect TValue="int" @bind-Value="selectedStayID">
     <option value="-1">Select an acommodation</option>
     @foreach (var stay in stayOffers)
     {
@@ -192,7 +192,7 @@
         };
         string jsonTravel = JsonSerializer.Serialize(travel);
         var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("https://localhost:7112/api/TravelPackage/Create", content);
+        var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/TravelPackage/Create", content);
         if (response.IsSuccessStatusCode)
         {
             return $"{travel} er nu oprettet i databasen";
