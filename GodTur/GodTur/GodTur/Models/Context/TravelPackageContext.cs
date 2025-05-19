@@ -23,9 +23,10 @@ namespace GodTur.Models.Context
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<TravelPackage> TravelPackages { get; set; }
+        public DbSet<Country> Countries { get; set; } 
 
         //Kontrakt til hvordan alle decimal håndteres til databasen.
-		protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
 		{
 			configurationBuilder
 				.Properties<decimal>()
