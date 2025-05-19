@@ -8,122 +8,16 @@
 @*@rendermode InteractiveWebAssemblyRenderMode*@
 
 <h3 class="test-class">TravelBuilder</h3>
+
 <div>
     <div>
         <div>
             <div >
                 <div >
-                <EditForm Model="flightsParam" OnValidSubmit="GetFlightsAsync">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <h3>Vælg fly</h3>
-                    <div>
-                        <div>
-                            <p>Flyv fra:</p>
-                            <InputText class="form-control" @bind-Value="flightsParam.Origin" placeholder="Departure Airport" @oninput="FilterOriginAirportInput" />
-                            @if (filteredAirports is not null)
-                            {
-                                <ul class="options">
-                                    @if (filteredAirports.Any())
-                                    {
-                                        @foreach (var airport in filteredAirports)
-                                        {
-                                            <li class="option" @onclick="@(() => SelectOriginAirport(airport.IATACode))">
-                                                <span class="option-text">@airport</span>
-                                            </li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li class="disabled option">No results</li>
-                                    }
-                                </ul>
-                            }
-                            <InputDate class="form-control" @bind-Value="flightsParam.DepartureDate" DateFormat="yyyy-MM-dd" Enable="true" />
-                    
-                        </div>
-                        <br>
-                        <br>
-                        <div>
-                            <p>Flyv til:</p>
-                            <InputText class="form-control" @bind-Value="flightsParam.Destination" placeholder="Departure Airport" @oninput="FilterHomeboundAirportInput" />
-                            @if (filteredAirports is not null)
-                            {
-                                <ul class="options">
-                                    @if (filteredAirports.Any())
-                                    {
-                                        @foreach (var airport in filteredAirports)
-                                        {
-                                            <li class="option" @onclick="@(() => SelectHomeboundAirport(airport.IATACode))">
-                                                <span class="option-text">@airport</span>
-                                            </li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li class="disabled option">No results</li>
-                                    }
-                                </ul>
-                            }
-                            <InputDate class="form-control" @bind-Value="flightsParam.ReturnDate" DateFormat="yyyy-MM-dd" Enable="true" />
-                            <br />
-                            <br />
-                        </div>
-                    </div>
-                    <button type="submit" name="Search">Search</button>
-                </EditForm>
+                    <FlightSearch client="client" flightoffers="@UpdateFlightOffers" />
                 </div>
                 <div>
-                <EditForm Model="stayParam" OnValidSubmit="GetStays">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <h3>Vælg hotel</h3>
-                    <InputText class="form-control" @bind-Value="stayParam.City" placeholder="City" @oninput="FilterCityInput" />
-                    @if (filteredCities is not null)
-                            {
-                                <ul class="options">
-                                    @if (filteredCities.Any())
-                                    {
-                                        @foreach (var city in filteredCities)
-                                        {
-                                            <li class="option" @onclick="@(() => SelectCity(city))">
-                                                <span class="option-text">@city</span>
-                                            </li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li class="disabled option">No results</li>
-                                    }
-                                </ul>
-                            }
-                    <InputText class="form-control" @bind-Value="stayParam.Country" placeholder="Country" @oninput="FilterCountryInput" />
-                    @if (filteredCountries is not null)
-                            {
-                                <ul class="options">
-                                    @if (filteredCountries.Any())
-                                    {
-                                        @foreach (var country in filteredCountries)
-                                        {
-                                            <li class="option" @onclick="@(() => SelectCountry(country))">
-                                                <span class="option-text">@country</span>
-                                            </li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li class="disabled option">No results</li>
-                                    }
-                                </ul>
-                            }
-                    <br>
-                    <br>
-                    <br>
-                    <InputDate @bind-Value="stayParam.CheckInDate" DateFormat="yyyy-MM-dd" Enable="true" />
-                    <InputDate @bind-Value="stayParam.CheckOutDate" DateFormat="yyyy-MM-dd" Enable="true" />
-                    <br />
-                    <button type="submit" name="Search">Search</button>
-                </EditForm>
+                    <StaySearch client="client" StayOffers="@UpdateStayOffer" />
                 </div>
             </div>
         </div>
@@ -146,7 +40,7 @@
                         }
                         foreach (var flight in flightOffers)
                         {
-                            @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
+                            @if (flight.DepartureDate.Date == flightsParam.DepartureDate.Date)
                             {
                                 <li @onclick="@(() => SelectOutboundFlight(flight.ID))">
                                     <div>
@@ -167,7 +61,7 @@
                         }
                         foreach (var flight in flightOffers)
                         {
-                            @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+                            @if (flight.DepartureDate.Date == flightsParam.ReturnDate.Date)
                             {
                                 <li @onclick="@(() => SelectHomeboundFlight(flight.ID))">
                                     <div>
@@ -221,7 +115,7 @@
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
-        @if (flight.DepartureDate.Value.Date == flightsParam.DepartureDate.Value.Date)
+        @if (flight.DepartureDate.Date == flightsParam.DepartureDate.Date)
         {
             <option value="@flight.ID">@flight.ID - @flight.Origin - @flight.Destination</option>
         }
@@ -231,7 +125,7 @@
     <option value="-1">Select a flight</option>
     @foreach (var flight in flightOffers)
     {
-        @if (flight.DepartureDate.Value.Date == flightsParam.ReturnDate.Value.Date)
+        @if (flight.DepartureDate.Date == flightsParam.ReturnDate.Date)
         {
             <option value="@flight.ID">@flight.ID - @flight.Origin - @flight.Destination</option>
         }
@@ -260,7 +154,7 @@
     private int selectedResultsID = 0;
 
 
-    private FlightDTO flightsParam = new FlightDTO() 
+    private FlightInput flightsParam = new FlightInput() 
     {
         Origin = "CPH",
         Destination = "DTM",
@@ -275,65 +169,35 @@
         CheckInDate = new DateTime(2025,06,01),
         CheckOutDate = new DateTime(2025, 06, 06),
     };
-    private List<string>? filteredCities;
-    private List<string> availableCities => stayParam.AvailableCities();
-
-    private List<string>? filteredCountries;
-    private List<string> availableCountries => stayParam.AvailableCountries();
-
-    private List<Airport>? filteredAirports;
-    private List<Airport> availableAirports => flightsParam.AvailableAirports();
 
     private List<FlightDTO> flightOffers = new();
 
     private List<StayDTO> stayOffers = new();
 
-    private async Task<List<FlightDTO>> GetFlightsAsync()
+    private void UpdateStayOffer(List<StayDTO> stayDTOs)
     {
-        if (selectedOutboundFlightDTO is not null) Console.WriteLine(selectedOutboundFlightDTO.ID.ToString());
-        string jsonFlightParam = JsonSerializer.Serialize(flightsParam);
-        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
-
-        //Forsøg at samle serializer og stringcontent i samme metode nedenunder
-        //var response = await client.PostAsJsonAsync("https://localhost:7112/api/FlightBuilder/create", jsonDeparture + jsonReturn);
-
-        var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/FlightBuilder/create", content);
-        if (response.IsSuccessStatusCode) 
-        { 
-            return flightOffers = response.Content.ReadFromJsonAsync<List<FlightDTO>>().Result;
-        }
-        return flightOffers = new List<FlightDTO>();    
+        stayOffers = stayDTOs;
     }
-
-    private async Task<List<StayDTO>> GetStays()
+    private void UpdateFlightOffers(List<FlightDTO> offers)
     {
-        string jsonStayParam = JsonSerializer.Serialize(stayParam);
-        var content = new StringContent(jsonStayParam, Encoding.UTF8, "application/json");
-
-        var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/HotelBuilder/stays", content);
-        if(response.IsSuccessStatusCode)
-        {
-            return stayOffers = response.Content.ReadFromJsonAsync<List<StayDTO>>().Result;
-        }
-        return stayOffers = new List<StayDTO>();
+        flightOffers = offers;
     }
-
-    private async Task<TravelDTO> SaveTravel()
+    private async Task<string> SaveTravel()
     {
-        TravelDTO travel = new TravelDTO()
+        TravelPackageDTO travel = new TravelPackageDTO()
         {
             OutboundFlight = selectedOutboundFlightDTO,
-            HomeboundFlight = selectedHomeboundFlightDTO,
-            Stay = selectedStayDTO
+            ReturnFlight = selectedHomeboundFlightDTO,
+            PackageHotel = selectedStayDTO
         };
         string jsonTravel = JsonSerializer.Serialize(travel);
         var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
         var response = await client.PostAsync("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net/api/TravelPackage/Create", content);
         if (response.IsSuccessStatusCode)
         {
-            return travel;
+            return $"{travel} er nu oprettet i databasen";
         }
-        return null;
+        return "Der er gået fejl i oprettelsen";
     }
     private void SelectStay(int ID) 
     {
@@ -347,83 +211,4 @@
     {
         selectedHomeboundFlightID = ID;
     }
-    private void FilterCityInput(ChangeEventArgs e)
-    {
-        stayParam.City = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(stayParam.City))
-        {
-            filteredCities = null;
-        }
-        else
-        {
-            filteredCities = availableCities
-                .Where(city => city.Contains(stayParam.City, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-
-    }
-    private void FilterCountryInput(ChangeEventArgs e)
-    {
-        stayParam.Country = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(stayParam.Country))
-        {
-            filteredCountries = null;
-        }
-        else
-        {
-            filteredCountries = availableCountries
-                .Where(country => country.Contains(stayParam.Country, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-
-    }
-    private void FilterOriginAirportInput(ChangeEventArgs e) {
-        flightsParam.Origin = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(flightsParam.Destination))
-        {
-            filteredAirports = null;
-        }
-        else
-        {
-            filteredAirports = availableAirports
-                .Where(airport => airport.ToString().Contains(flightsParam.Destination, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
-                .ToList();
-        }
-    }
-    private void FilterHomeboundAirportInput(ChangeEventArgs e)
-    {
-        flightsParam.Origin = e.Value?.ToString() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(flightsParam.Origin))
-        {
-            filteredAirports = null;
-        }
-        else
-        {
-            filteredAirports = availableAirports
-                .Where(airport => airport.ToString().Contains(flightsParam.Origin, StringComparison.OrdinalIgnoreCase))//Ikke sikker på denne
-                .ToList();
-        }
-    }
-    private void SelectCity(string city)
-    {
-        stayParam.City = city;
-        filteredCities = null;
-    }
-    private void SelectCountry(string country)
-    {
-        stayParam.Country = country;
-        filteredCountries = null;
-    }
-    private void SelectOriginAirport(string airport)
-    {
-        flightsParam.Destination = availableAirports.FirstOrDefault(f => f.IATACode.Contains(airport)).IATACode;
-        filteredAirports = null;
-    }
-
-    private void SelectHomeboundAirport(string airport)
-    {
-        flightsParam.Origin = availableAirports.FirstOrDefault(f => f.IATACode.Contains(airport)).IATACode;
-        filteredAirports = null;
-    }
-    
 }

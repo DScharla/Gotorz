@@ -38,6 +38,8 @@ namespace GodTur.Controllers
 					stayDTOs.Add(new StayDTO
 					{
                         ID = i,
+						CheckInDate = hotel.CheckInDate,
+						CheckOutDate = hotel.CheckOutDate,
                         HotelName = hotel.Accommodation.Name,
                         Price = Decimal.Parse(hotel.CheapestRateTotalAmount, CultureInfo.InvariantCulture),
 						Currency = hotel.CheapestRateCurrency,
