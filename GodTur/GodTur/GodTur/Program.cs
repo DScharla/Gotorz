@@ -1,10 +1,11 @@
-using Client.Pages;
+ï»¿using Client.Pages;
 using GodTur.Components;
 using GodTur.Controllers;
 using GodTur.Services;
 using Microsoft.AspNetCore.Cors;
 using GodTur.Models.Context;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace GodTur;
 
@@ -18,7 +19,7 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
-        builder.Services.AddDbContext<OfferResponseContext>(options =>
+        builder.Services.AddDbContext<TravelPackageContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
 
@@ -27,6 +28,7 @@ public class Program
             options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://nice-stone-0ffe43c03.6.azurestaticapps.net")
             .AllowAnyHeader()
             .AllowAnyMethod()
+            .AllowCredentials()
             );
 
         });
@@ -50,9 +52,10 @@ public class Program
             client.DefaultRequestHeaders.Add("User-Agent", "GodTur");
         });
 
-			builder.Services.AddScoped<IOfferService, OfferService>();
+		builder.Services.AddScoped<IOfferService, OfferService>();
         builder.Services.AddScoped<IStaysService, StaysService>();
         builder.Services.AddScoped<IGeoService, GeoService>();
+        builder.Services.AddScoped<TravelPackageDBService>();
 
         var app = builder.Build();
         app.UseRouting();
@@ -68,7 +71,7 @@ public class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-        app.UseSwagger();
+		app.UseSwagger();
         app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
@@ -82,7 +85,7 @@ public class Program
             .AddInteractiveWebAssemblyRenderMode()
             .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
 
-		app.MapControllers(); // se om dette er nok ellers må vi ændre på det.
+		app.MapControllers(); // se om dette er nok ellers mï¿½ vi ï¿½ndre pï¿½ det.
 
 		app.Run();
     }

@@ -41,9 +41,12 @@ namespace GodTur.Controllers
                     {
                         ID = i,
                         Origin = offer.FlightsDetail[0].Origin.Name,
+                        OriginIata = offer.FlightsDetail[0].Origin.IataCode,
                         Destination = offer.FlightsDetail[0].Destination.Name,
-                        DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
-                        Price = double.Parse(offer.TotalAmount),
+                        DestinationIata = offer.FlightsDetail[0].Destination.IataCode,
+						DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+                        Price = decimal.Parse(offer.TotalAmount),
+                        FlightNumber = $"{offer.FlightsDetail[0].Segments[0].MarketingCarrier.Iata_Code}{offer.FlightsDetail[0].Segments[0].MarketingCarrierFlightNumber}"
                     });
                     i++;
                 }
@@ -56,9 +59,12 @@ namespace GodTur.Controllers
                     {
                         ID = i,
                         Origin = offer.FlightsDetail[0].Origin.Name,
+						OriginIata = offer.FlightsDetail[0].Origin.IataCode,
 						Destination = offer.FlightsDetail[0].Destination.Name,
+						DestinationIata = offer.FlightsDetail[0].Destination.IataCode,
 						DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
-						Price = double.Parse(offer.TotalAmount),
+						Price = decimal.Parse(offer.TotalAmount),
+						FlightNumber = $"{offer.FlightsDetail[0].Segments[0].MarketingCarrier.Iata_Code}{offer.FlightsDetail[0].Segments[0].MarketingCarrierFlightNumber}"
 					});
                     i++;
                 }
@@ -79,7 +85,7 @@ namespace GodTur.Controllers
                         {
                             Origin = flightDTO.Origin,
                             Destination = flightDTO.Destination,
-                            DepartureDate = flightDTO.DepartureDate?.ToString("yyyy-MM-dd"),
+                            DepartureDate = flightDTO.DepartureDate.ToString("yyyy-MM-dd"),
                         }
                     },
                     Passengers = new List<PassengerRequest>

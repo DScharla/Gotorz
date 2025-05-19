@@ -180,9 +180,24 @@ namespace GodTur.Models
 
         [JsonPropertyName("marketing_carrier_flight_number")]
         public string? MarketingCarrierFlightNumber { get; set; }
-    }
 
-    public class Stop
+		[JsonPropertyName("marketing_carrier")]
+		public MarketingCarrier? MarketingCarrier { get; set; }
+	}
+
+	public class MarketingCarrier
+	{
+		[JsonPropertyName("name")]
+		public string? Name { get; set; }
+
+		[JsonPropertyName("iata_code")]
+		public string? Iata_Code { get; set; }
+
+		[JsonPropertyName("logo_lockup_url")]
+		public string? Logo_Lockup_Url { get; set; }
+	}
+
+	public class Stop
     {
 		[JsonPropertyName("id")]
         public string? StopId { get; set; }
