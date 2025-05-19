@@ -17,6 +17,7 @@ namespace GodTur.Models.Context
         {
         }
 
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Airport> Airports { get; set; }
         public DbSet<Flight> Flights { get; set; }
