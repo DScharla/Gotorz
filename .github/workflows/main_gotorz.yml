@@ -17,12 +17,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Insert appsettings
-        shell: bash  
-        run: |
-          cat > ./GodTur/GodTur/GodTur/appsettings.json <<EOF
-          ${{ secrets.GODTURSETTINGS }}
-          EOF
+      
+      - name: create-json
+        id: create-json 
+        uses: step-security/create-json@v1
+        with:
+          name: "appsettings.json"
+          json: ${{ secrets.GODTURSETTINGS }}
+          dir: "GodTur/GodTur/GodTur"
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
