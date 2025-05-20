@@ -19,7 +19,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Insert appsettings
         shell: bash  
-        run: echo ${{ secrets.GODTURSETTINGS }} > appsettings.json
+        run: |
+          cat > ./GodTur/GodTur/GodTur/appsettings.json <<EOF
+        ${{ secrets.GODTURSETTINGS }}
+        EOF
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
