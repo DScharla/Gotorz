@@ -13,18 +13,7 @@ public class Program
 {
 	public static void Main(string[] args)
 	{
-		var configuration = new ConfigurationBuilder()
-		.SetBasePath(Directory.GetCurrentDirectory())
-		.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-		.Build();
-
-		var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-		{
-			Args = args,
-			ContentRootPath = Directory.GetCurrentDirectory()
-		});
-
-		builder.Configuration.AddConfiguration(configuration);
+		var builder = WebApplication.CreateBuilder(args);
 
 		// Add services to the container.
 		builder.Services.AddRazorComponents()
