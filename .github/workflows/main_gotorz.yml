@@ -19,12 +19,9 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: create-json
-        id: create-json 
-        uses: step-security/create-json@v1
-        with:
-          name: "appsettings.json"
-          json: ${{ secrets.GODTURSETTINGS }}
-          dir: "GodTur/GodTur/GodTur"
+        shell: pwsh
+        run: |
+          Set-Content -Path "GodTur/GodTur/GodTur/appsettings.json" -Value '${{ secrets.GODTURSETTINGS }}'
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
