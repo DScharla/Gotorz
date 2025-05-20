@@ -17,7 +17,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+      - name: Insert appsettings
+        run: |
+          echo ${{ secrets.GODTURSETTINGS }} > appsettings.json
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
