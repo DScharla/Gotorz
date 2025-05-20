@@ -13,18 +13,7 @@ public class Program
 {
 	public static void Main(string[] args)
 	{
-		var configuration = new ConfigurationBuilder()
-		.SetBasePath(Directory.GetCurrentDirectory())
-		.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-		.Build();
-
-		var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-		{
-			Args = args,
-			ContentRootPath = Directory.GetCurrentDirectory()
-		});
-
-		builder.Configuration.AddConfiguration(configuration);
+		var builder = WebApplication.CreateBuilder(args);
 
 		// Add services to the container.
 		builder.Services.AddRazorComponents()
@@ -36,7 +25,7 @@ public class Program
 
 		builder.Services.AddCors(options =>
 		{
-			options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://nice-stone-0ffe43c03.6.azurestaticapps.net")
+			options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://localhost:7177")
 			.AllowAnyHeader()
 			.AllowAnyMethod()
 			.AllowCredentials()
