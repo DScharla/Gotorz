@@ -17,9 +17,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Insert appsettings
-        shell: bash  
-        run: echo ${{ secrets.GODTURSETTINGS }} > appsettings.json
+      
+      - name: create-json
+        shell: pwsh
+        run: |
+          Set-Content -Path "GodTur/GodTur/GodTur/appsettings.json" -Value '${{ secrets.GODTURSETTINGS }}'
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
