@@ -1,0 +1,97 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+
+<div class="login-container">
+	<div class="login-header">
+		<div class="logo">
+			<h1>Gotorz</h1>
+		</div>
+	</div>
+
+	<div class="login-content">
+		<div class="login-card">
+			<h2>Login to your account</h2>
+
+			<EditForm Model="@loginModel" OnValidSubmit="HandleLogin" class="login-form">
+				<DataAnnotationsValidator />
+
+				@if (!string.IsNullOrEmpty(errorMessage))
+				{
+					<div class="alert alert-danger">@errorMessage</div>
+				}
+
+				<div class="form-group">
+					<label for="username">Username</label>
+					<InputText id="username" @bind-Value="loginModel.Username" class="form-control" />
+					<ValidationMessage For="@(() => loginModel.Username)" />
+				</div>
+
+				<div class="form-group">
+					<label for="password">Password</label>
+					<InputText id="password" type="password" @bind-Value="loginModel.Password" class="form-control" />
+					<ValidationMessage For="@(() => loginModel.Password)" />
+				</div>
+
+				<button type="submit" class="btn-login" disabled="@isLoading">
+					@if (isLoading)
+					{
+						<span>Logging in...</span>
+					}
+					else
+					{
+						<span>Login</span>
+					}
+				</button>
+			</EditForm>
+		</div>
+	</div>
+
+	<div class="login-footer">
+		<p>&copy; 2025 Gotorz. All Rights Reserved.</p>
+	</div>
+</div>
+
+@code {
+	private LoginModel loginModel = new LoginModel();
+	private string errorMessage = string.Empty;
+	private bool isLoading = false;
+
+	private async Task HandleLogin()
+	{
+		errorMessage = string.Empty;
+		isLoading = true;
+
+		try
+		{
+			var result = await AuthService.LoginAsync(loginModel.Username, loginModel.Password);
+			if (result)
+			{
+				NavigationManager.NavigateTo("/");
+			}
+			else
+			{
+				errorMessage = "Invalid username or password";
+			}
+		}
+		catch (Exception ex)
+		{
+			errorMessage = $"Login failed: {ex.Message}";
+		}
+		finally
+		{
+			isLoading = false;
+		}
+	}
+
+	public class LoginModel
+	{
+		[Required(ErrorMessage = "Username is required")]
+		public string Username { get; set; } = string.Empty;
+
+		[Required(ErrorMessage = "Password is required")]
+		public string Password { get; set; } = string.Empty;
+	}
+}
