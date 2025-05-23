@@ -30,7 +30,7 @@
     {
 
         string jsonFlightParam = JsonSerializer.Serialize(ConvertFlightInputToFlightDTO());
-        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json", Token);
+        var content = new StringContent(jsonFlightParam, Encoding.UTF8, "application/json");
 
         var response = await client.PostAsync("https://localhost:7112/api/FlightBuilder/create", content);
         if (response.IsSuccessStatusCode)
