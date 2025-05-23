@@ -33,7 +33,7 @@ namespace Client.Services
 				};
 
 				// Replace with your actual API endpoint
-				var response = await _httpClient.PostAsJsonAsync("api/UserController/Login", loginRequest);
+				var response = await _httpClient.PostAsJsonAsync("api/Authentication/Login", loginRequest);
 
 				if (response.IsSuccessStatusCode)
 				{
