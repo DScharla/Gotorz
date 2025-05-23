@@ -9,10 +9,13 @@ using GodTur.Models;
 using GodTur.Models.Context;
 using Shared;
 using GodTur.Services;
+using GodTur.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GodTur.Controllers
 {
-    [Route("api/[controller]")]
+	[Authorize(Roles = UserRoles.MarketingMonkey)]
+	[Route("api/[controller]")]
     [ApiController]
     public class TravelPackageController : ControllerBase
     {

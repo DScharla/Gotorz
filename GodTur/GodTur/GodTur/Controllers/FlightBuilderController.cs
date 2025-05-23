@@ -1,11 +1,14 @@
 ﻿using GodTur.Models;
+using GodTur.Models.Auth;
 using GodTur.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using System.Text.Json;
 
 namespace GodTur.Controllers
 {
+    [Authorize(Roles = UserRoles.MarketingMonkey)]
     [ApiController]
     [Route("api/[controller]")]
     public class FlightBuilderController : ControllerBase
