@@ -10,6 +10,7 @@ using GodTur.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
+using GodTur.Services.Auth;
 
 
 namespace GodTur;
@@ -70,7 +71,8 @@ public class Program
 		builder.Services.AddScoped<IOfferService, OfferService>();
 		builder.Services.AddScoped<IStaysService, StaysService>();
 		builder.Services.AddScoped<IGeoService, GeoService>();
-		builder.Services.AddScoped<TravelPackageDBService>();
+		builder.Services.AddScoped<ITravelPackageDBService, TravelPackageDBService>();
+		builder.Services.AddScoped<IAuthService, AuthService>();
 
 		var app = builder.Build();
 		app.UseRouting();

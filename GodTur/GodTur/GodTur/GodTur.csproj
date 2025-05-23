@@ -30,8 +30,4 @@
     <ProjectReference Include="..\..\Shared\Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Auth\" />
-  </ItemGroup>
-
 </Project>

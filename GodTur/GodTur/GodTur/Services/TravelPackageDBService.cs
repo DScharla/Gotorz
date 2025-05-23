@@ -5,7 +5,7 @@ using Shared;
 
 namespace GodTur.Services
 {
-	public class TravelPackageDBService
+	public class TravelPackageDBService : ITravelPackageDBService
 	{
 		private readonly TravelPackageContext _context;
 		public TravelPackageDBService(TravelPackageContext context)

@@ -22,9 +22,9 @@ namespace GodTur.Controllers
 		//{
 		//    _context = context;
 		//}
-		private readonly TravelPackageDBService _travelPackageService;
+		private readonly ITravelPackageDBService _travelPackageService;
 
-		public TravelPackageController(TravelPackageDBService travelPackageService)
+		public TravelPackageController(ITravelPackageDBService travelPackageService)
 		{
 			_travelPackageService = travelPackageService;
 		}
