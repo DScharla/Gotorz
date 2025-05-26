@@ -34,7 +34,7 @@ namespace Client.Services
 				};
 
 				// Replace with your actual API endpoint
-				var response = await _httpClient.PostAsJsonAsync("api/Authentication/Login", loginDTO);
+				var response = await _httpClient.PostAsJsonAsync("https://localhost:7112/api/Authentication/Login", loginDTO);
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -61,8 +61,9 @@ namespace Client.Services
 
 				return false;
 			}
-			catch
+			catch (Exception ex)
 			{
+				Console.WriteLine($"Dette er en exception {ex.Message}");
 				return false;
 			}
 		}
