@@ -51,7 +51,8 @@ namespace GodTur.Models.Context
 					throw new Exception("Failed to create seed user: " +
 						string.Join(", ", result.Errors.Select(e => e.Description)));
 				}
-			}
+                await userManager.AddToRoleAsync(newUser, UserRoles.MarketingMonkey);
+            }
 		}
 	}
 }

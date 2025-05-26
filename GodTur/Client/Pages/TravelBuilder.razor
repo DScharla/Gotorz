@@ -8,7 +8,7 @@
 @*@attribute [Authorize(Roles = UserRoles.MarketingMonkey)]*@
 @inject HttpClient client
 @*@rendermode InteractiveWebAssemblyRenderMode*@
-<AuthorizeView Roles=@UserRoles.MarketingMonkey>
+<AuthorizeView Roles="@UserRoles.MarketingMonkey">
 	<h3 class="test-class">TravelBuilder</h3>
 
 	<div>
