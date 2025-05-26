@@ -1,5 +1,4 @@
 ﻿using Client.ValidationAttributes;
-using Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace Client.Models

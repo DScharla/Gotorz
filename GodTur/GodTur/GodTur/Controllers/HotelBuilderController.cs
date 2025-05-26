@@ -1,13 +1,16 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using GodTur.Models;
+using GodTur.Models.Auth;
 using GodTur.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 
 namespace GodTur.Controllers
 {
+	[Authorize(Roles = UserRoles.MarketingMonkey)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class HotelBuilderController : ControllerBase
