@@ -19,7 +19,7 @@ public class Program
 
         builder.Services.AddAuthorizationCore();
 
-		builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7112") });
+		builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://gotorz-cqd9e8dhamahd7hr.canadacentral-01.azurewebsites.net") });
 
         await builder.Build().RunAsync();
     }
