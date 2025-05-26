@@ -9,6 +9,7 @@
 @inject HttpClient client
 @*@rendermode InteractiveWebAssemblyRenderMode*@
 <AuthorizeView Roles="@UserRoles.MarketingMonkey">
+	<Authorized>
 	<h3 class="test-class">TravelBuilder</h3>
 
 	<div>
@@ -142,11 +143,14 @@
 	</InputSelect>
 
 	<button @onclick="SaveTravel" name="Save">Save</button>
+	</Authorized>
+	<NotAuthorized>
+		<p>Du har ikke adgang til denne side. <a href="/login">Log ind</a></p>
+	</NotAuthorized>
 </AuthorizeView>
 
-<NotAuthorized>
-        <p>Du har ikke adgang til denne side. <a href="/login">Log ind</a></p>
-    </NotAuthorized>
+
+
 
 @code {
 	private int selectedOutboundFlightID = -1;
