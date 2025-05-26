@@ -61,8 +61,9 @@ namespace Client.Services
 
 				return false;
 			}
-			catch
+			catch (Exception ex)
 			{
+				Console.WriteLine($"Dette er en exception {ex.Message}");
 				return false;
 			}
 		}
