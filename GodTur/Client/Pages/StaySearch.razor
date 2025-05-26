@@ -1,6 +1,4 @@
-﻿@inject HttpClient client
-
-<EditForm Model="StayParam" OnValidSubmit="GetStaysAsync">
+﻿<EditForm Model="StayParam" OnValidSubmit="GetStaysAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <h3>Vælg hotel</h3>
@@ -52,6 +50,8 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public HttpClient client { get; set; }
     [Parameter]
     public EventCallback<List<StayDTO>> StayOffers { get; set; }
 

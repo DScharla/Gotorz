@@ -1,6 +1,4 @@
-﻿@inject HttpClient client
-
-<EditForm Model="flightsParam" OnValidSubmit="GetFlightsAsync">
+﻿<EditForm Model="flightsParam" OnValidSubmit="GetFlightsAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <h3>Vælg fly</h3>
@@ -15,6 +13,8 @@
     <button type="submit" name="Search">Search</button>
 </EditForm>
 @code {
+    [Parameter]
+    public HttpClient client { get; set; }
     [Parameter]
     public EventCallback<List<FlightDTO>> FlightOffers { get; set; }
     
