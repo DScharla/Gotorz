@@ -53,8 +53,8 @@ namespace Client.Services
 						((JwtAuthenticationStateProvider)_authStateProvider).NotifyUserAuthentication(authResponse.Token);
 
 						// Set auth header for future requests
-						//_httpClient.DefaultRequestHeaders.Authorization =
-						//	new AuthenticationHeaderValue("Bearer", authResponse.Token);
+						_httpClient.DefaultRequestHeaders.Authorization =
+							new AuthenticationHeaderValue("Bearer", authResponse.Token);
 
 						return true;
 					}
@@ -78,7 +78,7 @@ namespace Client.Services
 			((JwtAuthenticationStateProvider)_authStateProvider).NotifyUserLogout();
 
 			// Remove auth header
-			//_httpClient.DefaultRequestHeaders.Authorization = null;
+			_httpClient.DefaultRequestHeaders.Authorization = null;
 		}
 
 		public async Task<bool> IsAuthenticatedAsync()
