@@ -36,10 +36,10 @@ public class StayOfferResult
     public List<StayGuest>? Guests { get; set; }
 
     [JsonPropertyName("check_out_date")]
-    public DateTime? CheckOutDate { get; set; }
+    public DateTime CheckOutDate { get; set; }
 
     [JsonPropertyName("check_in_date")]
-    public DateTime? CheckInDate { get; set; }  
+    public DateTime CheckInDate { get; set; }  
 
     [JsonPropertyName("rooms")]
     public int? Rooms { get; set; }
