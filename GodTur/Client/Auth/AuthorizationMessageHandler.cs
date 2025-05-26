@@ -36,7 +36,7 @@ namespace Client.Auth
 			if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
 			{
 				await _localStorage.RemoveItemAsync("authToken");
-				_navigationManager.NavigateTo("/login");
+				_navigationManager.NavigateTo("/");
 			}
 
 			return response;
