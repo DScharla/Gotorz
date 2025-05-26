@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.Authorization;
 using Client.Auth;
 using Client.Models;
+using Shared;
 
 namespace Client.Services
 {
@@ -26,26 +27,25 @@ namespace Client.Services
 		{
 			try
 			{
-				var loginRequest = new LoginRequest
+				var loginDTO = new LoginDTO
 				{
-					Username = username,
+					EmailAddress = username,
 					Password = password
 				};
 
 				// Replace with your actual API endpoint
-				var response = await _httpClient.PostAsJsonAsync("api/Authentication/Login", loginRequest);
+				var response = await _httpClient.PostAsJsonAsync("api/Authentication/Login", loginDTO);
 
 				if (response.IsSuccessStatusCode)
 				{
-					var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();
+					var authResponse = await response.Content.ReadFromJsonAsync<AuthResponseDTO>();
 
 					if (authResponse != null && !string.IsNullOrEmpty(authResponse.Token))
 					{
 						// Store token in local storage
 						await _localStorage.SetItemAsync("authToken", new JwtAuthenticationState
 						{
-							Token = authResponse.Token,
-							Expiration = authResponse.Expiration
+							Token = authResponse.Token
 						});
 
 						// Update auth state

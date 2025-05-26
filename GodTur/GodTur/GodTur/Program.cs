@@ -38,7 +38,6 @@ public class Program
 
 		builder.Services.AddJwtAuthentication(builder.Configuration);
 
-
 		builder.Services.AddCors(options =>
 		{
 			options.AddPolicy("AllowClient", builder => builder.WithOrigins("https://localhost:7177")
@@ -73,7 +72,11 @@ public class Program
 		builder.Services.AddScoped<IGeoService, GeoService>();
 		builder.Services.AddScoped<ITravelPackageDBService, TravelPackageDBService>();
 		builder.Services.AddScoped<IAuthService, AuthService>();
-
+		
+		builder.Services.Configure<PasswordHasherOptions>(options =>
+		{
+			options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV3;
+		});
 		var app = builder.Build();
 		app.UseRouting();
 		app.UseCors("AllowClient");
@@ -104,6 +107,7 @@ public class Program
 
 		app.MapControllers(); // se om dette er nok ellers m� vi �ndre p� det.
 		await UserDbInitializer.SeedRolesToDb(app);
+		await UserDbInitializer.SeedUserToDb(app);
 		app.Run();
 	}
 }

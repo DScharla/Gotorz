@@ -16,7 +16,8 @@ public class Program
 		builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 		builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 		builder.Services.AddScoped<IAuthService, AuthService>();
-		builder.Services.AddAuthorizationCore();
+
+        builder.Services.AddAuthorizationCore();
 
 		builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

@@ -6,6 +6,5 @@ namespace GodTur.Models.Auth
 	{
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
-		public string Custom { get; set; }
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace GodTur.Models.Auth
+﻿namespace Shared
 {
 	public static class UserRoles
 	{
