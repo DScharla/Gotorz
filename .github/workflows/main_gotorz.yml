@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - GoTorz
+name: Build and deploy Blazor Server app to Azure Web App - GoTorz
 
 on:
   push:
@@ -17,11 +17,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
+      - name: create-json
+        shell: pwsh
+        run: |
+          Set-Content -Path "GodTur/GodTur/GodTur/appsettings.json" -Value '${{ secrets.GODTURSETTINGS }}'
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '9.x'
 
       - name: Build with dotnet
         run: dotnet build ./GodTur/GodTur/GodTur --configuration Release
