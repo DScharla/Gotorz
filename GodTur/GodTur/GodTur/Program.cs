@@ -105,9 +105,12 @@ public class Program
 			.AddInteractiveWebAssemblyRenderMode()
 			.AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
 
+		app.UseAuthentication();
+		app.UseAuthorization();
+
 		app.MapControllers(); // se om dette er nok ellers m� vi �ndre p� det.
 		await UserDbInitializer.SeedRolesToDb(app);
-		await UserDbInitializer.SeedUserToDb(app);
+		// await UserDbInitializer.SeedUserToDb(app); // den er seeded.
 		app.Run();
 	}
 }

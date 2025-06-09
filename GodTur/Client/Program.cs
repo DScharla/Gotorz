@@ -19,8 +19,19 @@ public class Program
 
         builder.Services.AddAuthorizationCore();
 
-		builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7112") });
+		builder.Services.AddScoped<AuthorizationMessageHandler>();
 
-        await builder.Build().RunAsync();
+		builder.Services.AddScoped(sp =>
+		{
+			var handler = sp.GetRequiredService<AuthorizationMessageHandler>();
+			handler.InnerHandler = new HttpClientHandler();
+
+			return new HttpClient(handler)
+			{
+				BaseAddress = new Uri("https://localhost:7112/")
+			};
+		});
+
+		await builder.Build().RunAsync();
     }
 }

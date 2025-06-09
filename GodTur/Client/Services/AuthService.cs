@@ -45,7 +45,8 @@ namespace Client.Services
 						// Store token in local storage
 						await _localStorage.SetItemAsync("authToken", new JwtAuthenticationState
 						{
-							Token = authResponse.Token
+							Token = authResponse.Token,
+							Expiration = authResponse.Expiration
 						});
 
 						// Update auth state

@@ -29,10 +29,14 @@ namespace GodTur.Services.Auth
 		public async Task<AuthResponseDTO> GetAuthResponse(string username, string password)
 		{
 			var userExists = await _userManager.FindByEmailAsync(username);
-			if (userExists != null && await _userManager.CheckPasswordAsync(userExists, password))
+			if (userExists != null)
 			{
-				var tokenValue = await GenerateJWTTokenAsync(userExists, null);
-				return tokenValue;
+				var canLogin = await _userManager.CheckPasswordAsync(userExists, password);
+				if (canLogin)
+				{
+					var tokenValue = await GenerateJWTTokenAsync(userExists, null);
+					return tokenValue;
+				}
 			}
 			return null;
 		}
@@ -86,7 +90,7 @@ namespace GodTur.Services.Auth
 			var token = new JwtSecurityToken(
 				issuer: _configuration["JWT:Issuer"],
 				audience: _configuration["JWT:Audience"],
-				expires: DateTime.UtcNow.AddMinutes(1),
+				expires: DateTime.UtcNow.AddMinutes(15),
 				claims: authClaims,
 				signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 

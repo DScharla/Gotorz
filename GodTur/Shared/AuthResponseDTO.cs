@@ -13,5 +13,7 @@ namespace Shared
 		public string Token { get; set; }
 		[Required]
 		public string RefreshToken { get; set; }
+		[Required]
+		public DateTime Expiration { get; set; }
 	}
 }
