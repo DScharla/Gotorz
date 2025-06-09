@@ -109,8 +109,8 @@ public class Program
 		app.UseAuthorization();
 
 		app.MapControllers(); // se om dette er nok ellers m� vi �ndre p� det.
-		await UserDbInitializer.SeedRolesToDb(app);
-		await UserDbInitializer.SeedUserToDb(app);
+		//await UserDbInitializer.SeedRolesToDb(app);
+		//await UserDbInitializer.SeedUserToDb(app);
 		app.Run();
 	}
 }
