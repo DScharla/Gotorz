@@ -168,17 +168,17 @@
 	private FlightInput flightsParam = new FlightInput()
 	{
 		Origin = "CPH",
-		Destination = "DTM",
-		DepartureDate = new DateTime(2025, 06, 01),
-		ReturnDate = new DateTime(2025, 06, 06),
+		Destination = "AAL",
+		DepartureDate = new DateTime(2025, 07, 01),
+		ReturnDate = new DateTime(2025, 07, 06),
 	};
 
 	private StayDTO stayParam = new StayDTO()
 	{
-		City = "Dortmund",
-		Country = "Germany",
-		CheckInDate = new DateTime(2025, 06, 01),
-		CheckOutDate = new DateTime(2025, 06, 06),
+		City = "Aalborg",
+		Country = "Denmark",
+		CheckInDate = new DateTime(2025, 07, 01),
+		CheckOutDate = new DateTime(2025, 07, 06),
 	};
 
 	private List<FlightDTO> flightOffers = new();
@@ -204,11 +204,14 @@
 		string jsonTravel = JsonSerializer.Serialize(travel);
 		var content = new StringContent(jsonTravel, Encoding.UTF8, "application/json");
 		var response = await client.PostAsync("https://localhost:7112/api/TravelPackage/Create", content);
+		string message;
 		if (response.IsSuccessStatusCode)
 		{
-			return $"{travel} er nu oprettet i databasen";
+			message = $"{travel} er nu oprettet i databasen";
 		}
-		return "Der er gået fejl i oprettelsen";
+		else
+			message = "Der er gået fejl i oprettelsen";
+		return message;
 	}
 	private void SelectStay(int ID)
 	{

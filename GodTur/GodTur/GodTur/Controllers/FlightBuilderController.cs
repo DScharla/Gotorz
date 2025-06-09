@@ -48,6 +48,7 @@ namespace GodTur.Controllers
                         Destination = offer.FlightsDetail[0].Destination.Name,
                         DestinationIata = offer.FlightsDetail[0].Destination.IataCode,
 						DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+                        ReturnDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].ArrivingAt),
                         Price = decimal.Parse(offer.TotalAmount),
                         FlightNumber = $"{offer.FlightsDetail[0].Segments[0].MarketingCarrier.Iata_Code}{offer.FlightsDetail[0].Segments[0].MarketingCarrierFlightNumber}"
                     });
@@ -66,6 +67,7 @@ namespace GodTur.Controllers
 						Destination = offer.FlightsDetail[0].Destination.Name,
 						DestinationIata = offer.FlightsDetail[0].Destination.IataCode,
 						DepartureDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].DepartingAt),
+						ReturnDate = DateTime.Parse(offer.FlightsDetail[0].Segments[0].ArrivingAt),
 						Price = decimal.Parse(offer.TotalAmount),
 						FlightNumber = $"{offer.FlightsDetail[0].Segments[0].MarketingCarrier.Iata_Code}{offer.FlightsDetail[0].Segments[0].MarketingCarrierFlightNumber}"
 					});
